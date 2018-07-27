@@ -4,7 +4,7 @@ html, body {
 
 body {
   align-items: center;
-  background-color: #f5f5f5;
+  background-color: white;
   font-size: 1rem;
   color:#212529;
   }
@@ -27,12 +27,18 @@ body {
   float:left;
   width: 50%;
   padding: 10px;
+  margin-left: 10px;
 }
 
 .factor{
   float: left;
   width: 20%;
   padding: 5px;
+}
+
+.blue {
+  color: #007bff; 
+  background-color: white;
 }
 
 .rating {
@@ -104,6 +110,8 @@ footer {
   width: 90%;
   padding: 20px;
   margin-top: 30px;
+  border: 1px solid;
+  border-color: #007bff;
 }
 
 .btn {  
