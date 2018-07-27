@@ -12,70 +12,44 @@
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="css/simple-sidebar.css" rel="stylesheet">
 </head>
 <body>
 
-<div id="wrapper">
-    <!-- Sidebar -->
-    <div id="sidebar-wrapper">
-        <ul class="sidebar-nav">
-            <li class="sidebar-brand">
-                <a href="#">
-                    홈
-                </a>
-            </li>
-            <li>
-                <a href="#">로그인/회원가입</a>
-            </li>
-            <li>
-                <a href="#">회원 정보</a>
-            </li>
-            <li>
-                <a href="#">동호회</a>
-            <li>
-                <a href="#">내 동호회</a>
-            </li>
-            <li>
-                <a href="#">동호회 랭킹</a>
-            </li>
-            </li>
+<nav class="navbar navbar-dark btn-primary">
+    <a class="navbar-brand" href="#">메뉴</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-            <li>
-                <a href="#">개발자에게 신고하기</a>
+    <div class="collapse navbar-collapse" id="navbarsExample01">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">홈 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">로그인/회원가입</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">회원 정보</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">동호회</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    <a class="dropdown-item" href="#">내 동호회</a>
+                    <a class="dropdown-item" href="#">동호회 찾기</a>
+                    <a class="dropdown-item" href="#">블라블라</a>
+                </div>
             </li>
         </ul>
+        <form class="form-inline my-2 my-md-0">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+        </form>
     </div>
-    <!-- /#sidebar-wrapper -->
-
-    <!-- Page Content -->
-    <div class="col-md-2">
-        <a href="#menu-toggle" id="menu-toggle"><img src="img/menu.png" width="50" id="menu-icon"></a>
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-                <h1>사이드바다</h1>
-                <p>사이드바</p>
-            </div>
-        </div>
-    </div>
-    <!-- /#page-content-wrapper -->
-
-</div>
-<!-- /#wrapper -->
+</nav>
 
 <!-- Bootstrap core JavaScript -->
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
-
-<!-- Menu Toggle Script -->
-<script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-        $("#menu-icon").toggleClass('on');
-    });
-</script>
 
 </body>
 
