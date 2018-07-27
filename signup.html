@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="kr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>회원 가입</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/signup.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="py-5 text-center" id="profile_color">
+    <h2>회원 가입</h2>
+</div>
+<br>
+<div class="container">
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">기본 정보</h4>
+            <form class="needs-validation" novalidate>
+
+                <p class="mb-3">
+                    <p>프로필 사진 등록</p> <!--프로필 사진-->
+                    <p style="text-align: center;"><img src="img/profile_basic.png" class="profile_img" width="100" class="col-md-6"></p>
+                    <p><input type=file></p>
+
+                <div class="mb-3">
+                    <label for="user-name">이름</label> <!--이름-->
+                    <input type="text" class="form-control" id="user-name" placeholder="" value="" required>
+                    <div class="invalid-feedback">
+                        Valid name is required.
+                    </div>
+                </div>
+
+                <div class="mb-3"> <!--아이디-->
+                    <label for="user-ID">아이디</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="user-ID" placeholder="" required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                            Your ID is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3"> <!--닉네임-->
+                    <label for="user-nickname">닉네임<span>(안 적으면 아이디와 같게 설정)</span></label>
+                    <input type="text" class="form-control" id="user-nickname">
+                    <div class="invalid-feedback">
+                        Please enter a valid nickname.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="region">지역(동까지)</label>
+                    <input type="text" class="form-control" id="region" placeholder="서울시 용산구 청파동" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="user-password">비밀번호</label>
+                    <input type="password" class="form-control" id="user-password">
+                </div>
+
+                <div class="mb-3">
+                    <label for="user-gender">성별</label>
+                    <select class="custom-select d-block w-100" id="user-gender" required>
+                        <option value="">Choose...</option>
+                        <option>여</option>
+                        <option>남</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label>생년월일</label>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="user-birth-year" placeholder="" value="" required>
+                                <span>  년</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="user-birth-month" placeholder="" value="" required>
+                                <span>  월</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="user-birth-day" placeholder="" value="" required>
+                                <span>  일</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="authentication ">이메일 인증</label>
+                    <input type="email" class="form-control" id="authentication " placeholder="" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="serurity-char">보안문자</label>
+                    <input type="text" class="form-control" id="serurity-char" placeholder="" required>
+                </div>
+
+                <span class="mb-3"></span>
+                <h4 class="mb-3">추가 정보</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="user-height">키</label>
+                        <input type="text" class="form-control" id="user-height" placeholder="" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="user-weight">몸무게</label>
+                        <input type="text" class="form-control" id="user-weight" placeholder="" required>
+                    </div>
+                </div>
+
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">회원가입 완료</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; Do Do Exercise!</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+    </footer>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="../../assets/js/vendor/popper.min.js"></script>
+<script src="../../dist/js/bootstrap.min.js"></script>
+<script src="../../assets/js/vendor/holder.min.js"></script>
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>-->
+</body>
+</html>
