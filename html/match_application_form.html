@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/top.css" rel="stylesheet">
+    <link href="../css/main_search.css" rel="stylesheet">
+    <link href="../css/match_application_form.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Yeon+Sung" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!--js-->
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery-migrate-1.4.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!---->
+
+    <title>매칭 신청 폼</title>
+</head>
+<body>
+<div class="container">
+
+    <!--상단 바-->
+
+
+<!--매칭 등록-->
+
+<div class="col-md-8" style="padding-top:3rem">
+
+    <h6 class="mb-3">매칭 등록</h6>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>지역</th>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Tutorials
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
+                        <li role="presentation" class="divider"></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
+                    </ul>
+                </div>
+
+
+
+<!--                <select name="area" class="area">
+                    <option value="" selected disabled hidden> 지역 검색 <option>
+                    <option value="">서울시</option>
+                    <option value="">경기도</option>
+<option value="">지역무관</option>
+</select>
+
+<select name="area2" class="area">
+    <option value="" selected disabled hidden>상세검색<option>
+    <option value="">용산구</option>
+    <option value="">양쳔구</option>
+    <option value="">강서구</option>
+</select>-->
+</td>
+</tr>
+<tr>
+    <th>장소</th>
+    <td><input type="text"></td>
+</tr>
+<tr>
+    <th>원정가능 유무</th>
+    <td>
+        <select>
+            <option value="" selected disabled hidden>O<option>
+            <option value="">X</option>
+        </select>
+    </td>
+</tr>
+<tr>
+    <th>날짜</th>
+    <td>
+        <input type="date" name="date" style="width:100%">
+    </td>
+</tr>
+<tr>
+    <th>시간대</th>
+    <td>
+        <input type="time" name="time" style="width:30%">
+        <span>&nbsp ~ &nbsp</span>
+        <input type="time" name="time" style="width:30%">
+    </td>
+</tr>
+<tr>
+    <th>기타 할 말</th>
+    <td><textarea name="" rows="7" cols="30" placeholder="100자 내로 입력"></textarea></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<button class="btn btn-block">제출</button>
+
+</div>
+
+
+
+</body>
+</html>
