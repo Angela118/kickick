@@ -1,0 +1,26 @@
+.average-score{
+    text-align: center;
+}
+
+.stars{
+    display:flex;
+    width:100px;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.review-random-profile{
+    display:flex;
+    align-items: center;
+}
+
+.review{
+    font-size:10px;
+}
+
+.review-name{
+    display: flex;
+    align-items: center;
+}
