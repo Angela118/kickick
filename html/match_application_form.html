@@ -31,51 +31,37 @@
 
 <div class="col-md-8" style="padding-top:3rem">
 
-    <h6 class="mb-3">매칭 등록</h6>
+    <h4 class="mb-3" style="font-weight: bold">매칭 등록</h4>
 
     <table class="table">
         <tbody>
         <tr>
             <th>지역</th>
             <td>
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Tutorials
-                        <span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
-                        <li role="presentation" class="divider"></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
-                    </ul>
-                </div>
-
-
-
-<!--                <select name="area" class="area">
-                    <option value="" selected disabled hidden> 지역 검색 <option>
+                <select name="area" class="area">
+                    <option value="" selected disabled hidden>지역 검색</option>
                     <option value="">서울시</option>
                     <option value="">경기도</option>
-<option value="">지역무관</option>
-</select>
+                    <option value="">지역무관</option>
+                </select>
 
-<select name="area2" class="area">
-    <option value="" selected disabled hidden>상세검색<option>
-    <option value="">용산구</option>
-    <option value="">양쳔구</option>
-    <option value="">강서구</option>
-</select>-->
-</td>
-</tr>
+                <select name="area2" class="area">
+                    <option value="" selected disabled hidden>상세 검색</option>
+                    <option value="">용산구</option>
+                    <option value="">양쳔구</option>
+                    <option value="">강서구</option>
+                </select>
+            </td>
+        </tr>
 <tr>
     <th>장소</th>
-    <td><input type="text"></td>
+    <td><input type="text" style="width:100%"></td>
 </tr>
 <tr>
     <th>원정가능 유무</th>
     <td>
         <select>
-            <option value="" selected disabled hidden>O<option>
+            <option value="" selected>O</option>
             <option value="">X</option>
         </select>
     </td>
@@ -96,7 +82,7 @@
 </tr>
 <tr>
     <th>기타 할 말</th>
-    <td><textarea name="" rows="7" cols="30" placeholder="100자 내로 입력"></textarea></td>
+    <td><textarea name="" rows="7" cols="30" placeholder="100자 내로 입력" style="width:100%"></textarea></td>
 </tr>
 </tbody>
 </table>
