@@ -51,10 +51,37 @@ body{
   padding-bottom: 15px;
 }
 
-.list {
-  /*display: flex;*/
+.list_item{
+    display: flex;
+    justify-content: space-between;
+    padding:.5rem;
+    background-color: rgb(190, 190, 190);
 }
 
+.list_item_date>h3{
+    color:white;
+    letter-spacing:.2rem;
+    line-height: 1.6rem;
+    margin-left: 1rem;
+    font-weight: bold;
+}
+
+.list_item_team{
+    color: white;
+}
+
+.list_item_team_detail{
+    font-size: .6rem;
+    text-align: right;
+
+    margin-bottom: .3rem;
+    margin-right: 1rem;
+}
+
+.list_item_team_name{
+    margin-right: 1rem;
+    font-weight: bold;
+}
 
 /*페이징*/
 .paging{

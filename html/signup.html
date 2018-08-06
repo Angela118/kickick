@@ -9,17 +9,18 @@
     <title>회원 가입</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/signup.css" rel="stylesheet">
+    <link href="../css/signup.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">
 
-<div class="py-5 text-center" id="profile_color">
-    <h2>회원 가입</h2>
-</div>
+<nav class="navbar">
+    <p class="logo" style="color:white">내 정보</p>
+</nav>
+
 <br>
 <div class="container">
         <div class="col-md-8 order-md-1">
@@ -28,7 +29,7 @@
 
                 <p class="mb-3">
                     <p>프로필 사진 등록</p> <!--프로필 사진-->
-                    <p style="text-align: center;"><img src="img/profile_basic.png" class="profile_img" width="100" class="col-md-6"></p>
+                    <p style="text-align: center;"><img src="../img/profile_basic.png" class="profile_img" width="100" class="col-md-6"></p>
                     <p><input type=file></p>
 
                 <div class="mb-3">
@@ -79,7 +80,16 @@
                 <div class="mb-3">
                     <label>생년월일</label>
 
-                    <div class="row">
+                    <div class="birth">
+                        <input type="text" class="form-control" id="user-birth-year" placeholder="" value="" required>
+                        <span>년&nbsp</span>
+                        <input type="text" class="form-control" id="user-birth-month" placeholder="" value="" required>
+                        <span>월&nbsp</span>
+                        <input type="text" class="form-control" id="user-birth-day" placeholder="" value="" required>
+                        <span>일</span>
+                    </div>
+
+                    <!--<div class="row">
                         <div class="col-md-4 mb-3">
                             <div class="input-group">
                                 <input type="text" class="form-control" id="user-birth-year" placeholder="" value="" required>
@@ -98,30 +108,21 @@
                                 <span>  일</span>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
 
                 <div class="mb-3">
-                    <label for="authentication ">이메일 인증</label>
-                    <input type="email" class="form-control" id="authentication " placeholder="" required>
+                    <label>이메일 인증</label>
+                    <div style="display: flex">
+                        <input type="email" class="form-control" placeholder="" required>
+                        <div class="btn">인증</div>
+                    </div>
+
                 </div>
 
                 <div class="mb-3">
                     <label for="serurity-char">보안문자</label>
                     <input type="text" class="form-control" id="serurity-char" placeholder="" required>
-                </div>
-
-                <span class="mb-3"></span>
-                <h4 class="mb-3">추가 정보</h4>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="user-height">키</label>
-                        <input type="text" class="form-control" id="user-height" placeholder="" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="user-weight">몸무게</label>
-                        <input type="text" class="form-control" id="user-weight" placeholder="" required>
-                    </div>
                 </div>
 
                 <hr class="mb-4">
@@ -131,12 +132,7 @@
     </div>
 
     <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p class="mb-1">&copy; Do Do Exercise!</p>
-        <ul class="list-inline">
-            <li class="list-inline-item"><a href="#">Privacy</a></li>
-            <li class="list-inline-item"><a href="#">Terms</a></li>
-            <li class="list-inline-item"><a href="#">Support</a></li>
-        </ul>
+
     </footer>
 </div>
 
