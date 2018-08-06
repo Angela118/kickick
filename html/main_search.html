@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+	<link href="../css/top.css" rel="stylesheet">
+	<link href="../css/main_search.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Yeon+Sung" rel="stylesheet">
+    <title>메인페이지</title>
+</head>
+
+<body>	
+<div class="top_container">
+    <a href="menu.html"><img src="../img/menu3.png" class="menu_img" width="50"></a>
+    <p class="logo">축 하 싶</p>
+	<a href="notification.html"><img src="../img/notifications-bell-button.svg" class="menu_img" width="50"></a>
+</div>
+
+<div class="search">
+  <img src="../img/soccer_30.png" class="search_img" width="45">
+  <p class="search_tag">매칭/가입 팀 찾기</p>
+  <a href="main.html"><img src="../img/up.png" class="btn" width="60"></a>
+</div>
+
+<div class="find">
+
+  <div class="wrapper">
+    <img src="../img/search.png" class="find_img" width="50">
+	<form action="" method="post" class="search_team">
+	  <input type="text" class="search_team" name="search_team" placeholder="매칭/가입할 팀명 검색">
+	</form>
+  </div>
+
+  <div class="wrapper">
+    <img src="../img/search.png" class="find_img" width="50">	
+	  <form action="" method="post" class="wrapper_small">
+	    <select name="area" class="area">
+	      <option value="" selected disabled hidden> 지역 검색 <option>
+	      <option value="">서울시</option>
+		  <option value="">경기도</option>
+		  <option value="">지역무관</option>
+	    </select>
+		
+	    <select name="area2" class="area">
+	      <option value="" selected disabled hidden>상세검색<option>
+	      <option value="">용산구</option>
+		  <option value="">양쳔구</option>
+		  <option value="">강서구</option>
+	    </select>
+	  </form>	  
+  </div>
+  
+  <div class="wrapper">
+    <img src="../img/search.png" class="find_img" width="50">	
+	<form action="" method="post" class="wrapper_small">
+	  <select name="gender">
+	    <option value="" selected disabled hidden> 성별 검색 <option>
+	    <option value="female">여자</option>
+		<option value="male">남자</option>
+		<option value="none">성별무관</option>
+	  </select>
+	</form>
+  </div>
+
+  <div class="wrapper">
+    <img src="../img/search.png" class="find_img" width="50">
+	<form action="" method="post" class="wrapper_small">
+	  <select name="age">
+	    <option value="" selected disabled hidden> 평균 연령대 검색 <option>
+	    <option value="teen">10대</option>
+		<option value="twenties">20대</option>
+		<option value="thirties">30대</option>
+		<option value="thirties">40대</option>
+		<option value="thirties">50대</option>
+		<option value="thirties">나이무관</option>
+	  </select>
+	</form>
+  </div>
+  
+  <div class="wrapper">
+    <img src="../img/search.png" class="find_img" width="50">
+	<form action="" method="post" class="wrapper_small">
+	  <input type="date" name="date" style="width:100%">		
+	</form>
+  </div>
+  
+  <div class="wrapper">
+    <img src="../img/search.png" class="find_img" width="50">
+	<form action="" method="post" class="wrapper_small">
+	  <input type="time" name="time" style="width:100%">		
+	</form>
+  </div>
+  
+  <div class="wrapper">
+    <img src="../img/search.png" class="find_img" width="50">
+	<form action="" method="post" class="wrapper_small">
+	  <select name="age">
+	    <option value="" selected disabled hidden> 요일 검색 <option>
+	    <option value="mon">월</option>
+		<option value="tue">화</option>
+		<option value="wed">수</option>
+		<option value="thur">목</option>
+		<option value="fri">금</option>
+		<option value="sat">토</option>
+		<option value="sun">일</option>		
+		<option value="none">요일무관</option>
+	  </select>
+	</form>
+  </div>
+  <center><button class="btn-lg btn-primary btn-border" type="submit">검색하기</button></center>
+  
+</div>
+
+</body>
+</html>

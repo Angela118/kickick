@@ -7,6 +7,12 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 	<link href="../css/main.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Yeon+Sung" rel="stylesheet">
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
     <title>메인페이지</title>
 </head>
 
@@ -19,8 +25,22 @@
 </div>
 
 <div class="reco">
-  <h1>매칭추천</h1>
-  <p>로로롱팀의 팀 정보를 기반으로 가장 일치하는 순으로 추천된 리스트입니다.</p>
+    <div style="display:flex; justify-content: space-between">
+        <h1>매칭추천</h1>
+
+        <div class="dropdown">
+            <button type="button" class="btn dropdown-toggle" style="background-color: transparent" data-toggle="dropdown">
+                정렬 기준
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">지역</a>
+                <a class="dropdown-item" href="#">성별</a>
+                <a class="dropdown-item" href="#">평균 연령대</a>
+            </div>
+        </div>
+    </div>
+
+  <!--<p>로로롱팀의 팀 정보를 기반으로 가장 일치하는 순으로 추천된 리스트입니다.</p>-->
 
     <div class="list">
         <div class="list_item">
