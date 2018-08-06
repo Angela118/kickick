@@ -13,7 +13,14 @@
 
     <!-- Custom styles for this template -->
     <link href="../css/signup.css" rel="stylesheet">
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
 </head>
+
+<script type="text/javascript">
+
+</script>
 
 <body class="bg-light">
 
@@ -23,148 +30,116 @@
 
 <br>
 <div class="container">
-        <div class="col-md-8 order-md-1">
-            <h4 class="mb-3">기본 정보</h4>
-            <form class="needs-validation" novalidate>
+    <div class="col-md-8 order-md-1">
+        <h4 class="mb-3">기본 정보</h4>
+        <form class="needs-validation" novalidate>
 
-                <p class="mb-3">
-                    <p>프로필 사진 등록</p> <!--프로필 사진-->
-                    <p style="text-align: center;"><img src="../img/profile_basic.png" class="profile_img" width="100" class="col-md-6"></p>
-                    <p><input type=file></p>
+            <p class="mb-3">
+            <p>프로필 사진 등록</p> <!--프로필 사진-->
+            <div class="profile_img_upload">
+                <div class="img_div mb-1"><img id="profile_img" src="../img/profile_basic.png"/></div>
+                <div class="filebox"> <label for="new_profile_img">업로드</label> <input type="file" id="new_profile_img"> </div>
+            </div>
 
-                <div class="mb-3">
-                    <label for="user-name">이름</label> <!--이름-->
-                    <input type="text" class="form-control" id="user-name" placeholder="" value="" required>
-                    <div class="invalid-feedback">
-                        Valid name is required.
+            <div class="mb-3">
+                <label for="user-name">이름</label> <!--이름-->
+                <input type="text" class="form-control" id="user-name" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                    Valid name is required.
+                </div>
+            </div>
+
+            <div class="mb-3"> <!--아이디-->
+                <label for="user-ID">아이디</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="user-ID" placeholder="" required>
+                    <div class="invalid-feedback" style="width: 100%;">
+                        Your ID is required.
                     </div>
                 </div>
+            </div>
 
-                <div class="mb-3"> <!--아이디-->
-                    <label for="user-ID">아이디</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="user-ID" placeholder="" required>
-                        <div class="invalid-feedback" style="width: 100%;">
-                            Your ID is required.
-                        </div>
-                    </div>
+            <div class="mb-3"> <!--닉네임-->
+                <label for="user-nickname">닉네임<span>(안 적으면 아이디와 같게 설정)</span></label>
+                <input type="text" class="form-control" id="user-nickname">
+                <div class="invalid-feedback">
+                    Please enter a valid nickname.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="region">지역(동까지)</label>
+                <input type="text" class="form-control" id="region" placeholder="서울시 용산구 청파동" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="user-password">비밀번호</label>
+                <input type="password" class="form-control" id="user-password">
+            </div>
+
+            <div class="mb-3">
+                <label for="user-gender">성별</label>
+                <select class="custom-select d-block w-100" id="user-gender" required>
+                    <option value="">Choose...</option>
+                    <option>여</option>
+                    <option>남</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>생년월일</label>
+
+                <div class="birth">
+                    <input type="text" class="form-control" id="user-birth-year" placeholder="" value="" required>
+                    <span>년&nbsp</span>
+                    <input type="text" class="form-control" id="user-birth-month" placeholder="" value="" required>
+                    <span>월&nbsp</span>
+                    <input type="text" class="form-control" id="user-birth-day" placeholder="" value="" required>
+                    <span>일</span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>이메일 인증</label>
+                <div style="display: flex">
+                    <input type="email" class="form-control" placeholder="" required>
+                    <div class="btn">인증</div>
                 </div>
 
-                <div class="mb-3"> <!--닉네임-->
-                    <label for="user-nickname">닉네임<span>(안 적으면 아이디와 같게 설정)</span></label>
-                    <input type="text" class="form-control" id="user-nickname">
-                    <div class="invalid-feedback">
-                        Please enter a valid nickname.
-                    </div>
-                </div>
+            </div>
 
-                <div class="mb-3">
-                    <label for="region">지역(동까지)</label>
-                    <input type="text" class="form-control" id="region" placeholder="서울시 용산구 청파동" required>
-                </div>
+            <div class="mb-3">
+                <label for="serurity-char">보안문자</label>
+                <input type="text" class="form-control" id="serurity-char" placeholder="" required>
+            </div>
 
-                <div class="mb-3">
-                    <label for="user-password">비밀번호</label>
-                    <input type="password" class="form-control" id="user-password">
-                </div>
-
-                <div class="mb-3">
-                    <label for="user-gender">성별</label>
-                    <select class="custom-select d-block w-100" id="user-gender" required>
-                        <option value="">Choose...</option>
-                        <option>여</option>
-                        <option>남</option>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label>생년월일</label>
-
-                    <div class="birth">
-                        <input type="text" class="form-control" id="user-birth-year" placeholder="" value="" required>
-                        <span>년&nbsp</span>
-                        <input type="text" class="form-control" id="user-birth-month" placeholder="" value="" required>
-                        <span>월&nbsp</span>
-                        <input type="text" class="form-control" id="user-birth-day" placeholder="" value="" required>
-                        <span>일</span>
-                    </div>
-
-                    <!--<div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="user-birth-year" placeholder="" value="" required>
-                                <span>  년</span>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="user-birth-month" placeholder="" value="" required>
-                                <span>  월</span>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="user-birth-day" placeholder="" value="" required>
-                                <span>  일</span>
-                            </div>
-                        </div>
-                    </div>-->
-                </div>
-
-                <div class="mb-3">
-                    <label>이메일 인증</label>
-                    <div style="display: flex">
-                        <input type="email" class="form-control" placeholder="" required>
-                        <div class="btn">인증</div>
-                    </div>
-
-                </div>
-
-                <div class="mb-3">
-                    <label for="serurity-char">보안문자</label>
-                    <input type="text" class="form-control" id="serurity-char" placeholder="" required>
-                </div>
-
-                <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">회원가입 완료</button>
-            </form>
-        </div>
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">회원가입 완료</button>
+        </form>
     </div>
-
-    <footer class="my-5 pt-5 text-muted text-center text-small">
-
-    </footer>
 </div>
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-<script src="../../assets/js/vendor/popper.min.js"></script>
-<script src="../../dist/js/bootstrap.min.js"></script>
-<script src="../../assets/js/vendor/holder.min.js"></script>
-<script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-        'use strict';
+<footer class="my-5 pt-5 text-muted text-center text-small">
 
-        window.addEventListener('load', function() {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
+</footer>
+</div>
 
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
-</script>-->
+<script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#profile_img').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#new_profile_img").change(function() {
+        readURL(this);
+    });
+</script>
+
+
 </body>
 </html>

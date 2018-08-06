@@ -13,6 +13,9 @@
 
     <!-- Custom styles for this template -->
     <link href="../css/profile.css" rel="stylesheet">
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body class="bg-light">
@@ -29,8 +32,10 @@
 
             <p class="mb-3">
             <p>프로필 사진 등록</p> <!--프로필 사진-->
-            <p style="text-align: center;"><img src="../img/profile_basic.png" class="profile_img" width="100" class="col-md-6"></p>
-            <p><input type=file></p>
+            <div class="profile_img_upload">
+                <div class="img_div mb-1"><img id="profile_img" src="../img/profile_basic.png"/></div>
+                <div class="filebox"> <label for="new_profile_img">업로드</label> <input type="file" id="new_profile_img"> </div>
+            </div>
 
             <div class="mb-3">
                 <label for="user-name">이름</label> <!--이름-->
@@ -116,4 +121,20 @@
 </div>
 
 </body>
+
+<script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#profile_img').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#new_profile_img").change(function() {
+        readURL(this);
+    });
+</script>
 </html>
