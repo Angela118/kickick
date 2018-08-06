@@ -51,6 +51,10 @@ body{
   padding-bottom: 15px;
 }
 
+select.custom-select option{
+    font-size:1rem
+}
+
 .list_item{
     display: flex;
     justify-content: space-between;

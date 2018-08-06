@@ -28,16 +28,12 @@
     <div style="display:flex; justify-content: space-between">
         <h1>매칭추천</h1>
 
-        <div class="dropdown">
-            <button type="button" class="btn dropdown-toggle" style="background-color: transparent" data-toggle="dropdown">
-                정렬 기준
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">지역</a>
-                <a class="dropdown-item" href="#">성별</a>
-                <a class="dropdown-item" href="#">평균 연령대</a>
-            </div>
-        </div>
+        <select class="custom-select" style="width: 8rem">
+            <option selected>정렬 기준</option>
+            <option value="1">지역</option>
+            <option value="2">성별</option>
+            <option value="3">평균 연령대</option>
+        </select>
     </div>
 
   <!--<p>로로롱팀의 팀 정보를 기반으로 가장 일치하는 순으로 추천된 리스트입니다.</p>-->
