@@ -12,22 +12,13 @@
 .lh-condensed { line-height: 1.25; }
 
 .navbar{
-    background-color: #4267B2;
     justify-content:space-around;
     padding:1rem 0rem;
 }
 
-.logo{
-    display: block;
-    margin-top: 0;
-    margin-bottom: 0;
-    text-align: center;
-    font-size: 1.2em;
-}
-
 .birth{
     display:flex;
-    justify-content: space-between;
+    justify-content: space-around;
     text-align:center;
 }
 

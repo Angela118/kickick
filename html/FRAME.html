@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
     <link href="../css/FRAME.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Yeon+Sung" rel="stylesheet">
-    <title>FRAME</title>
+    <!--<link href="https://fonts.googleapis.com/css?family=Yeon+Sung" rel="stylesheet">-->
+    <title>메뉴</title>
 
     <!-- Bootstrap core JavaScript -->
     <script src="../js/jquery.js"></script>
@@ -17,58 +18,56 @@
 
 <body>
 
-<nav class="navbar">
+<nav class="navbar blueB">
 
-    <img src="../img/menu3.png" width="40rem" height="40rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="top">
+        <img src="../img/menu3.png" width="30rem" height="30rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
 
-    <p class="logo" style="color:white">축 하 싶</p>
+        <p class="logo">축하싶</p>
 
-    <a href="chat_room.html"><img src="../img/envelope.png" class="menu_img" width="40rem" height="40rem" ></a>
+        <a href="chat_room.html"><img src="../img/envelope.png" class="menu_img" width="40rem" height="40rem" ></a>
+    </div>
+
+
 
     <div class="collapse navbar-collapse" id="navbarsExample01">
         <div class="mypage">
             <img src="../img/jisung_90.png"id="profile_pic">
             <p id="name" style="font-weight: bold">조이</p>
-            <button class="btn" type="submit">내 정보</button>
+            <button class="btn btn-warning" type="submit">내 정보</button>
         </div>
 
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="main.html">홈 (매칭 팀 검색)<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="main.html">홈 (매칭 팀 검색)</a>
             </li>
             <li class="nav-item" style="display:flex; align-items:center">
                 <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
                 <!--<hr align="right" style="border: solid 0.1rem white; width: 70%;">-->
             </li>
 
-<!--
-            <li class="nav-item">
-                <a class="nav-link" href="team_received_review.html">&nbsp&nbsp&nbsp&nbsp팀 검색 / 가입 / 생성하기</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="team_received_review.html">&nbsp&nbsp&nbsp&nbsp팀 정보</a>
-            </li>
--->
-
             <li class="nav-item">
                 <a class="nav-link" href="team_received_review.html">&nbsp&nbsp&nbsp&nbsp우리 팀 평가 점수</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="schedule.html">&nbsp&nbsp&nbsp&nbsp경기 스케줄</a>
+                <a class="nav-link" href="team_schedule.html">&nbsp&nbsp&nbsp&nbsp경기 스케줄</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="match_application_form.html">매칭 등록</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">개발자에게 연락</a>
+                <a class="nav-link" href="contact.html">개발자에게 연락</a>
             </li>
 
         </ul>
 
     </div>
 </nav>
+
+<div class="py-4 text-center" id="profile_color"></div>
+
+<h1>testtest</h1>
 
 </body>
 </html>

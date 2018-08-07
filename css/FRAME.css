@@ -8,32 +8,27 @@ body{
   position: static;
 }
 
-.logo{
-  display: block;
-  margin-top: 0;
-  margin-bottom: 0;
-  text-align: center;  
-  font-family: 'Yeon Sung', cursive;
-  font-size: 2em;
-}
-
 .menu_img { 
   display: block;
   float: left;
 }
 
 .navbar{
-  /*position:relative;*/
-  /*display:-ms-flexbox;*/
-  /*display:flex;*/
-  /*-ms-flex-wrap:wrap;*/
-  /*flex-wrap:wrap;*/
-  /*-ms-flex-align:center;*/
-  /*align-items:center;*/
-  /*-ms-flex-pack:justify;*/
-  background-color: #4267B2;
-  justify-content:space-around;
+  justify-content:space-between;
   padding:1rem 0rem;
+  width: 100%;
+  position:fixed;
+}
+
+.top{
+  display:flex;
+  margin-left:1rem;
+  margin-right:1rem;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  margin-bottom: -6px;
+  margin-top: -6px;
 }
 
 a{color:white;text-decoration:none;background-color:transparent;-webkit-text-decoration-skip:objects}a:hover{color:#dfe3ee;text-decoration:underline}a:not([href]):not([tabindex]){color:inherit;text-decoration:none}a:not([href]):not([tabindex]):focus,a:not([href]):not([tabindex]):hover{color:inherit;text-decoration:none}a:not([href]):not([tabindex]):focus{outline:0}
@@ -47,7 +42,7 @@ a{color:white;text-decoration:none;background-color:transparent;-webkit-text-dec
 }
 
 .nav-item{
-  /*font-weight:bold;*/
+  font-weight:520;
 }
 
 .mypage{
@@ -74,7 +69,8 @@ a{color:white;text-decoration:none;background-color:transparent;-webkit-text-dec
 }
 
 .btn {
-  background-color: #FFCC00;
+  /*background-color: #FFCC00;*/
+  /*background-color: #fea328;*/
   color: white;
 }
 
