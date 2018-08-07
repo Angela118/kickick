@@ -1,116 +1,175 @@
 <!doctype html>
 <html lang="kr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-	<link href="../css/top.css" rel="stylesheet">
-	<link href="../css/main_search.css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Yeon+Sung" rel="stylesheet">
-    <title>메인페이지</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/main.css" rel="stylesheet">
+  <link href="../css/common.css" rel="stylesheet">
+  <link href="../css/FRAME.css" rel="stylesheet">
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="../js/jquery.js"></script>
+  <script src="../js/bootstrap.bundle.min.js"></script>
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>-->
+
+  <title>메인페이지-검색</title>
 </head>
 
-<body>	
-<div class="top_container">
-    <a href="menu.html"><img src="../img/menu3.png" class="menu_img" width="50"></a>
-    <p class="logo">축 하 싶</p>
-	<a href="notification.html"><img src="../img/notifications-bell-button.svg" class="menu_img" width="50"></a>
+<body class="">
+<!--<body class="blueB">-->
+<!--메뉴 영역 시작 : 나중에 파일로 따로 빼기 -->
+
+<nav class="navbar blueB">
+
+  <div class="top">
+    <img src="../img/menu3.png" width="30rem" height="30rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+
+    <p class="logo">축하싶</p>
+
+    <a href="chat_room.html"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
+  </div>
+
+  <div class="collapse navbar-collapse" id="navbarsExample01">
+    <div class="mypage">
+      <img src="../img/jisung_90.png"id="profile_pic">
+      <p id="name" style="font-weight: bold">조이</p>
+      <button class="btn btn-warning" type="submit">내 정보</button>
+    </div>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="main.html">홈 (매칭 팀 검색)</a>
+      </li>
+      <li class="nav-item" style="display:flex; align-items:center">
+        <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
+        <!--<hr align="right" style="border: solid 0.1rem white; width: 70%;">-->
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="team_received_review.html" style="margin-left:2rem">우리 팀 평가 점수</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="team_schedule.html" style="margin-left:2rem">경기 스케줄</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="match_application_form.html">매칭 등록</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="contact.html">개발자에게 연락</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="py-4 text-center" id="profile_color"></div>
+
+<!--메뉴 영역 끝 : 나중에 파일로 따로 빼기 -->
+
+<!--매칭 팀 찾기-->
+
+<div class="search blueB">
+  <div class="top_range">
+    <p class="logo"><img src="../img/soccer_30.png" alt="" style="margin-right: 1rem">매칭팀 찾기</p>
+    <a href="main.html"><img src="../img/up_60.png" class="btn" width="60" style="float: right;  margin-right: -.9rem"></a>
+  </div>
 </div>
 
-<div class="search">
-  <img src="../img/soccer_30.png" class="search_img" width="45">
-  <p class="search_tag">매칭/가입 팀 찾기</p>
-  <a href="main.html"><img src="../img/up.png" class="btn" width="60"></a>
-</div>
+<!---->
 
-<div class="find">
 
-  <div class="wrapper">
-    <img src="../img/search.png" class="find_img" width="50">
-	<form action="" method="post" class="search_team">
-	  <input type="text" class="search_team" name="search_team" placeholder="매칭/가입할 팀명 검색">
-	</form>
-  </div>
+<!--검색 항목-->
 
-  <div class="wrapper">
-    <img src="../img/search.png" class="find_img" width="50">	
-	  <form action="" method="post" class="wrapper_small">
-	    <select name="area" class="area">
-	      <option value="" selected disabled hidden> 지역 검색 <option>
-	      <option value="">서울시</option>
-		  <option value="">경기도</option>
-		  <option value="">지역무관</option>
-	    </select>
-		
-	    <select name="area2" class="area">
-	      <option value="" selected disabled hidden>상세검색<option>
-	      <option value="">용산구</option>
-		  <option value="">양쳔구</option>
-		  <option value="">강서구</option>
-	    </select>
-	  </form>	  
-  </div>
-  
-  <div class="wrapper">
-    <img src="../img/search.png" class="find_img" width="50">	
-	<form action="" method="post" class="wrapper_small">
-	  <select name="gender">
-	    <option value="" selected disabled hidden> 성별 검색 <option>
-	    <option value="female">여자</option>
-		<option value="male">남자</option>
-		<option value="none">성별무관</option>
-	  </select>
-	</form>
-  </div>
+<p class="mb-4"></p> <!--배경 파랑으로 할거면 빼기-->
 
-  <div class="wrapper">
-    <img src="../img/search.png" class="find_img" width="50">
-	<form action="" method="post" class="wrapper_small">
-	  <select name="age">
-	    <option value="" selected disabled hidden> 평균 연령대 검색 <option>
-	    <option value="teen">10대</option>
-		<option value="twenties">20대</option>
-		<option value="thirties">30대</option>
-		<option value="thirties">40대</option>
-		<option value="thirties">50대</option>
-		<option value="thirties">나이무관</option>
-	  </select>
-	</form>
-  </div>
-  
-  <div class="wrapper">
-    <img src="../img/search.png" class="find_img" width="50">
-	<form action="" method="post" class="wrapper_small">
-	  <input type="date" name="date" style="width:100%">		
-	</form>
-  </div>
-  
-  <div class="wrapper">
-    <img src="../img/search.png" class="find_img" width="50">
-	<form action="" method="post" class="wrapper_small">
-	  <input type="time" name="time" style="width:100%">		
-	</form>
-  </div>
-  
-  <div class="wrapper">
-    <img src="../img/search.png" class="find_img" width="50">
-	<form action="" method="post" class="wrapper_small">
-	  <select name="age">
-	    <option value="" selected disabled hidden> 요일 검색 <option>
-	    <option value="mon">월</option>
-		<option value="tue">화</option>
-		<option value="wed">수</option>
-		<option value="thur">목</option>
-		<option value="fri">금</option>
-		<option value="sat">토</option>
-		<option value="sun">일</option>		
-		<option value="none">요일무관</option>
-	  </select>
-	</form>
-  </div>
-  <center><button class="btn-lg btn-primary btn-border" type="submit">검색하기</button></center>
-  
+<div class="container">
+  <div class="reco" style="margin-top: 1rem">
+    <div class="wrapper">
+      <form action="" method="post" class="search_team">
+        <input type="text" class="search_team form-control" name="search_team" placeholder="매칭/가입할 팀명 검색">
+      </form>
+    </div>
+
+    <div class="wrapper">
+      <form action="" method="post" class="form-group" style="display: flex; justify-content: space-between">
+        <select class="mr-sm-2 form-control" style="width:9.5rem">
+          <option value="" selected disabled hidden> 지역 검색 </option>
+          <option value="">서울시</option>
+          <option value="">경기도</option>
+          <option value="">지역무관</option>
+        </select>
+
+        <select class="form-control" style="width:9.5rem">
+          <!--area-->
+          <option value="" selected disabled hidden>상세검색</option>
+          <option value="">용산구</option>
+          <option value="">양천구</option>
+          <option value="">강서구</option>
+        </select>
+      </form>
+    </div>
+
+    <div class="wrapper">
+      <form action="" method="post" class="wrapper_small">
+        <select name="gender" class="form-control">
+          <option value="" selected disabled hidden> 성별 검색 </option>
+          <option value="female">여자</option>
+          <option value="male">남자</option>
+          <option value="none">성별무관</option>
+        </select>
+      </form>
+    </div>
+
+    <div class="wrapper">
+      <form action="" method="post">
+        <select name="age" class="form-control">
+          <option value="" selected disabled hidden> 평균 연령대 검색 </option>
+          <option value="teen">10대</option>
+          <option value="twenties">20대</option>
+          <option value="thirties">30대</option>
+          <option value="thirties">40대</option>
+          <option value="thirties">50대</option>
+          <option value="thirties">나이무관</option>
+        </select>
+      </form>
+    </div>
+
+    <div class="wrapper">
+      <input type="date" class="form-control">
+    </div>
+
+    <div class="wrapper">
+      <input class="form-control" type="time" value="00:00:00">
+      <!--모바일에서 터치해서 바꾸는 것 안 나오면 다른 방법 찾기..-->
+    </div>
+
+    <div class="wrapper">
+      <select name="age" class="form-control">
+        <option value="" selected disabled hidden> 요일 검색
+        <option>
+        <option value="mon">월</option>
+        <option value="tue">화</option>
+        <option value="wed">수</option>
+        <option value="thur">목</option>
+        <option value="fri">금</option>
+        <option value="sat">토</option>
+        <option value="sun">일</option>
+        <option value="none">요일무관</option>
+      </select>
+    </div>
+
+    <div style="padding-top: .5rem">
+      <button class="btn btn-block" style="color:black;" type="submit">검색하기</button>
+    </div>
+
+
+  </div> <!--reco-->
+
+
+
 </div>
 
 </body>
