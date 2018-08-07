@@ -12,9 +12,7 @@
     <!-- Bootstrap core JavaScript -->
     <script src="../js/jquery.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>-->
-
-    <title>메인페이지</title>
+    <title>메인페이지-검색 결과</title>
 </head>
 
 <body class="whiteB">
@@ -81,53 +79,60 @@
 
 <div class="container">
     <div class="reco" style="margin-top: 1rem">
-        <div style="display:flex; justify-content: space-between; align-items: center" class="mb-3">
-            <span style="font-weight: bold; font-size: 1.2rem">매칭추천</span>
 
-            <select class="custom-select" style="width: 8rem">
-                <option selected>정렬 기준</option>
-                <option value="1">지역</option>
-                <option value="2">성별</option>
-                <option value="3">평균 연령대</option>
-            </select>
+        <div class="mb-3">
+            <p class="small" style="margin-bottom: .5rem">서울-강남 | 여자만 | 20대 | 17:00-18:00</p>
+            <span style="font-weight: bold; font-size: 1.2rem; margin-right: .5rem">검색 결과</span>
+            <span>달력 클릭시 매칭 신청</span>
         </div>
 
-        <!--<p>로로롱팀의 팀 정보를 기반으로 가장 일치하는 순으로 추천된 리스트입니다.</p>-->
+        <p>선택한 값들 불러오기</p>
+        <div style="display: flex; justify-content: space-around; margin-left: 1rem; margin-right: 1rem">
+            <!--달력-->
+            <div style="width: 8rem; height: 7rem; background-color: #f8f9fa;">
+                <div style="width: 8rem; height: 2.5rem; background-color: black;">
+                    <p class="whiteW" style="text-align: center; font-size: 1.3rem; font-weight: bold; padding-top: .2rem;" >2018</p>
+                </div>
+                <p style="text-align: center; font-size: 2.5rem; font-weight: bold">9/30</p>
+            </div>
 
-        <div class="list mb-3">
-            <div class="list_item">
-                <div class="list_item_date">
-                    <h3>2018</h3>
-                    <h3>09</h3>
-                    <h3>30</h3>
-                </div>
-                <div class="list_item_team">
-                    <p class="list_item_team_detail">
-                        지역 : 서울 - 강남<br>
-                        성별 : 여<br>
-                        나이 : 20대<br>
-                        장소 : 효창운동장<br>
-                        팀원 : 40명<br>
-                    </p>
-                    <h6 class="list_item_team_name">우리가 남이가</h6>
-                </div>
+            <!--팀 요약-->
+            <div style="">
+                <p style="font-weight: bold; margin-bottom: 0">우리가 남이가</p>
+                <p style="font-size: .7rem">
+                    지역 : 서울 - 강남<br>
+                    성별 : 여<br>
+                    나이 : 20대<br>
+                    장소 : 효창운동장<br>
+                    팀원 : 40명<br>
+                </p>
 
             </div>
+
         </div>
 
 
-        <!--페이지 넘기는 버튼-->
-        <div class="paging">
-            <ul>
-                <li><a href="#"><</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">></a></li>
-            </ul>
-        </div>
     </div>
 </div>
+
+<!--페이지 넘기는 버튼-->
+<div class="paging">
+    <ul>
+        <li><a href="#"><</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">></a></li>
+    </ul>
+</div>
+<br>
+<br>
+<hr>
+<p>메인화면 - 매칭팀 찾기 탭에서 검색 안하고 다시 탭 올렸을 때 메인 화면으로 돌아가게 됨.
+
+    예를 들어 한 번 검색 후 다시 매칭팀 찾기를 내렸다가 검색 안하고 올렸을 때도 메인으로 돌아감. (main_search_result -> main_search -> main)
+    -> 실사용하려면 나중에 매칭팀 찾기 탭도 side bar로 빼야 함
+</p>
 
 </body>
 </html>

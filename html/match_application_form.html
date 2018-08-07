@@ -7,88 +7,152 @@
     <meta name="author" content="">
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/top.css" rel="stylesheet">
-    <link href="../css/main_search.css" rel="stylesheet">
-    <link href="../css/match_application_form.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Yeon+Sung" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/FRAME.css" rel="stylesheet">
 
-    <!--js-->
+    <!-- Bootstrap core JavaScript -->
     <script src="../js/jquery.js"></script>
-    <script src="../js/jquery-migrate-1.4.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+
     <!---->
 
     <title>매칭 신청 폼</title>
 </head>
-<body>
+<body class="whiteB">
+
+
+<!--메뉴 영역 시작 : 나중에 파일로 따로 빼기 -->
+
+<nav class="navbar blueB">
+
+    <div class="top">
+        <img src="../img/menu3.png" width="30rem" height="30rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+
+        <p class="logo">축하싶</p>
+
+        <a href="chat_room.html"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarsExample01">
+        <div class="mypage">
+            <img src="../img/jisung_90.png"id="profile_pic">
+            <p id="name" style="font-weight: bold">조이</p>
+            <button class="btn btn-warning" type="submit">내 정보</button>
+        </div>
+
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="main.html">홈 (매칭 팀 검색)</a>
+            </li>
+            <li class="nav-item" style="display:flex; align-items:center">
+                <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
+                <!--<hr align="right" style="border: solid 0.1rem white; width: 70%;">-->
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="team_received_review.html" style="margin-left:2rem">우리 팀 평가 점수</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="team_schedule.html" style="margin-left:2rem">경기 스케줄</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="match_application_form.html">매칭 등록</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="contact.html">개발자에게 연락</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="py-4 text-center"></div>
+
+<!--메뉴 영역 끝 : 나중에 파일로 따로 빼기 -->
+
+
 <div class="container">
+    <div class="reco" style="margin-top: 2.3rem">
+        <h5 class="mb-3 blackW" style="font-weight: bold">매칭 등록</h5>
 
-    <!--상단 바-->
+        <form action="">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>지역</th>
+                    <td>
+                        <div class="mb-2">
+                            <select class="form-control">
+                                <option value="" selected disabled hidden>지역 검색</option>
+                                <option value="">서울시</option>
+                                <option value="">경기도</option>
+                                <option value="">지역무관</option>
+                            </select>
+                        </div>
+                        <select class="form-control">
+                            <option value="" selected disabled hidden>상세 검색</option>
+                            <option value="">용산구</option>
+                            <option value="">양천구</option>
+                            <option value="">강서구</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>장소</th>
+                    <td><input type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <th>원정가능 유무</th>
+                    <td>
+                        <select class="form-control">
+                            <option value="" selected>O</option>
+                            <option value="">X</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>연령대</th>
+                    <td>
+                        <select name="age" class="form-control">
+                            <option value="" selected disabled hidden> 평균 연령대 검색 </option>
+                            <option value="teen">10대</option>
+                            <option value="twenties">20대</option>
+                            <option value="thirties">30대</option>
+                            <option value="thirties">40대</option>
+                            <option value="thirties">50대</option>
+                            <option value="thirties">나이무관</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>날짜</th>
+                    <td>
+                        <input type="date" class="form-control">
+                    </td>
+                </tr>
+                <tr>
+                    <th>시간대</th>
+                    <td>
+                        <input type="time" class="form-control" value="00:00:00">
+                        <p style="text-align: center; margin-bottom: 0">~</span>
+                            <input type="time" class="form-control" value="00:00:00">
+                    </td>
+                </tr>
+                <tr>
+                    <th>기타 할 말</th>
+                    <td><textarea class="form-control" name="" rows="7" cols="30" placeholder="100자 내로 입력"></textarea></td>
+                </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-block" style="color:black">매칭 등록</button>
+        </form>
 
 
-<!--매칭 등록-->
+    </div>
 
-<div class="col-md-8" style="padding-top:3rem">
-
-    <h4 class="mb-3" style="font-weight: bold">매칭 등록</h4>
-
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>지역</th>
-            <td>
-                <select name="area" class="area">
-                    <option value="" selected disabled hidden>지역 검색</option>
-                    <option value="">서울시</option>
-                    <option value="">경기도</option>
-                    <option value="">지역무관</option>
-                </select>
-
-                <select name="area2" class="area">
-                    <option value="" selected disabled hidden>상세 검색</option>
-                    <option value="">용산구</option>
-                    <option value="">양쳔구</option>
-                    <option value="">강서구</option>
-                </select>
-            </td>
-        </tr>
-<tr>
-    <th>장소</th>
-    <td><input type="text" style="width:100%"></td>
-</tr>
-<tr>
-    <th>원정가능 유무</th>
-    <td>
-        <select>
-            <option value="" selected>O</option>
-            <option value="">X</option>
-        </select>
-    </td>
-</tr>
-<tr>
-    <th>날짜</th>
-    <td>
-        <input type="date" name="date" style="width:100%">
-    </td>
-</tr>
-<tr>
-    <th>시간대</th>
-    <td>
-        <input type="time" name="time" style="width:30%">
-        <span>&nbsp ~ &nbsp</span>
-        <input type="time" name="time" style="width:30%">
-    </td>
-</tr>
-<tr>
-    <th>기타 할 말</th>
-    <td><textarea name="" rows="7" cols="30" placeholder="100자 내로 입력" style="width:100%"></textarea></td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<button class="btn btn-block">제출</button>
 
 </div>
 

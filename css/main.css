@@ -113,39 +113,15 @@ select.custom-select option{
 
 /*main_search-------------------------------------------*/
 
-/*
-.find {
-  background-color: #007bff;
-  position: absolute;
-  top: 162px;
-  height: 504px;
-  width: 100%;
-  align-items: center;
-}
-*/
-
 .wrapper {
   margin-bottom:1rem;
   align-items: center;
   width: 100%;
 }
 
-/*
-.find_img {
-  float: left;
-  height: 30%;
-  border: 1px solid lightgrey;
-}
-*/
-
 .search_team{
   width: 100%;
   text-align: center;
-  /*height: 3em;*/
-  /*vertical-align: center;*/
-  /*background-color: lightgrey;*/
-  /*color: black;*/
-  /*font-weight: bold;*/
 }
 
 select {
@@ -153,13 +129,17 @@ select {
   width: 100%;
   height: 50px;
   text-align: center;
-  /*background-color: lightgrey;*/
-  /*font-weight: bold;*/
 }
 
-/*
-.area{
-  display: block;
-  width: 100%;
+/*match_application_form-------------------------------------------*/
+.table{
+  border-top:2px solid #dee2e6;
+  border-bottom: 2px solid #dee2e6;
+  font-size: 1rem;
 }
-*/
+
+.table td,.table th{
+  padding:.50rem;
+  vertical-align:top;
+  border-top:1px solid #dee2e6
+}
