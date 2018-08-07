@@ -12,19 +12,9 @@
   align-items: center;
 }
 
-/*.reco {
-  !*position: fixed;*!
-  top:165px;
-  color: black;
-  margin: 20px;
-  height: 70%;
+.reco {
+  margin: 1rem;
 }
-
-.reco h1{
-  font-size: 1.5em;
-  font-weight: bold;
-  padding-bottom: 15px;
-}*/
 
 select.custom-select option{
     font-size:1rem
