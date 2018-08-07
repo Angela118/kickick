@@ -5,12 +5,13 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>경기 스케줄</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/team_schedule.css" rel="stylesheet">
     <link href="../css/calendar.css" rel="stylesheet">
-
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/FRAME.css" rel="stylesheet">
 
     <!-- Bootstrap core JavaScript -->
     <script src="../js/jquery.js"></script>
@@ -32,283 +33,337 @@
         }
     </script>
 
-
 </head>
-<body>
+<body class="whiteB">
 
-<div class="container">
+<!--메뉴 영역 시작 : 나중에 파일로 따로 빼기 -->
+<!--여기선 메뉴명 경기 스케줄로 되어 있음-->
 
-    <!--<h1 style="letter-spacing: .4rem; margin-top: 1rem; text-align: center; font-weight: 500">2018</h1>-->
+<nav class="navbar blueB">
 
-    <div class="calendar-wrapper">
-        <button id="btnPrev" type="button">이전 달</button>
-        <button id="btnNext" type="button">다음 달</button>
-        <div id="divCal"></div>
+    <div class="top">
+        <img src="../img/menu3.png" width="30rem" height="30rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+
+        <p class="logo">경기 스케줄</p>
+
+        <a href="chat_room.html"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
     </div>
 
-    <script>
-        var Cal = function(divId) {
+    <div class="collapse navbar-collapse" id="navbarsExample01">
+        <div class="mypage">
+            <img src="../img/jisung_90.png"id="profile_pic">
+            <p id="name" style="font-weight: bold">조이</p>
+            <button class="btn btn-warning" type="submit">내 정보</button>
+        </div>
 
-            //Store div id
-            this.divId = divId;
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="main.html">홈 (매칭 팀 검색)<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" style="display:flex; align-items:center">
+                <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
+                <!--<hr align="right" style="border: solid 0.1rem white; width: 70%;">-->
+            </li>
 
-            // Days of week, starting on Sunday
-            this.DaysOfWeek = [
-                '일',
-                '월',
-                '화',
-                '수',
-                '목',
-                '금',
-                '토'
-            ];
+            <li class="nav-item">
+                <a class="nav-link" href="team_received_review.html" style="margin-left:2rem">우리 팀 평가 점수</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="team_schedule.html" style="margin-left:2rem">경기 스케줄</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="match_application_form.html">매칭 등록</a>
+            </li>
 
-            // Months, stating on January
-            this.Months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ];
+            <li class="nav-item">
+                <a class="nav-link" href="contact.html">개발자에게 연락</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
-            // Set the current month, year
-            var d = new Date();
+<div class="py-4 text-center"></div>
 
-            this.currMonth = d.getMonth();
-            this.currYear = d.getFullYear();
-            this.currDay = d.getDate();
-        };
+<!--메뉴 영역 끝 : 나중에 파일로 따로 빼기 -->
 
-        // Goes to next month
-        Cal.prototype.nextMonth = function() {
-            if ( this.currMonth == 11 ) {
-                this.currMonth = 0;
-                this.currYear = this.currYear + 1;
-            }
-            else {
-                this.currMonth = this.currMonth + 1;
-            }
-            this.showcurr();
-        };
+<div class="container">
+    <div class="reco">
 
-        // Goes to previous month
-        Cal.prototype.previousMonth = function() {
-            if ( this.currMonth == 0 ) {
-                this.currMonth = 11;
-                this.currYear = this.currYear - 1;
-            }
-            else {
-                this.currMonth = this.currMonth - 1;
-            }
-            this.showcurr();
-        };
+        <!--<h1 style="letter-spacing: .4rem; margin-top: 1rem; text-align: center; font-weight: 500">2018</h1>-->
 
-        // Show current month
-        Cal.prototype.showcurr = function() {
-            this.showMonth(this.currYear, this.currMonth);
-        };
+        <!--달력-->
 
-        // Show month (year, month)
-        Cal.prototype.showMonth = function(y, m) {
+        <div class="calendar-wrapper">
+            <button id="btnPrev" type="button">이전 달</button>
+            <button id="btnNext" type="button">다음 달</button>
+            <div id="divCal"></div>
+        </div>
 
-            var d = new Date()
-                // First day of the week in the selected month
-                , firstDayOfMonth = new Date(y, m, 1).getDay()
-                // Last day of the selected month
-                , lastDateOfMonth =  new Date(y, m+1, 0).getDate()
-                // Last day of the previous month
-                , lastDayOfLastMonth = m == 0 ? new Date(y-1, 11, 0).getDate() : new Date(y, m, 0).getDate();
+        <script>
+            var Cal = function(divId) {
 
+                //Store div id
+                this.divId = divId;
 
-            var html = '<table>';
+                // Days of week, starting on Sunday
+                this.DaysOfWeek = [
+                    '일',
+                    '월',
+                    '화',
+                    '수',
+                    '목',
+                    '금',
+                    '토'
+                ];
 
-            // Write selected month and year
-            html += '<thead><tr>';
-            html += '<td colspan="7">' + this.Months[m] + ' ' + y + '</td>';
-            html += '</tr></thead>';
+                // Months, stating on January
+                this.Months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ];
 
+                // Set the current month, year
+                var d = new Date();
 
-            // Write the header of the days of the week
-            html += '<tr class="days">';
-            for(var i=0; i < this.DaysOfWeek.length;i++) {
-                html += '<td>' + this.DaysOfWeek[i] + '</td>';
-            }
-            html += '</tr>';
-
-            // Write the days
-            var i=1;
-            do {
-
-                var dow = new Date(y, m, i).getDay();
-
-                // If Sunday, start new row
-                if ( dow == 0 ) {
-                    html += '<tr>';
-                }
-                // If not Sunday but first day of the month
-                // it will write the last days from the previous month
-                else if ( i == 1 ) {
-                    html += '<tr>';
-                    var k = lastDayOfLastMonth - firstDayOfMonth+1;
-                    for(var j=0; j < firstDayOfMonth; j++) {
-                        html += '<td class="not-current">' + k + '</td>';
-                        k++;
-                    }
-                }
-
-                // Write the current day in the loop
-                var chk = new Date();
-                var chkY = chk.getFullYear();
-                var chkM = chk.getMonth();
-                if (chkY == this.currYear && chkM == this.currMonth && i == this.currDay) {
-                    html += '<td class="today">' + i + '</td>';
-                } else {
-                    html += '<td class="normal">' + i + '</td>';
-                }
-                // If Saturday, closes the row
-                if ( dow == 6 ) {
-                    html += '</tr>';
-                }
-                // If not Saturday, but last day of the selected month
-                // it will write the next few days from the next month
-                else if ( i == lastDateOfMonth ) {
-                    var k=1;
-                    for(dow; dow < 6; dow++) {
-                        html += '<td class="not-current">' + k + '</td>';
-                        k++;
-                    }
-                }
-
-                i++;
-            }while(i <= lastDateOfMonth);
-
-            // Closes table
-            html += '</table>';
-
-            // Write HTML to the div
-            document.getElementById(this.divId).innerHTML = html;
-        };
-
-        // On Load of the window
-        window.onload = function() {
-
-            // Start calendar
-            var c = new Cal("divCal");
-            c.showcurr();
-
-            // Bind next and previous button clicks
-            getId('btnNext').onclick = function() {
-                c.nextMonth();
+                this.currMonth = d.getMonth();
+                this.currYear = d.getFullYear();
+                this.currDay = d.getDate();
             };
-            getId('btnPrev').onclick = function() {
-                c.previousMonth();
+
+            // Goes to next month
+            Cal.prototype.nextMonth = function() {
+                if ( this.currMonth == 11 ) {
+                    this.currMonth = 0;
+                    this.currYear = this.currYear + 1;
+                }
+                else {
+                    this.currMonth = this.currMonth + 1;
+                }
+                this.showcurr();
             };
-        }
 
-        // Get element by id
-        function getId(id) {
-            return document.getElementById(id);
-        }
+            // Goes to previous month
+            Cal.prototype.previousMonth = function() {
+                if ( this.currMonth == 0 ) {
+                    this.currMonth = 11;
+                    this.currYear = this.currYear - 1;
+                }
+                else {
+                    this.currMonth = this.currMonth - 1;
+                }
+                this.showcurr();
+            };
 
-/*
+            // Show current month
+            Cal.prototype.showcurr = function() {
+                this.showMonth(this.currYear, this.currMonth);
+            };
 
-        // 해당 달 일정 띄우기 - 서버랑 연동해서 해보기
-        if(this.Months[m] == 일정 날짜) {
+            // Show month (year, month)
+            Cal.prototype.showMonth = function(y, m) {
+
+                var d = new Date()
+                    // First day of the week in the selected month
+                    , firstDayOfMonth = new Date(y, m, 1).getDay()
+                    // Last day of the selected month
+                    , lastDateOfMonth =  new Date(y, m+1, 0).getDate()
+                    // Last day of the previous month
+                    , lastDayOfLastMonth = m == 0 ? new Date(y-1, 11, 0).getDate() : new Date(y, m, 0).getDate();
 
 
-        }
+                var html = '<table>';
 
-        // 해당 달 일정 날짜에 색칠하기
-
-*/
-
-
-    </script>
+                // Write selected month and year
+                html += '<thead><tr>';
+                html += '<td colspan="7" style="font-weight: bold">' + this.Months[m] + ' ' + y + '</td>';
+                html += '</tr></thead>';
 
 
-    <ul class="main">
-        <li class="date">
-            <h3>09. 20</h3>
-            <!--<p>Schedule of Events</p>-->
-        </li>
-        <li class= "events">
-            <ul class="events-detail">
-                <li onclick="javascript:doShow()">
-                    <a href="#">
-                        <span class="event-time">9:00am - </span>
-                        <span class="event-name">Vs 우리가 남이가</span>
-                        <br />
-                        <span class="event-location">서울-강동 / 명일여자고등학교</span>
-                    </a>
-                </li>
-            </ul>
+                // Write the header of the days of the week
+                html += '<tr class="days">';
+                for(var i=0; i < this.DaysOfWeek.length;i++) {
+                    html += '<td>' + this.DaysOfWeek[i] + '</td>';
+                }
+                html += '</tr>';
 
-            <div class="score_content">
-                <div class="match-teams mb-3">
-                    <div class="match-team">
-                        <img src="../img/jisung_70.png" class="team-img">
-                        <button class="btn">로로롱</button>
+                // Write the days
+                var i=1;
+                do {
+
+                    var dow = new Date(y, m, i).getDay();
+
+                    // If Sunday, start new row
+                    if ( dow == 0 ) {
+                        html += '<tr>';
+                    }
+                    // If not Sunday but first day of the month
+                    // it will write the last days from the previous month
+                    else if ( i == 1 ) {
+                        html += '<tr>';
+                        var k = lastDayOfLastMonth - firstDayOfMonth+1;
+                        for(var j=0; j < firstDayOfMonth; j++) {
+                            html += '<td class="not-current">' + k + '</td>';
+                            k++;
+                        }
+                    }
+
+                    // Write the current day in the loop
+                    var chk = new Date();
+                    var chkY = chk.getFullYear();
+                    var chkM = chk.getMonth();
+                    if (chkY == this.currYear && chkM == this.currMonth && i == this.currDay) {
+                        html += '<td class="today">' + i + '</td>';
+                    } else {
+                        html += '<td class="normal">' + i + '</td>';
+                    }
+                    // If Saturday, closes the row
+                    if ( dow == 6 ) {
+                        html += '</tr>';
+                    }
+                    // If not Saturday, but last day of the selected month
+                    // it will write the next few days from the next month
+                    else if ( i == lastDateOfMonth ) {
+                        var k=1;
+                        for(dow; dow < 6; dow++) {
+                            html += '<td class="not-current">' + k + '</td>';
+                            k++;
+                        }
+                    }
+
+                    i++;
+                }while(i <= lastDateOfMonth);
+
+                // Closes table
+                html += '</table>';
+
+                // Write HTML to the div
+                document.getElementById(this.divId).innerHTML = html;
+            };
+
+            // On Load of the window
+            window.onload = function() {
+
+                // Start calendar
+                var c = new Cal("divCal");
+                c.showcurr();
+
+                // Bind next and previous button clicks
+                getId('btnNext').onclick = function() {
+                    c.nextMonth();
+                };
+                getId('btnPrev').onclick = function() {
+                    c.previousMonth();
+                };
+            }
+
+            // Get element by id
+            function getId(id) {
+                return document.getElementById(id);
+            }
+
+            /*
+
+                    // 해당 달 일정 띄우기 - 서버랑 연동해서 해보기
+                    if(this.Months[m] == 일정 날짜) {
+
+
+                    }
+
+                    // 해당 달 일정 날짜에 색칠하기
+
+            */
+
+
+        </script>
+        <!--달력 끝-->
+
+        <ul class="main">
+            <li class="date">
+                <h3 style="font-weight: bold">09. 20</h3>
+                <!--<p>Schedule of Events</p>-->
+            </li>
+            <li class= "events">
+                <ul class="events-detail">
+                    <li onclick="javascript:doShow()">
+                        <a href="#">
+                            <span class="event-time">9:00am - </span>
+                            <span class="event-name">Vs 우리가 남이가</span>
+                            <br />
+                            <span class="event-location">서울-강동 / 명일여자고등학교</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="score_content">
+                    <div class="match-teams mb-3">
+                        <div class="match-team">
+                            <img src="../img/jisung_70.png" class="team-img">
+                            <button class="btn">로로롱</button>
+                        </div>
+
+                        <div class="score">
+                            <h1 id="team-1-score" class="match-team">0</h1>
+                            <h2 style="font-weight: bold">Vs</h2>
+                            <h1 id="team-2-score" class="match-team">0</h1>
+                        </div>
+
+                        <div class="match-team">
+                            <img src="../img/jisung_70.png" width="70" class="team-img">
+                            <button class="btn">우리가 남이가</button>
+                        </div>
                     </div>
 
-                    <div class="score">
-                        <h1 id="team-1-score" class="match-team">0</h1>
-                        <h2 style="font-weight: bold">Vs</h2>
-                        <h1 id="team-2-score" class="match-team">0</h1>
-                    </div>
+                    <div class = "schedule-detail">
+                        <p class="schedule-detail-content">
+                            <span class="bold">장소 | </span>
+                        </p>
 
-                    <div class="match-team">
-                        <img src="../img/jisung_70.png" width="70" class="team-img">
-                        <button class="btn">우리가 남이가</button>
-                    </div>
-                </div>
+                        <p class="schedule-detail-content">
+                            <span class="bold">날짜 | </span>
+                        </p>
 
-                <div class = "schedule-detail">
-                    <p class="schedule-detail-content">
-                        <span class="bold">장소 | </span>
-                    </p>
+                        <p class="schedule-detail-content">
+                            <span class="bold">시간 | </span>
+                        </p>
 
-                    <p class="schedule-detail-content">
-                        <span class="bold">날짜 | </span>
-                    </p>
+                        <p class="schedule-detail-content">
+                            <span class="bold">장소 | </span>
+                        </p>
 
-                    <p class="schedule-detail-content">
-                        <span class="bold">시간 | </span>
-                    </p>
+                        <p class="schedule-detail-content">
+                            <span class="bold">인원수 | </span>
+                        </p>
 
-                    <p class="schedule-detail-content">
-                        <span class="bold">장소 | </span>
-                    </p>
-
-                    <p class="schedule-detail-content">
-                        <span class="bold">인원수 | </span>
-                    </p>
-
-                    <div class="schedule-detail-content">
-                        <div class="score_input_form">
-                            <span class="bold">스코어 입력 | &nbsp</span>
-                            <div class="score_input">
-                                <div class="form-group"  style="display: flex; align-items: center">로로롱팀 : &nbsp<input type="text" class="form-control">&nbsp <button class="btn">제출</button> </div>
-                                <div class="form-group"  style="display: flex; align-items: center">우리가남이가팀 : &nbsp<input type="text" class="form-control">&nbsp <button class="btn">제출</button></div>
+                        <div class="schedule-detail-content">
+                            <div class="score_input_form">
+                                <span class="bold">스코어 입력 | &nbsp</span>
+                                <div class="score_input">
+                                    <div class="form-group"  style="display: flex; align-items: center">로로롱팀 : &nbsp<input type="text" class="form-control">&nbsp <button class="btn">제출</button> </div>
+                                    <div class="form-group"  style="display: flex; align-items: center">우리가남이가팀 : &nbsp<input type="text" class="form-control">&nbsp <button class="btn">제출</button></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </li>
+            </li>
 
-
-        <li class="date">
-            <h3>09. 30</h3>
-            <!--<p>Schedule of Events</p>-->
-        </li>
-        <li class= "events">
-            <ul class="events-detail">
-                <li>
+            <li class="date">
+                <h3 style="font-weight: bold">09. 30</h3>
+                <!--<p>Schedule of Events</p>-->
+            </li>
+            <li class= "events">
+                <ul class="events-detail">
+                    <li>
                     <span class="event-name">우리가남이가 팀에게 매칭 신청 중...
 <p style="font-size: smaller; margin-top: .4rem">승낙하면 현재 란이 매칭 스케줄란으로 바뀝니다.
 거절시, 또는 경기 전날까지 승인이 안될 시에 현재 란이 삭제됩니다.</p>
                         </span>
-                    <button class="btn btn-block">신청 취소<br><span style="font-size: smaller">상대팀이 수락하기 전까지 가능</span></button>
-                </li>
-            </ul>
-        </li>
-    </ul>
+                        <button class="btn btn-block" style="color:black">신청 취소<br><span style="font-size: smaller">상대팀이 수락하기 전까지 가능</span></button>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+
+    </div>
 </div>
 
 

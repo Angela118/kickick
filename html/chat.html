@@ -5,11 +5,67 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>채팅</title>
-</head>
-<body>
 
-<link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/FRAME.css" rel="stylesheet">
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+
+    <title>채팅방</title>
+</head>
+<!--메뉴 영역 시작 : 나중에 파일로 따로 빼기 -->
+<!--여기선 메뉴명 채팅방으로 되어 있음-->
+
+<nav class="navbar blueB">
+
+    <div class="top">
+        <img src="../img/menu3.png" width="30rem" height="30rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+
+        <p class="logo">채팅방</p>
+
+        <a href="chat_room.html"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarsExample01">
+        <div class="mypage">
+            <img src="../img/jisung_90.png"id="profile_pic">
+            <p id="name" style="font-weight: bold">조이</p>
+            <button class="btn btn-warning" type="submit">내 정보</button>
+        </div>
+
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="main.html">홈 (매칭 팀 검색)<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" style="display:flex; align-items:center">
+                <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
+                <!--<hr align="right" style="border: solid 0.1rem white; width: 70%;">-->
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="team_received_review.html" style="margin-left:2rem">우리 팀 평가 점수</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="team_schedule.html" style="margin-left:2rem">경기 스케줄</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="match_application_form.html">매칭 등록</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="contact.html">개발자에게 연락</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="py-4 text-center"></div>
+
+<!--메뉴 영역 끝 : 나중에 파일로 따로 빼기 -->
+
 <style>
     #mydiv{
         background-color:#e5e5e5;
@@ -21,16 +77,28 @@
     <ul id="messages" style="height:71vh;"></ul>
 </div>
 
-<div class="col-md-6">
-    <div class="row">
-        <div class="col-md-4 mb-3">
-            <div class="input-group">
-                <input name="name" id="text" placeholder="내용을 입력해주세요." class="form-control">
-                <button type="submit" class="btn btn-primary" id="text_button">확인</button>
-            </div>
-        </div>
-    </div>
+<div class="mb-3" style="display: flex; margin-left: .5rem; margin-right: .5rem; justify-content: space-between; align-items: center">
+    <img src="../img/add.png" id="add_button" width="30rem" height="30rem" alt="" style="margin-right: 1rem">
+        <input type="text" class="form-control" placeholder="내용을 입력해주세요."  style="margin-right: .5rem">
+        <button type="submit" class="btn btn-warning" id="text_button">확인</button>
+</div>
+
+<div id="add_button_content" style="display: flex; margin-left: .5rem; margin-right: .5rem; justify-content: space-around">
+    <button class="btn" style="color:black; width: 40%">경기 끝</button>
+    <button class="btn" style="color:black; width: 40%">시간 장소 정하기</button>
 </div>
 
 </body>
 </html>
+
+<!--<script>-->
+    <!--$('#add_button_content').hide();-->
+
+    <!--function doShow() {-->
+        <!--if ($('#add_button').click()) {-->
+            <!--$('#add_button_content').hide(); // 클래스값을 받아서 숨기기-->
+        <!--} else {-->
+            <!--$('#add_button_content').fadeIn("fast"); // 클래스값을 받아서 보이기-->
+        <!--}-->
+    <!--}-->
+<!--</script>-->

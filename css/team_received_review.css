@@ -23,10 +23,11 @@
 .review-random-profile{
     display:flex;
     align-items: center;
+    font-size:.8rem;
 }
 
-.review{
-    font-size:10px;
+.review-content{
+    font-size:.9rem;
 }
 
 .review-name{

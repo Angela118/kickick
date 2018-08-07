@@ -1,29 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="kr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/chat_room.css" rel="stylesheet">
     <link href="../css/common.css" rel="stylesheet">
     <link href="../css/FRAME.css" rel="stylesheet">
 
-    <title>채팅방 목록</title>
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+
+    <title>개발자에게 연락</title>
 </head>
+
 <body class="whiteB">
 
+
 <!--메뉴 영역 시작 : 나중에 파일로 따로 빼기 -->
-<!--여기선 메뉴명 채팅방 목록으로 되어 있음-->
+<!--여기선 메뉴명 개발자에게 연락하기로 되어 있음-->
 
 <nav class="navbar blueB">
 
     <div class="top">
         <img src="../img/menu3.png" width="30rem" height="30rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
 
-        <p class="logo">채팅방 목록</p>
+        <p class="logo">개발자에게 연락하기</p>
 
         <a href="chat_room.html"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
     </div>
@@ -37,7 +40,7 @@
 
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="main.html">홈 (매칭 팀 검색)<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="main.html">홈 (매칭 팀 검색)</a>
             </li>
             <li class="nav-item" style="display:flex; align-items:center">
                 <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
@@ -65,19 +68,33 @@
 
 <!--메뉴 영역 끝 : 나중에 파일로 따로 빼기 -->
 
-<div class="container" style="padding-top:3rem">
-    <!--<div class="col-md-8 order-md-1">-->
-    <div class="reco" style="margin-top: -1rem">
-        <div class="chat_room_name mb-2">
-            <span style="font-weight:bold">우리가 남이가</span>
-            <span class="chat_room_date">2018-08-20</span>
+<div class="container">
+    <div class="reco" style="margin-top: 2.3rem">
+
+            <form>
+                <div class="mb-3">
+                    <label for="email">답변 받으실 이메일:</label>
+                    <input type="email" id="email" class="form-control">
+                </div>
+
+                <select name="category" class="form-control mb-3">
+                    <option value="" selected disabled hidden>분류</option>
+                    <option value="query">문의</option>
+                    <option value="dissatisied">불만</option>
+                    <option value="recommendation">추천</option>
+                    <option value="else">기타</option>
+                </select>
+
+                <textarea name="comments" class="form-control mb-3" rows="7" placeholder="내용을 입력해주세요."></textarea>
+
+                <button type="submit" class="btn btn-block" style="color:black">의견보내기</button>
+            </form>
         </div>
 
-        <div class="chat_room_content">있을 뿐이다 그들에게 생명을 불어 넣는 것은 따뜻한 봄바람이다 풀밭에 속잎나고 가지에 싹이 트고 꽃 피고 새 우는 봄날의 천지는 얼마나 기쁘며 얼마나 아름다우냐? </div>
-    </div>
-    <hr class="mb-4">
-    <!--</div>-->
+
 </div>
+
+
 
 
 
