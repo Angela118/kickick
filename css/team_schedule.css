@@ -1,39 +1,9 @@
 /*schedule---------------------------------------------------*/
-.buttons{
-    display:flex;
-    justify-content: space-between;
-    font-weight:400;
-    font-size:10px;
-
-    text-align:center;
-    white-space:nowrap;
-    vertical-align:middle;
-    -webkit-user-select:none;
-    -moz-user-select:none;
-    -ms-user-select:none;
-    user-select:none;
-    border:1px solid transparent;
-
-    line-height:1.5;border-radius:.25rem;
-    transition:color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
-
-.schedule-detail{
-    font-size:smaller;
-
-}
-
-.schedule-detail-content{
-    margin-bottom:0.5rem;
-}
 
 .match-teams{
-    display:block;
     display:flex;
     justify-content: space-around;
     align-items:center;
-    margin-right: 2rem;
-    /*width: 80%;*/
 }
 
 .match-teams-row{
@@ -44,7 +14,20 @@
     display: table-cell;
     align-items:center;
     text-align:center;
-    width:100%;
+    margin: 0;
+}
+
+.buttons{
+    display:flex;
+    justify-content: space-between;
+}
+
+.schedule-detail{
+    font-size:smaller;
+}
+
+.schedule-detail-content{
+    margin-bottom:0.5rem;
 }
 
 .team-img {
@@ -59,9 +42,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.score>h1{
+    width: 8rem;
     margin-left: 1rem;
     margin-right:1rem;
 }
@@ -92,7 +73,7 @@
     box-sizing: border-box;
 }
 
-ul.main {
+.main {
     list-style: none;
     /*max-width: 75%;*/
     /*margin: 1rem auto;*/
@@ -127,16 +108,16 @@ h3 {padding: 0; margin: 0;}
     margin-bottom: 1.2rem;
 }
 
-.events-detail li{
-    /*padding: 10px;*/
+/*.events-detail li{
+    !*padding: 10px;*!
     border-bottom: 1px dashed #ccc;
     line-height: 22px;
     transition: ease .4s all;
-}
+}*/
 
-/*    .events-detail li:hover {
+    .events-detail .event_content:hover {
         background: #e9e9e9;
-    }*/
+    }
 
 .event-time {
     font-weight: 900;
@@ -175,7 +156,7 @@ h3 {padding: 0; margin: 0;}
         padding: 0;
     }
 
-    li.date p {
+    .date p {
         margin:0;
     }
 }

@@ -92,7 +92,6 @@
         <!--<h1 style="letter-spacing: .4rem; margin-top: 1rem; text-align: center; font-weight: 500">2018</h1>-->
 
         <!--달력-->
-
         <div class="calendar-wrapper">
             <button id="btnPrev" type="button">이전 달</button>
             <button id="btnNext" type="button">다음 달</button>
@@ -274,39 +273,38 @@
         </script>
         <!--달력 끝-->
 
-        <ul class="main">
-            <li class="date">
-                <h3 style="font-weight: bold">09. 20</h3>
+        <div class="main">
+            <div class="date">
+                <h3 style="font-weight: bold">08. 20</h3>
                 <!--<p>Schedule of Events</p>-->
-            </li>
-            <li class= "events">
-                <ul class="events-detail">
-                    <li onclick="javascript:doShow()">
-                        <a href="#">
-                            <span class="event-time">9:00am - </span>
-                            <span class="event-name">Vs 우리가 남이가</span>
-                            <br />
-                            <span class="event-location">서울-강동 / 명일여자고등학교</span>
-                        </a>
-                    </li>
-                </ul>
+            </div>
+
+            <div class= "events">
+                <div class="events-detail">
+                    <div onclick="javascript:doShow()" class="event_content">
+                        <span class="event-time">9:00am - </span>
+                        <span class="event-name">Vs 우리가 남이가</span>
+                        <br />
+                        <span class="event-location">서울-강동 / 명일여자고등학교</span>
+                    </div>
+                </div>
 
                 <div class="score_content">
                     <div class="match-teams mb-3">
                         <div class="match-team">
-                            <img src="../img/jisung_70.png" class="team-img">
-                            <button class="btn">로로롱</button>
+                            <img src="../img/team_100.png" width="70rem" class="team-img">
+                            <button class="btn btn-sm" style="color:black">로로롱</button>
                         </div>
 
                         <div class="score">
-                            <h1 id="team-1-score" class="match-team">0</h1>
-                            <h2 style="font-weight: bold">Vs</h2>
-                            <h1 id="team-2-score" class="match-team">0</h1>
+                            <h3 id="team-1-score" class="match-team" style="font-weight: bold">0</h3>
+                            <h5 style="margin-bottom: 0; font-weight: bold">Vs</h5>
+                            <h3 id="team-2-score" class="match-team" style="font-weight: bold">0</h3>
                         </div>
 
                         <div class="match-team">
-                            <img src="../img/jisung_70.png" width="70" class="team-img">
-                            <button class="btn">우리가 남이가</button>
+                            <img src="../img/soccer-ball.png" width="70rem" class="team-img">
+                            <button class="btn btn-sm" style="color:black">우리가 남이가</button>
                         </div>
                     </div>
 
@@ -333,35 +331,42 @@
 
                         <div class="schedule-detail-content">
                             <div class="score_input_form">
-                                <span class="bold">스코어 입력 | &nbsp</span>
+                                <span class="bold" style="margin-top: .3rem">스코어 입력 | &nbsp</span>
                                 <div class="score_input">
-                                    <div class="form-group"  style="display: flex; align-items: center">로로롱팀 : &nbsp<input type="text" class="form-control">&nbsp <button class="btn">제출</button> </div>
-                                    <div class="form-group"  style="display: flex; align-items: center">우리가남이가팀 : &nbsp<input type="text" class="form-control">&nbsp <button class="btn">제출</button></div>
+                                    <div class="form-group"  style="display: flex; align-items: center">
+                                        로로롱팀 : &nbsp
+                                        <input type="text" class="form-control" style="height:1.8rem">&nbsp <button class="btn btn-sm" style="color:black">제출</button>
+                                    </div>
+                                    <div class="form-group"  style="display: flex; align-items: center">
+                                        우리가남이가팀 : &nbsp
+                                        <input type="text" class="form-control" style="height:1.8rem">&nbsp <button class="btn btn-sm" style="color:black">제출</button>
+                                    </div>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
                 </div>
 
-            </li>
+            </div>
 
-            <li class="date">
-                <h3 style="font-weight: bold">09. 30</h3>
+            <div class="date">
+                <h3 style="font-weight: bold">08. 30</h3>
                 <!--<p>Schedule of Events</p>-->
-            </li>
-            <li class= "events">
-                <ul class="events-detail">
-                    <li>
+            </div>
+            <div class= "events">
+                <div class="events-detail">
+                    <div>
                     <span class="event-name">우리가남이가 팀에게 매칭 신청 중...
 <p style="font-size: smaller; margin-top: .4rem">승낙하면 현재 란이 매칭 스케줄란으로 바뀝니다.
 거절시, 또는 경기 전날까지 승인이 안될 시에 현재 란이 삭제됩니다.</p>
                         </span>
                         <button class="btn btn-block" style="color:black">신청 취소<br><span style="font-size: smaller">상대팀이 수락하기 전까지 가능</span></button>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>
