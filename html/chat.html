@@ -83,7 +83,7 @@
         <button type="submit" class="btn btn-warning" id="text_button">확인</button>
 </div>
 
-<div id="add_button_content" style="display: flex; margin-left: .5rem; margin-right: .5rem; justify-content: space-around">
+<div id="add_button_content" style="display: flex; margin-left: .5rem; margin-right: .5rem; justify-content: space-around;">
     <button class="btn" style="color:black; width: 40%">경기 끝</button>
     <button class="btn" style="color:black; width: 40%">시간 장소 정하기</button>
 </div>
@@ -91,14 +91,10 @@
 </body>
 </html>
 
-<!--<script>-->
-    <!--$('#add_button_content').hide();-->
+<script>
+  $("#add_button_content").hide();
 
-    <!--function doShow() {-->
-        <!--if ($('#add_button').click()) {-->
-            <!--$('#add_button_content').hide(); // 클래스값을 받아서 숨기기-->
-        <!--} else {-->
-            <!--$('#add_button_content').fadeIn("fast"); // 클래스값을 받아서 보이기-->
-        <!--}-->
-    <!--}-->
-<!--</script>-->
+    $("#add_button").click(function(){
+        $("#add_button_content").toggle();
+    });
+</script>
