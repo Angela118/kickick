@@ -7,7 +7,6 @@
 
 .top_range{
   margin-left: 1rem; margin-right: 1rem;
-  justify-content: space-between;
   display: flex;
   align-items: center;
 }

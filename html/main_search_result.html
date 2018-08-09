@@ -17,28 +17,39 @@
 
 <body class="whiteB">
 
-<!--메뉴 영역 시작 : 나중에 파일로 따로 빼기 -->
+<!--메뉴 영역 시작-->
+<script type="text/javascript">
+    function goBack(){
+        window.history.back();
+    }
+</script>
 
 <nav class="navbar blueB">
-
     <div class="top">
-        <img src="../img/menu3.png" width="30rem" height="30rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        <div>
+            <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack();">
 
-        <p class="logo">축하싶</p>
+            <p class="logo ml-sm-3">축하싶</p>
+        </div>
 
-        <a href="chat_room.html"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
+        <div>
+            <a href="chat_room.html"><img src="../img/close-envelope.png" class="menu_img" width="20rem" height="20rem" style="margin-right:1rem"></a>
+
+            <img src="../img/menu.png" width="20rem" height="20rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        </div>
     </div>
 
     <div class="collapse navbar-collapse" id="navbarsExample01">
         <div class="mypage">
-            <img src="../img/jisung_90.png"id="profile_pic">
-            <p id="name" style="font-weight: bold">조이</p>
-            <button class="btn btn-warning" type="submit">내 정보</button>
+            <img src="../img/jisung_90.png"id="profile_pic" style="margin-right: .2rem">
+            <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem">조이</span>
+            <a href="profile.html"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
+            <a href=""><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
         </div>
 
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="main.html">홈 (매칭 팀 검색)<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="main.html">홈 (매칭 팀 검색)</a>
             </li>
             <li class="nav-item" style="display:flex; align-items:center">
                 <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
@@ -62,16 +73,20 @@
     </div>
 </nav>
 
-<div class="py-4 text-center"></div>
+<div class="py-4 text-center" id="profile_color"></div>
 
-<!--메뉴 영역 끝 : 나중에 파일로 따로 빼기 -->
+<!--메뉴 영역 끝-->
 
 <!--매칭 팀 찾기-->
 
 <div class="search blueB">
-    <div class="top_range">
-        <p class="logo"><img src="../img/soccer_30.png" alt="" style="margin-right: 1rem">매칭팀 찾기</p>
-        <a href="main_search.html"><img src="../img/down_60.png" class="btn" width="60" style="float: right; margin-right: -.9rem"></a>
+    <div class="top_range" style="justify-content: space-between;">
+        <div style="display: flex; align-items: center">
+            <img src="../img/soccer_30.png" alt="" style="margin-right: 1rem; padding-top: .55rem; padding-bottom: .55rem;">
+            <p class="logo">매칭팀 찾기</p>
+        </div>
+
+        <a href="main_search.html"><img src="../img/down_60.png" class="btn" width="60" style="float: right; margin-right: -.9rem;"></a>
     </div>
 </div>
 
@@ -80,10 +95,17 @@
 <div class="container">
     <div class="reco" style="margin-top: 1rem">
 
-        <div class="mb-3">
-            <p class="small" style="margin-bottom: .5rem">서울-강남 | 여자만 | 20대 | 17:00-18:00</p>
-            <span style="font-weight: bold; font-size: 1.2rem; margin-right: .5rem">검색 결과</span>
-            <span>달력 클릭시 매칭 신청</span>
+        <p class="small" style="margin-bottom: .6rem">서울-강남 | 여자만 | 20대 | 17:00-18:00</p>
+        <div style="display:flex; justify-content: space-between; align-items: center" class="mb-3">
+            <span style="font-weight: bold; font-size: 1.2rem">매칭신청 : 달력 클릭</span>
+
+            <select class="custom-select" style="width: 8rem">
+                <option selected>정렬 기준</option>
+                <option value="1">지역</option>
+                <option value="2">성별</option>
+                <option value="3">평균 연령대</option>
+            </select>
+
         </div>
 
         <p>선택한 값들 불러오기</p>
@@ -106,12 +128,8 @@
                     장소 : 효창운동장<br>
                     팀원 : 40명<br>
                 </p>
-
             </div>
-
         </div>
-
-
     </div>
 </div>
 
@@ -128,11 +146,5 @@
 <br>
 <br>
 <hr>
-<p>메인화면 - 매칭팀 찾기 탭에서 검색 안하고 다시 탭 올렸을 때 메인 화면으로 돌아가게 됨.
-
-    예를 들어 한 번 검색 후 다시 매칭팀 찾기를 내렸다가 검색 안하고 올렸을 때도 메인으로 돌아감. (main_search_result -> main_search -> main)
-    -> 실사용하려면 나중에 매칭팀 찾기 탭도 side bar로 빼야 함
-</p>
-
 </body>
 </html>

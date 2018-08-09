@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="kr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/main.css" rel="stylesheet">
+  <link href="../css/common.css" rel="stylesheet">
+  <link href="../css/FRAME.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/find_match_team_sidebar.css">
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="../js/jquery.js"></script>
+  <script src="../js/bootstrap.bundle.min.js"></script>
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>-->
+
+  <title>매칭팀 찾기 사이드바로</title>
+</head>
+
+<body class="whiteB">
+
+<!--메뉴 영역 시작 : 나중에 파일로 따로 빼기 -->
+
+<nav class="navbar blueB">
+
+  <div class="top">
+    <img src="../img/menu3.png" width="30rem" height="30rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+
+    <p class="logo">축하싶</p>
+
+    <a href="chat_room.html"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
+  </div>
+
+  <div class="collapse navbar-collapse" id="navbarsExample01">
+    <div class="mypage">
+      <img src="../img/jisung_90.png"id="profile_pic">
+      <p id="name" style="font-weight: bold">조이</p>
+      <button class="btn btn-warning" type="submit">내 정보</button>
+    </div>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="main.html">홈 (매칭 팀 검색)<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item" style="display:flex; align-items:center">
+        <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
+        <!--<hr align="right" style="border: solid 0.1rem white; width: 70%;">-->
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="team_received_review.html" style="margin-left:2rem">우리 팀 평가 점수</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="team_schedule.html" style="margin-left:2rem">경기 스케줄</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="match_application_form.html">매칭 등록</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="contact.html">개발자에게 연락</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="py-4 text-center"></div>
+
+<!--메뉴 영역 끝 : 나중에 파일로 따로 빼기 -->
+
+<!--매칭 팀 찾기-->
+
+<div class="search blueB">
+  <div class="top_range">
+    <p class="logo"><img src="../img/soccer_30.png" alt="" style="margin-right: 1rem">매칭팀 찾기</p>
+    <a href="main_search.html"><img src="../img/down_60.png" class="btn" width="60" style="float: right; margin-right: -.9rem"></a>
+  </div>
+</div>
+
+<!--매칭 팀 찾기 사이드바-->
+<nav class="navbar blueB">
+
+  <div class="top">
+    <img src="../img/menu3.png" width="30rem" height="30rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+
+    <p class="logo">축하싶</p>
+
+    <a href="chat_room.html"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
+  </div>
+
+  <div class="collapse navbar-collapse" id="navbarsExample01">
+    <div class="mypage">
+      <img src="../img/jisung_90.png"id="profile_pic">
+      <p id="name" style="font-weight: bold">조이</p>
+      <button class="btn btn-warning" type="submit">내 정보</button>
+    </div>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="main.html">홈 (매칭 팀 검색)<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item" style="display:flex; align-items:center">
+        <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
+        <!--<hr align="right" style="border: solid 0.1rem white; width: 70%;">-->
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="team_received_review.html" style="margin-left:2rem">우리 팀 평가 점수</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="team_schedule.html" style="margin-left:2rem">경기 스케줄</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="match_application_form.html">매칭 등록</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="contact.html">개발자에게 연락</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+
+
+<!---->
+
+<div class="container">
+  <div class="reco" style="margin-top: 1rem">
+    <div style="display:flex; justify-content: space-between; align-items: center" class="mb-3">
+      <span style="font-weight: bold; font-size: 1.2rem">매칭추천</span>
+
+      <select class="custom-select" style="width: 8rem">
+        <option selected>정렬 기준</option>
+        <option value="1">지역</option>
+        <option value="2">성별</option>
+        <option value="3">평균 연령대</option>
+      </select>
+    </div>
+
+    <!--<p>로로롱팀의 팀 정보를 기반으로 가장 일치하는 순으로 추천된 리스트입니다.</p>-->
+
+    <div class="list mb-3">
+      <div class="list_item">
+        <div class="list_item_date">
+          <h3>2018</h3>
+          <h3>09</h3>
+          <h3>30</h3>
+        </div>
+        <div class="list_item_team">
+          <p class="list_item_team_detail">
+            지역 : 서울 - 강남<br>
+            성별 : 여<br>
+            나이 : 20대<br>
+            장소 : 효창운동장<br>
+            팀원 : 40명<br>
+          </p>
+          <h6 class="list_item_team_name">우리가 남이가</h6>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!--페이지 넘기는 버튼-->
+    <div class="paging">
+      <ul>
+        <li><a href="#"><</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

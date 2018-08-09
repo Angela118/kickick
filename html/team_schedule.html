@@ -39,21 +39,34 @@
 <!--메뉴 영역 시작 : 나중에 파일로 따로 빼기 -->
 <!--여기선 메뉴명 경기 스케줄로 되어 있음-->
 
+
+<script type="text/javascript">
+    function goBack(){
+        window.history.back();
+    }
+</script>
+
 <nav class="navbar blueB">
-
     <div class="top">
-        <img src="../img/menu3.png" width="30rem" height="30rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        <div>
+            <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack();">
 
-        <p class="logo">경기 스케줄</p>
+            <p class="logo ml-sm-3">경기 스케줄</p>
+        </div>
 
-        <a href="chat_room.html"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
+        <div>
+            <a href="chat_room.html"><img src="../img/close-envelope.png" class="menu_img" width="20rem" height="20rem" style="margin-right:1rem"></a>
+
+            <img src="../img/menu.png" width="20rem" height="20rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        </div>
     </div>
 
     <div class="collapse navbar-collapse" id="navbarsExample01">
         <div class="mypage">
-            <img src="../img/jisung_90.png"id="profile_pic">
-            <p id="name" style="font-weight: bold">조이</p>
-            <button class="btn btn-warning" type="submit">내 정보</button>
+            <img src="../img/jisung_90.png"id="profile_pic" style="margin-right: .2rem">
+            <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem">조이</span>
+            <a href="profile.html"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
+            <a href=""><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
         </div>
 
         <ul class="navbar-nav mr-auto">

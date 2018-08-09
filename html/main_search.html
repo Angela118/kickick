@@ -17,25 +17,37 @@
   <title>메인페이지-검색</title>
 </head>
 
-<body class="whiteB">
-<!--<body class="blueB">-->
-<!--메뉴 영역 시작 : 나중에 파일로 따로 빼기 -->
+<!--<body class="whiteB">-->
+<body class="blueB">
+<!--메뉴 영역 시작-->
+
+<script type="text/javascript">
+    function goBack(){
+        window.history.back();
+    }
+</script>
 
 <nav class="navbar blueB">
-
   <div class="top">
-    <img src="../img/menu3.png" width="30rem" height="30rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+    <div>
+      <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack();">
 
-    <p class="logo">축하싶</p>
+      <p class="logo ml-sm-3">축하싶</p>
+    </div>
 
-    <a href="chat_room.html"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
+    <div>
+      <a href="chat_room.html"><img src="../img/close-envelope.png" class="menu_img" width="20rem" height="20rem" style="margin-right:1rem"></a>
+
+      <img src="../img/menu.png" width="20rem" height="20rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+    </div>
   </div>
 
   <div class="collapse navbar-collapse" id="navbarsExample01">
     <div class="mypage">
-      <img src="../img/jisung_90.png"id="profile_pic">
-      <p id="name" style="font-weight: bold">조이</p>
-      <button class="btn btn-warning" type="submit">내 정보</button>
+      <img src="../img/jisung_90.png"id="profile_pic" style="margin-right: .2rem">
+      <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem">조이</span>
+      <a href="profile.html"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
+      <a href=""><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
     </div>
 
     <ul class="navbar-nav mr-auto">
@@ -66,14 +78,14 @@
 
 <div class="py-4 text-center" id="profile_color"></div>
 
-<!--메뉴 영역 끝 : 나중에 파일로 따로 빼기 -->
+<!--메뉴 영역 끝-->
 
 <!--매칭 팀 찾기-->
 
 <div class="search blueB">
   <div class="top_range">
-    <p class="logo"><img src="../img/soccer_30.png" alt="" style="margin-right: 1rem">매칭팀 찾기</p>
-    <a href="main.html"><img src="../img/up_60.png" class="btn" width="60" style="float: right;  margin-right: -.9rem"></a>
+    <img src="../img/soccer_30.png" alt="" style="margin-right: 1rem; padding-top: .55rem; padding-bottom: .55rem;">
+    <p class="logo"> 매칭팀 찾기</p>
   </div>
 </div>
 
@@ -82,7 +94,7 @@
 
 <!--검색 항목-->
 
-<p class="mb-4"></p> <!--배경 파랑으로 할거면 빼기-->
+<!--<p class="mb-4"></p> &lt;!&ndash;배경 파랑으로 할거면 빼기&ndash;&gt;-->
 
 <div class="container">
   <div class="reco" style="margin-top: 1rem">
@@ -160,10 +172,8 @@
     </div>
 
     <div style="padding-top: .5rem">
-      <button class="btn btn-block" style="color:black;" type="submit">검색하기</button>
+      <a href="main_search_result.html"><button class="btn btn-block" style="color:black;" type="submit">검색하기</button></a>
     </div>
-
-
   </div> <!--reco-->
 
 

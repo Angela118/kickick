@@ -22,8 +22,17 @@
 
 <body class="whiteB">
 
+<script type="text/javascript">
+    function goBack(){
+        window.history.back();
+    }
+</script>
+
 <nav class="navbar blueB">
-    <p class="logo">회원 정보 수정</p>
+    <div style="display: flex; justify-content: space-between; align-items: center;  margin-left:1rem; margin-right:1rem;">
+        <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem;" onclick="goBack();">
+        <p class="logo">회원 정보 수정</p>
+    </div>
 </nav>
 
 <br>

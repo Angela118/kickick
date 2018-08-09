@@ -31,10 +31,11 @@
     letter-spacing: -0.095rem;
 }
 
-.btn{
+.button{
     color: black;
 }
 
 .reco {
-    margin: 1rem;
+  margin: 1rem;
+  margin-top: 1.5rem;
 }

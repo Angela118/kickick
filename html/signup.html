@@ -20,20 +20,22 @@
 </head>
 
 <script type="text/javascript">
-
+    function goBack(){
+        window.history.back();
+    }
 </script>
 
-<body class="whiteB">
-
 <nav class="navbar blueB">
-    <p class="logo">회원 가입</p>
+    <div style="display: flex; justify-content: space-between; align-items: center;  margin-left:1rem; margin-right:1rem;">
+        <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem;" onclick="goBack();">
+        <p class="logo">회원 가입</p>
+    </div>
 </nav>
 
-<br>
 <div class="container">
-    <div class="col-md-8 order-md-1">
+    <div class="reco">
         <h5 class="mb-3 blackW" style="font-weight: bold">기본 정보</h5>
-        <form>
+        <form class="">
 
             <p class="mb-3">
             <p>프로필 사진 등록</p> <!--프로필 사진-->
@@ -113,15 +115,9 @@
                 <input type="text" class="form-control" id="serurity-char" placeholder="" required>
             </div>
 
-            <hr class="mb-4">
             <button class="btn btn-block" type="submit">회원가입 완료</button>
         </form>
     </div>
-</div>
-
-<footer class="my-5 pt-5 text-muted text-center text-small">
-
-</footer>
 </div>
 
 <script type="text/javascript">
@@ -141,5 +137,5 @@
 </script>
 
 
-</body>
+</nav>
 </html>
