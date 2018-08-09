@@ -80,5 +80,14 @@
 
     $("#add_button").click(function(){
         $("#add_button_content").toggle();
+
+        var add = '../img/add.png';
+        var close = '../img/close-button.png';
+
+        if($('#add_button').attr('src') === add) {
+            $('#add_button').attr('src', close);
+        } else {
+            $('#add_button').attr('src', add);
+        }
     });
 </script>
