@@ -31,7 +31,7 @@
         <div>
             <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack();">
 
-            <p class="logo ml-sm-3">우리 팀 평가</p>
+            <p class="logo ml-sm-3 whiteW">우리 팀 평가</p>
         </div>
 
         <div>
@@ -43,10 +43,13 @@
 
     <div class="collapse navbar-collapse" id="navbarsExample01">
         <div class="mypage">
-            <img src="../img/jisung_90.png"id="profile_pic" style="margin-right: .2rem">
-            <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem">조이</span>
-            <a href="profile.html"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
-            <a href="login.html"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+            <div class="img_div" style="margin-left: 0rem; margin-right: 0"><img class="profile_img" src="../img/testdog.jpg"/></div>
+            <!--닉네임 5글자 넘어갈시 잘려 나옴-->
+            <span class="name" style="font-size: 1.2rem">조이</span>
+            <div style="">
+                <a href="profile.html"><button class="btn btn-sm btn-warning" type="submit" style="margin-right:.3rem">내 정보</button></a>
+                <a href="login.html"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+            </div>
         </div>
 
         <ul class="navbar-nav mr-auto">
@@ -77,14 +80,14 @@
 
 <div class="py-4 text-center"></div>
 
-<!--메뉴 영역 끝 : 나중에 파일로 따로 빼기 -->
+<!--메뉴 영역 끝 -->
 
 
 <div class="container">
     <div class="reco" style="margin-top: 2.3rem">
         <div class="team_score">
             <div class="team_inform" style="">
-                <img src="../img/team_100.png" style="width: 5rem; margin-bottom: 1rem;">
+                <div class="img_div" style="width: 5rem; margin-bottom: 1rem"><img class="profile_img" src="../img/team_100.png"/></div>
                 <h6 style="font-weight: bold">로로롱 팀</h6>
             </div>
 
@@ -139,8 +142,6 @@
 
             <span class="review-content">있을 뿐이다 그들에게 생명을 불어 넣는 것은 따뜻한 봄바람이다 풀밭에 속잎나고 가지에 싹이 트고 꽃 피고 새 우는 봄날의 천지는 얼마나 기쁘며 얼마나 아름다우냐? </span>
         </div>
-
-
     </div>
 </div>
 </body>

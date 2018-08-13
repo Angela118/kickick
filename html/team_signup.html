@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>회원 가입</title>
+    <title>팀 회원 가입</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -25,10 +25,31 @@
     }
 </script>
 
+<!--숫자만 입력-->
+<script>
+    function onlyNumber(event){
+        event = event || window.event;
+        var keyID = (event.which) ? event.which : event.keyCode;
+        if ( (keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 )
+            return;
+        else
+            return false;
+    }
+    function removeChar(event) {
+        event = event || window.event;
+        var keyID = (event.which) ? event.which : event.keyCode;
+        if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 )
+            return;
+        else
+            event.target.value = event.target.value.replace(/[^0-9]/g, "");
+    }
+</script>
+
+
 <nav class="navbar blueB">
     <div style="display: flex; justify-content: space-between; align-items: center;  margin-left:1rem; margin-right:1rem;">
         <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem;" onclick="goBack();">
-        <p class="logo whiteW">회원 가입</p>
+        <p class="logo whiteW">팀 회원 가입</p>
     </div>
 </nav>
 
@@ -45,7 +66,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="user-name">이름</label> <!--이름-->
+                <label for="user-name">팀 이름</label> <!--이름-->
                 <input type="text" class="form-control" id="user-name" placeholder="" value="" required>
                 <div class="invalid-feedback">
                     Valid name is required.
@@ -53,7 +74,7 @@
             </div>
 
             <div class="mb-3"> <!--아이디-->
-                <label for="user-ID">아이디</label>
+                <label for="user-ID">주장 아이디</label>
                 <div class="input-group">
                     <input type="text" class="form-control" id="user-ID" placeholder="이메일 주소" required>
                     <div class="invalid-feedback" style="width: 100%;">
@@ -62,13 +83,34 @@
                 </div>
             </div>
 
-            <div class="mb-3"> <!--닉네임-->
-                <label for="user-nickname">닉네임<span>(안 적으면 아이디와 같게 설정)</span></label>
-                <input type="text" class="form-control" id="user-nickname">
-                <div class="invalid-feedback">
-                    Please enter a valid nickname.
-                </div>
+            <div class="mb-3">
+                <label for="user-password">비밀번호</label>
+                <input type="password" class="form-control" id="user-password">
             </div>
+
+
+            <div class="mb-3">
+                <label for="user-gender">성별</label>
+                <select class="custom-select d-block w-100" id="user-gender" required>
+                    <option>무관</option>
+                    <option>여</option>
+                    <option>남</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="">평균 연령</label>
+                <select class="custom-select d-block w-100" id="" required>
+                    <option>10대</option>
+                    <option>20대</option>
+                    <option>30대</option>
+                    <option>40대</option>
+                    <option>50대</option>
+                    <option>60대</option>
+                    <option>70대 이상</option>
+                </select>
+            </div>
+
 
             <div class="mb-3">
                 <label for="region">지역(동까지)</label>
@@ -76,46 +118,39 @@
             </div>
 
             <div class="mb-3">
-                <label for="user-password">비밀번호</label>
-                <input type="password" class="form-control" id="user-password">
+                <label for="">주 경기 장소</label>
+                <input type="text" class="form-control" id="" placeholder="효창운동장" required>
             </div>
 
             <div class="mb-3">
-                <label for="user-gender">성별</label>
-                <select class="custom-select d-block w-100" id="user-gender" required>
-                    <option value="">Choose...</option>
-                    <option>여</option>
-                    <option>남</option>
+                <label for="">원정 가능 유무</label>
+                <select class="custom-select d-block w-100" id="" required>
+                    <option>O</option>
+                    <option>X</option>
                 </select>
             </div>
 
             <div class="mb-3">
-                <label>생년월일</label>
-
-                <div class="birth">
-                    <input type="text" class="form-control" id="user-birth-year" placeholder="" value="" required>
-                    <span>년&nbsp</span>
-                    <input type="text" class="form-control" id="user-birth-month" placeholder="" value="" required>
-                    <span>월&nbsp</span>
-                    <input type="text" class="form-control" id="user-birth-day" placeholder="" value="" required>
-                    <span>일</span>
-                </div>
+                <label for="">팀원 수(숫자만 입력)</label>
+                <input type="text" class="form-control" id="" placeholder="20" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' required>
             </div>
 
             <div class="mb-3">
-                <label>이메일 인증</label>
-                <div style="display: flex">
-                    <button class="btn btn-block btn-light">인증</button>
-                </div>
-
+                <label for="">경기 경력 연수(숫자만 입력 ex.3년이면 '3')</label>
+                <input type="text" class="form-control" id="" placeholder="3" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' required>
             </div>
 
             <div class="mb-3">
-                <label for="serurity-char">보안문자</label>
-                <input type="text" class="form-control" id="serurity-char" placeholder="" required>
+                <label for="">여태까지 경기 횟수(숫자만 입력 ex.10번이면 '10')</label>
+                <input type="text" class="form-control" id="" placeholder="10" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' required>
             </div>
 
-            <button class="btn btn-block" type="submit">회원가입 완료</button>
+            <div class="mb-3">
+                <label for="">팀 소개글</label>
+                <textarea class="form-control" name="" rows="5" placeholder="100자 내로 입력"></textarea>
+            </div>
+
+            <button class="btn btn-block" type="submit">팀 가입 완료</button>
         </form>
     </div>
 </div>
