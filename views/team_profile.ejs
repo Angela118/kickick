@@ -1,0 +1,147 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>팀 회원 정보</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/profile.css" rel="stylesheet">
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body class="whiteB">
+	
+<script type="text/javascript">
+    function goBack(){
+        window.history.back();
+    }
+</script>
+
+
+<nav class="navbar blueB">
+    <div style="display: flex; justify-content: space-between; align-items: center;  margin-left:1rem; margin-right:1rem;">
+        <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem;" onclick="goBack();">
+        <p class="logo">우리 팀 정보</p>
+    </div>
+</nav>
+
+<br>
+<div class="container">
+    <div class="reco">
+        <h5 class="mb-3" style="font-weight: bold">기본 정보</h5>
+
+            <p class="mb-3">
+            <p>프로필 사진 등록</p> <!--프로필 사진-->
+            <div class="profile_img_upload">
+                <div class="img_div mb-1"><img id="profile_img" src="../img/profile_basic.png"/></div>
+            </div>
+
+            <div class="mb-3">
+                <label for="user-name">팀 이름</label>
+				<div class="change"><p><%= teamname %></p></div>
+				<!--이름-->
+                <!--<input type="text" class="form-control" id="user-name" placeholder="" value="" required>-->
+                <!--<div class="invalid-feedback">-->
+                    <!--Valid name is required.-->
+                <!--</div>-->
+            </div>
+
+            <div class="mb-3"> <!--아이디-->
+                <label for="user-ID">팀장 이메일</label>
+				<div class="change"><p><%= email %></p></div>
+				
+                <!--<div class="input-group">-->
+                    <!--<input type="text" class="form-control" id="user-ID" placeholder="" required>-->
+                    <!--<div class="invalid-feedback" style="width: 100%;">-->
+                        <!--Your ID is required.-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
+		
+			<div class="mb-3">
+                <label for="user-gender">성별</label>
+				<div class="change"><p><%= gender %></p></div>
+                <!--<select class="custom-select d-block w-100" id="user-gender" required>-->
+                    <!--<option value="">Choose...</option>-->
+                    <!--<option>여</option>-->
+                    <!--<option>남</option>-->
+                <!--</select>-->
+            </div>
+		
+		 	<div class="mb-3">
+                <label for="">평균 연령</label>
+				<div class="change"><p><%= age %></p></div>
+              <!--<select class="custom-select d-block w-100" name="age" id="" required>
+                    <option>10대</option>
+                    <option>20대</option>
+                    <option>30대</option>
+                    <option>40대</option>
+                    <option>50대</option>
+                    <option>60대</option>
+                    <option>70대 이상</option>
+                </select>-->
+            </div>
+
+		
+            <div class="mb-3">
+                <label for="region">주 경기 장소</label>
+				<div class="change"><p><%= region %></p></div>
+                <!--<input type="text" class="form-control" id="region" placeholder="서울시 용산구 청파동" required>-->
+            </div>
+	
+	
+	
+			<div class="mb-3">
+                <label for="">원정 가능 유무</label>
+				<div class="change"><p><%= move %></p></div>
+                <!--<select class="custom-select d-block w-100" name="move" id="" required>
+                    <option>O</option>
+                    <option>X</option>
+                </select>-->
+            </div>
+	
+	
+	
+			<div class="mb-3">
+                <label for="">팀원 수(숫자만 입력)</label>
+				<div class="change"><p><%= nofteam %></p></div>
+            </div>
+	
+	
+	
+			<div class="mb-3">
+                <label for="">경기 경력 연수(숫자만 입력 ex.3년이면 '3')</label>
+                <div class="change"><p><%= career_year %></p></div>
+            </div>
+		
+		
+			<div class="mb-3">
+                <label for="">여태까지 경기 횟수(숫자만 입력 ex.10번이면 '10')</label>
+                <div class="change"><p><%= career_count %></p></div>
+            </div>
+	
+		
+			<div class="mb-3">
+                <label for="">팀 소개글</label>
+                <div class="change"><p><%= introteam %></p></div>
+            </div>
+	
+	
+
+            <hr class="mb-4">
+
+        <a href="/teamprofileedit"><button class="btn btn-block">회원정보 수정하기</button></a>
+    </div>
+</div>
+</body>
+<footer class="my-5 pt-5 text-muted text-center text-small">
+
+</footer>

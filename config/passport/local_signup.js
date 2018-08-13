@@ -13,16 +13,39 @@ module.exports = new LocalStrategy({
 	passReqToCallback : true    // 이 옵션을 설정하면 아래 콜백 함수의 첫번째 파라미터로 req 객체 전달됨
 }, function(req, email, password, done) {
     // 요청 파라미터 중 name 파라미터 확인
-    var paramName = req.body.name || req.query.name;
-    var nickname = req.body.nickname || req.query.nickname;
-	var region = req.body.region || req.query.region;
+    var name = req.body.name || req.query.name;
+    var teamname = req.body.teamname || req.query.teamname;
     var gender = req.body.gender || req.query.gender;
-    var birth = req.body.birth || req.query.birth;
-        
+	var age = req.body.age || req.query.age;
+	var region = req.body.region || req.query.region;
+	var move = req.body.move || req.query.move;
+	var nofteam = req.body.nofteam || req.query.nofteam;
+	var career_year = req.body.career_year || req.query.career_year;
+	var career_count = req.body.career_count || req.query.career_count;
+	var introteam = req.body.introteam || req.query.introteam;
+	
+	
+	
+	//나이 변환
+	switch(age){
+		case '10대' : age=10; break;
+		case '20대' : age=20; break;
+		case '30대' : age=30; break;
+		case '40대' : age=40; break;
+		case '50대' : age=50; break;
+		case '60대' : age=60; break;
+		case '70대 이상' : age=70; break;
+	}
+	
+
+	
+	/*
     //나이 계산
     var today = new Date();
     var nowYear = today.getFullYear();
     var age = nowYear - birth + 1;
+	
+	*/
 
 	console.log('passport의 local-signup 호출됨.');
 	
@@ -47,12 +70,15 @@ module.exports = new LocalStrategy({
 		        var user = new database.UserModel({
                     'email':email, 
                     'password':password, 
-                    'name':paramName, 
-                    'nickname':nickname,
-					'region':region,
+                    'teamname':teamname, 
                     'gender':gender, 
                     'age':age,
-					'birth':birth
+					'region':region,
+					'move':move,
+					'nofteam':nofteam,
+					'career_year':career_year,
+					'career_count':career_count,
+					'introteam':introteam
                 });
                 
                 user.save(function(err) {

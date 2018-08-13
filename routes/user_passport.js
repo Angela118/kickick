@@ -24,14 +24,17 @@ module.exports = function(router, passport) {
         } else {
 			
 			var user_context = {
-				'email': req.user.email, 
-				'password': req.user.password, 
-				'name': req.user.name, 
-				'nickname': req.user.nickname,
-				'region': req.user.region,
-				'gender': req.user.gender, 
-				'age': req.user.age,
-				'birth': req.user.birth
+				'email':req.user.email, 
+				'password':req.user.password, 
+				'teamname':req.user.teamname, 
+				'gender':req.user.gender, 
+				'age':req.user.age,
+				'region':req.user.region,
+				'move':req.user.move,
+				'nofteam':req.user.nofteam,
+				'career_year':req.user.career_year,
+				'career_count':req.user.career_count,
+				'introteam':req.user.introteam
 			};
 			
 			
@@ -51,17 +54,17 @@ module.exports = function(router, passport) {
 	
 	
     // 회원가입 화면
-    router.route('/signup').get(function(req, res) {
-        console.log('/signup 패스 get 요청됨.');
-        res.render('signup_.ejs', {message: req.flash('signupMessage')});
+    router.route('/teamsignup').get(function(req, res) {
+        console.log('/teamsignup 패스 get 요청됨.');
+        res.render('team_signup.ejs', {message: req.flash('signupMessage')});
     });
 	 
 	
 	
 	
     // 프로필 
-    router.route('/profile').get(function(req, res) {
-        console.log('/profile 패스 get 요청됨.');
+    router.route('/teamprofile').get(function(req, res) {
+        console.log('/teamprofile 패스 get 요청됨.');
 
         // 인증 안된 경우
         if (!req.user) {
@@ -73,33 +76,27 @@ module.exports = function(router, passport) {
 			
 			
 			var user_context = {
-				'email': req.user.email, 
-				'password': req.user.password, 
-				'name': req.user.name, 
-				'nickname': req.user.nickname,
-				'region': req.user.region,
-				'gender': req.user.gender, 
-				'age': req.user.age,
-				'birth': req.user.birth
+				'email':req.user.email, 
+				'password':req.user.password, 
+				'teamname':req.user.teamname, 
+				'gender':req.user.gender, 
+				'age':req.user.age,
+				'region':req.user.region,
+				'move':req.user.move,
+				'nofteam':req.user.nofteam,
+				'career_year':req.user.career_year,
+				'career_count':req.user.career_count,
+				'introteam':req.user.introteam
 			};
+						
 			
-			
-            res.render('profile.ejs', user_context);
-        
-/*
-            if (Array.isArray(req.user)) {
-                res.render('profile.ejs', {user: req.user[0]._doc});
-            } else {
-                res.render('profile.ejs', {user: req.user});
-            }
-			
-			*/
-       }
+            res.render('team_profile.ejs', user_context);
+		}
     });
 	
     
-	router.route('/profileedit').get(function(req, res){
-		console.log('/profileedit 패스 get 요청됨.');
+	router.route('/teamprofileedit').get(function(req, res){
+		console.log('/teamprofileedit 패스 get 요청됨.');
 	
 		
 		 // 인증 안된 경우
@@ -108,67 +105,100 @@ module.exports = function(router, passport) {
             res.redirect('/login');
         } else {
 			var user_context = {
-				'email': req.user.email, 
-				'password': req.user.password, 
-				'name': req.user.name, 
-				'nickname': req.user.nickname,
-				'region': req.user.region,
-				'gender': req.user.gender, 
-				'age': req.user.age,
-				'birth': req.user.birth
+				'email':req.user.email, 
+				'password':req.user.password, 
+				'teamname':req.user.teamname, 
+				'gender':req.user.gender, 
+				'age':req.user.age,
+				'region':req.user.region,
+				'move':req.user.move,
+				'nofteam':req.user.nofteam,
+				'career_year':req.user.career_year,
+				'career_count':req.user.career_count,
+				'introteam':req.user.introteam
 			};		
 			
             console.log('사용자 인증된 상태임.');
-            res.render('profile_edit.ejs', user_context);
+            res.render('team_profile_edit.ejs', user_context);
         }
 		
 	})
 	
-    router.route('/profileedit').post(function(req, res) {
-        console.log('/profileedit 패스 post 요청됨.');
+    router.route('/teamprofileedit').post(function(req, res) {
+        console.log('/teamprofileedit 패스 post 요청됨.');
 		var dbm = require('../database/database');
 		console.log('database 모듈 가져옴');
 		
 		
 		var user_context = {
-			'email': req.user.email, 
-            'password': req.user.password, 
-         	'name': req.user.name, 
-            'nickname': req.user.nickname,
-			'region': req.user.region,
-            'gender': req.user.gender, 
-            'age': req.user.age,
-			'birth': req.user.birth
-		};		
+				'email':req.user.email, 
+				'password':req.user.password, 
+				'teamname':req.user.teamname, 
+				'gender':req.user.gender, 
+				'age':req.user.age,
+				'region':req.user.region,
+				'move':req.user.move,
+				'nofteam':req.user.nofteam,
+				'career_year':req.user.career_year,
+				'career_count':req.user.career_count,
+				'introteam':req.user.introteam
+			};			
 		
 		
-		if(req.body.nickname || req.query.nickname){
-			user_context.nickname = req.body.nickname || req.query.nickname;
-		}
-		if(req.body.region || req.query.region){
-			user_context.region = req.body.region || req.query.region;
+		if(req.body.teamname || req.query.teamname){
+			user_context.teamname = req.body.teamname || req.query.teamname;
 		}
 		if(req.body.gender || req.query.gender){
 			user_context.gender = req.body.gender || req.query.gender;
 		}
-		if(req.body.birth || req.query.birth){
-			user_context.birth = req.body.birth || req.query.birth;
-
-			//나이 계산
-			var today = new Date();
-			var nowYear = today.getFullYear();
-			user_context.age = nowYear - user_context.birth + 1;
+		if(req.body.age || req.query.age){
+			user_context.age = req.body.age || req.query.age;
+			
+			//나이 변환
+			switch(user_context.age){
+				case '10대' : user_context.age=10; break;
+				case '20대' : user_context.age=20; break;
+				case '30대' : user_context.age=30; break;
+				case '40대' : user_context.age=40; break;
+				case '50대' : user_context.age=50; break;
+				case '60대' : user_context.age=60; break;
+				case '70대 이상' : user_context.age=70; break;
+			}
+			
+		}
+		if(req.body.region || req.query.region){
+			user_context.region = req.body.region || req.query.region;
+		}
+		if(req.body.move || req.query.move){
+			user_context.move = req.body.move || req.query.move;
+		}
+		if(req.body.nofteam || req.query.nofteam){
+			user_context.nofteam = req.body.nofteam || req.query.nofteam;
+		}
+		if(req.body.career_year || req.query.career_year){
+			user_context.career_year = req.body.career_year || req.query.career_year;
+		}
+		if(req.body.career_count || req.query.career_count){
+			user_context.career_count = req.body.career_count || req.query.career_count;
+		}
+		if(req.body.introteam || req.query.introteam){
+			user_context.introteam = req.body.introteam || req.query.introteam;
 		}
 			
 		
-		var db = req.app.get('database');
+	//	var db = req.app.get('database');
 		dbm.db.collection("users6").updateOne({email: user_context.email},  {$set: {
-				'name':user_context.name, 
-				'nickname':user_context.nickname,
-				'region':user_context.region,
-				'gender':user_context.gender, 
-				'age':user_context.age,
-				'birth':user_context.birth
+			'email':user_context.email, 
+	//		'password':user_context.password, 
+			'teamname':user_context.teamname, 
+			'gender':user_context.gender, 
+			'age':user_context.age,
+			'region':user_context.region,
+			'move':user_context.move,
+			'nofteam':user_context.nofteam,
+			'career_year':user_context.career_year,
+			'career_count':user_context.career_count,
+			'introteam':user_context.introteam
 		 }}, function(err, res) {
     		if (err) throw err;
     		console.log("1 document updated");
@@ -178,13 +208,16 @@ module.exports = function(router, passport) {
     });
 	
 	router.route('/profileeditok').get(function(req, res){
+		console.log('/profileeditok 패스 get 요청됨.');
 		
-		res.writeHead('200', {'Content-Type':'text/html;charset=utf8'});
-		res.write('<h1>회원정보가 수정되었습니다.</h1>');
-		res.write('<div><p>다시 로그인 해주세요.</p></div>');
-		res.write("<br><br><a href='/logout'> 다시 로그인하기</a>");
-		res.end();
-
+		if(!req.user){
+			console.log('사용자 인증 안된 상태임.');
+			res.redirect('/');
+		}
+		else{
+			console.log('회원정보 수정 완료.');
+			res.render('profile_edit_ok.ejs');
+		}
 	});
 	
     
@@ -213,14 +246,17 @@ module.exports = function(router, passport) {
             res.redirect('/');
         }else{
 			var user_context = {
-				'email': req.user.email, 
-				'password': req.user.password, 
-				'name': req.user.name, 
-				'nickname': req.user.nickname,
-				'region': req.user.region,
-				'gender': req.user.gender, 
-				'age': req.user.age,
-				'birth': req.user.birth
+				'email':req.user.email, 
+				'password':req.user.password, 
+				'teamname':req.user.teamname, 
+				'gender':req.user.gender, 
+				'age':req.user.age,
+				'region':req.user.region,
+				'move':req.user.move,
+				'nofteam':req.user.nofteam,
+				'career_year':req.user.career_year,
+				'career_count':req.user.career_count,
+				'introteam':req.user.introteam
 			};
 			
             res.render('chat_room.ejs', user_context);
@@ -236,20 +272,22 @@ module.exports = function(router, passport) {
             console.log('사용자 인증 안된 상태임.');
             res.redirect('/');
         }else{
-			
 			var user_context = {
-				'email': req.user.email, 
-				'password': req.user.password, 
-				'name': req.user.name, 
-				'nickname': req.user.nickname,
-				'region': req.user.region,
-				'gender': req.user.gender, 
-				'age': req.user.age,
-				'birth': req.user.birth
+				'email':req.user.email, 
+				'password':req.user.password, 
+				'teamname':req.user.teamname, 
+				'gender':req.user.gender, 
+				'age':req.user.age,
+				'region':req.user.region,
+				'move':req.user.move,
+				'nofteam':req.user.nofteam,
+				'career_year':req.user.career_year,
+				'career_count':req.user.career_count,
+				'introteam':req.user.introteam
 			};		
 			
 			
-            res.render('chat.ejs', user_context);
+            res.render('chat_.ejs', user_context);
         }
     });
     
@@ -268,14 +306,17 @@ module.exports = function(router, passport) {
 		}
 		else{
 			var user_context = {
-				'email': req.user.email, 
-				'password': req.user.password, 
-				'name': req.user.name, 
-				'nickname': req.user.nickname,
-				'region': req.user.region,
-				'gender': req.user.gender, 
-				'age': req.user.age,
-				'birth': req.user.birth
+				'email':req.user.email, 
+				'password':req.user.password, 
+				'teamname':req.user.teamname, 
+				'gender':req.user.gender, 
+				'age':req.user.age,
+				'region':req.user.region,
+				'move':req.user.move,
+				'nofteam':req.user.nofteam,
+				'career_year':req.user.career_year,
+				'career_count':req.user.career_count,
+				'introteam':req.user.introteam
 			};		
         	res.render('main_search.ejs', user_context);
 		}
@@ -291,14 +332,17 @@ module.exports = function(router, passport) {
             res.redirect('/');
         }else{
 			var user_context = {
-				'email': req.user.email, 
-				'password': req.user.password, 
-				'name': req.user.name, 
-				'nickname': req.user.nickname,
-				'region': req.user.region,
-				'gender': req.user.gender, 
-				'age': req.user.age,
-				'birth': req.user.birth
+				'email':req.user.email, 
+				'password':req.user.password, 
+				'teamname':req.user.teamname, 
+				'gender':req.user.gender, 
+				'age':req.user.age,
+				'region':req.user.region,
+				'move':req.user.move,
+				'nofteam':req.user.nofteam,
+				'career_year':req.user.career_year,
+				'career_count':req.user.career_count,
+				'introteam':req.user.introteam
 			};
 			
 			
@@ -316,14 +360,17 @@ module.exports = function(router, passport) {
             res.redirect('/');
         }else{
 			var user_context = {
-				'email': req.user.email, 
-				'password': req.user.password, 
-				'name': req.user.name, 
-				'nickname': req.user.nickname,
-				'region': req.user.region,
-				'gender': req.user.gender, 
-				'age': req.user.age,
-				'birth': req.user.birth
+				'email':req.user.email, 
+				'password':req.user.password, 
+				'teamname':req.user.teamname, 
+				'gender':req.user.gender, 
+				'age':req.user.age,
+				'region':req.user.region,
+				'move':req.user.move,
+				'nofteam':req.user.nofteam,
+				'career_year':req.user.career_year,
+				'career_count':req.user.career_count,
+				'introteam':req.user.introteam
 			};
 			
             res.render('team_received_review.ejs', user_context);
@@ -340,14 +387,17 @@ module.exports = function(router, passport) {
             res.redirect('/');
         }else{
 			var user_context = {
-				'email': req.user.email, 
-				'password': req.user.password, 
-				'name': req.user.name, 
-				'nickname': req.user.nickname,
-				'region': req.user.region,
-				'gender': req.user.gender, 
-				'age': req.user.age,
-				'birth': req.user.birth
+				'email':req.user.email, 
+				'password':req.user.password, 
+				'teamname':req.user.teamname, 
+				'gender':req.user.gender, 
+				'age':req.user.age,
+				'region':req.user.region,
+				'move':req.user.move,
+				'nofteam':req.user.nofteam,
+				'career_year':req.user.career_year,
+				'career_count':req.user.career_count,
+				'introteam':req.user.introteam
 			};
 			
              res.render('match_application_form.ejs', user_context);
@@ -365,15 +415,18 @@ module.exports = function(router, passport) {
 		}
 		else{
 			var user_context = {
-				'email': req.user.email, 
-				'password': req.user.password, 
-				'name': req.user.name, 
-				'nickname': req.user.nickname,
-				'region': req.user.region,
-				'gender': req.user.gender, 
-				'age': req.user.age,
-				'birth': req.user.birth
-			};		
+				'email':req.user.email, 
+				'password':req.user.password, 
+				'teamname':req.user.teamname, 
+				'gender':req.user.gender, 
+				'age':req.user.age,
+				'region':req.user.region,
+				'move':req.user.move,
+				'nofteam':req.user.nofteam,
+				'career_year':req.user.career_year,
+				'career_count':req.user.career_count,
+				'introteam':req.user.introteam
+			};	
 			
         	res.render('contact.ejs', user_context);
 		}
@@ -401,20 +454,11 @@ module.exports = function(router, passport) {
     }));
 
     // 회원가입 인증
-    router.route('/signup').post(passport.authenticate('local-signup', {
+    router.route('/teamsignup').post(passport.authenticate('local-signup', {
         successRedirect : '/login', 
-        failureRedirect : '/signup', 
+        failureRedirect : '/teamsignup', 
         failureFlash : true 
     }));
-	
 
-	/*
-	//프로필 수정
-	router.route('/profileedit').post(passport.authenticate('local-pedit', {
-		successRedirect : '/profile',
-		failureRedirect : '/profileedit',
-		failureFlash : true
-	}));
-*/
 
 };
