@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/FRAME.css" rel="stylesheet">
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <title>메인페이지-검색 결과</title>
+</head>
+
+<body class="whiteB">
+
+<!--메뉴 영역 시작 : 나중에 파일로 따로 빼기 -->
+
+<nav class="navbar blueB">
+
+    <div class="top">
+        <img src="../img/menu3.png" width="30rem" height="30rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+
+        <p class="logo">축하싶</p>
+
+        <a href="/chatroom"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarsExample01">
+        <div class="mypage">
+            <img src="../img/jisung_90.png"id="profile_pic" style="margin-right: .2rem">
+            <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= name %></span>
+            <a href="/profile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
+            <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+        </div>
+
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">홈 (매칭 팀 검색)<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" style="display:flex; align-items:center">
+                <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
+                <!--<hr align="right" style="border: solid 0.1rem white; width: 70%;">-->
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/team_received_review" style="margin-left:2rem">우리 팀 평가 점수</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/team_schedule" style="margin-left:2rem">경기 스케줄</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/match_application">매칭 등록</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/contact">개발자에게 연락</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="py-4 text-center"></div>
+
+<!--메뉴 영역 끝 : 나중에 파일로 따로 빼기 -->
+
+<!--매칭 팀 찾기-->
+
+<div class="search blueB">
+    <div class="top_range">
+        <p class="logo"><img src="../css/img/soccer_30.png" alt="" style="margin-right: 1rem">매칭팀 찾기</p>
+        <a href="main_search.html"><img src="../css/img/down_60.png" class="btn" width="60" style="float: right; margin-right: -.9rem"></a>
+    </div>
+</div>
+
+<!---->
+
+<div class="container">
+    <div class="reco" style="margin-top: 1rem">
+
+        <div class="mb-3">
+            <p class="small" style="margin-bottom: .5rem">서울-강남 | 여자만 | 20대 | 17:00-18:00</p>
+            <span style="font-weight: bold; font-size: 1.2rem; margin-right: .5rem">검색 결과</span>
+            <span>달력 클릭시 매칭 신청</span>
+        </div>
+
+        <p>선택한 값들 불러오기</p>
+        <div style="display: flex; justify-content: space-around; margin-left: 1rem; margin-right: 1rem">
+            <!--달력-->
+            <div style="width: 8rem; height: 7rem; background-color: #f8f9fa;">
+                <div style="width: 8rem; height: 2.5rem; background-color: black;">
+                    <p class="whiteW" style="text-align: center; font-size: 1.3rem; font-weight: bold; padding-top: .2rem;" >2018</p>
+                </div>
+                <p style="text-align: center; font-size: 2.5rem; font-weight: bold">9/30</p>
+            </div>
+
+            <!--팀 요약-->
+            <div style="">
+                <p style="font-weight: bold; margin-bottom: 0">우리가 남이가</p>
+                <p style="font-size: .7rem">
+                    지역 : 서울 - 강남<br>
+                    성별 : 여<br>
+                    나이 : 20대<br>
+                    장소 : 효창운동장<br>
+                    팀원 : 40명<br>
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<!--페이지 넘기는 버튼-->
+<div class="paging">
+    <ul>
+        <li><a href="#"><</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">></a></li>
+    </ul>
+</div>
+<br>
+<br>
+<hr>
+<p>메인화면 - 매칭팀 찾기 탭에서 검색 안하고 다시 탭 올렸을 때 메인 화면으로 돌아가게 됨.
+
+    예를 들어 한 번 검색 후 다시 매칭팀 찾기를 내렸다가 검색 안하고 올렸을 때도 메인으로 돌아감. (main_search_result -> main_search -> main)
+    -> 실사용하려면 나중에 매칭팀 찾기 탭도 side bar로 빼야 함
+</p>
+
+</body>
+</html>

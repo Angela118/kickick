@@ -1,0 +1,13 @@
+
+.chat_room_name{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chat_room_content{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 17rem;
+}

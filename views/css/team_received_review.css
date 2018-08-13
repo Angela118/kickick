@@ -1,0 +1,36 @@
+.team_score{
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items:center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.average-score{
+    text-align: center;
+}
+
+.stars{
+    display:flex;
+    width:100px;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.review-random-profile{
+    display:flex;
+    align-items: center;
+    font-size:.8rem;
+}
+
+.review-content{
+    font-size:.9rem;
+}
+
+.review-name{
+    display: flex;
+    align-items: center;
+}

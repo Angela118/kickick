@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="kor">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>login</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/common.css" rel="stylesheet">
+  <link href="../css/login.css" rel="stylesheet">
+</head>
+
+
+<body class="text-center blueB">
+
+<div class="container">
+  <div class="col-md-8 order-md-1">
+
+    <div class="py-4 text-center">
+      <img class="mb-4" src="../img/soccerball.png" alt="" width="100rem" height="100rem">
+      <h5 class="mb-3 align-center whiteW" style="font-weight: bold">로그인하기</h5>
+    </div>
+
+    <form action="/login" method="post" class="">
+      <input type="email" name="email" id="inputEmail" class="form-control mb-2" placeholder="아이디(이메일 주소)" required autofocus>
+      <input type="password" name="password" id="inputPassword" class="form-control mb-3" placeholder="비밀번호" required>
+
+      <div class="buttons mb-3">
+        <button class="btn btn-block" type="submit">로그인</button>
+      </div>
+    </form>
+
+      <a href="/signup"><button class="btn btn-block mb-3">회원가입하기</button></a>
+    <a href="/findpassword"><button class="btn btn-block mb-3">비밀번호 찾기</button></a>
+      <!--<div class="buttons2">-->
+        <!--<a href="find_id.html"><button class="btn btn-block mb-3" style="width: 9rem">아이디 찾기</button></a>-->
+    <!--<a href="find_password.html"><button class="btn btn-block mb-3" style="width: 9rem">비밀번호 찾기</button></a>-->
+      <!--</div>-->
+  </div>
+</div>
+
+
+</body>
+</html>

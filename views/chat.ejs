@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/FRAME.css" rel="stylesheet">
+    <link href="../css/chat.css" rel="stylesheet">
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="jquery-3.1.1.min.js"></script>  
+    <script src="socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
+    
+    <script>
+        var socket;
+
+
+        //jquery에서 문서가 다 로딩 되었을 때 호출되는 함수
+        $(function(){
+            connect();
+            login();
+        });
+
+        function connect(){
+            var host = '192.168.26.29';  // $('#hostInput').val();
+            var port = 3000;  // $('#portInput').val();
+
+            //서버에 접속
+            connectToServer(host, port);
+        }
+
+        function connectToServer(host, port){
+            var url = 'http://' + host + ':' + port;
+            var options = {
+                forceNew:true   //연결이 끊어질 때마다 새로운 연결을 만들어라
+            };
+
+
+            socket = io.connect(url, options);   //socket객체 생성
+
+            socket.on('connect'/*connect 이벤트 발생*/, function(){
+                console.log('웹소켓 서버에 연결됨 -> ' + url);
+            });
+
+            socket.on('disconnect'/*disconnect 이벤트 발생*/, function(){
+                console.log('웹소켓 연결 종료됨.');
+            });
+            
+            socket.on('message', function(message){
+                //println('수신 -> ' + JSON.stringify(message));
+                addToChatting('you', message);
+            });
+/*
+            socket.on('room', function(input){
+                if(input.command == 'list'){
+                    $('#roomList').html('');
+
+
+                    for(var i=0; i<input.rooms.length; i++){
+                        $('#roomList').append('<p>방 #' + i + ' -> ' + input.rooms[i].id + ', ' + input.rooms[i].name + ', ' + input.rooms[i].owner);
+                    }
+                }
+            });
+*/
+            socket.on('response', function(input){
+                //println('응답 -> ' + JSON.stringify(input));
+            });
+
+        }
+        
+
+        function login(){
+            var id = '<%= email %>';
+            var user_nickname = '<%= nickname %>';
+            var today = new Date();
+            
+            var output = {
+                id:id,
+                user_nickname:user_nickname,
+                today:today
+            };
+
+            socket.emit('login', output);
+
+        }
+
+
+        
+        function send(){
+            var sender = '<%= email %>';   //senderInput 입력상자에서 입력 값 가져오기
+//			var recipient = $('#recipientInput').val();
+            var data = $('#dataInput').val();
+
+
+            var chattype = $('#chattype option:selected').val();
+
+
+            var message = {
+                sender:sender,
+                recepient:'ALL',
+                command:chattype,
+                data:data,
+                type:'text'
+            };
+
+            socket.emit('message', message);
+            
+            addToChatting('me', message.data);
+        }
+
+        function println(data){      //상태 프린트
+     //       console.log(data);
+            $('#chatting').append('<p>' + data + '</p>');
+        }      
+        
+        function addToChatting(writer, msg) {
+            var contents = "<li class="+ writer +">"
+                        +"<div class='msg'"+"<p>"+msg+"</p>"
+                        +"</li>";
+            $(".chatting").append(contents);           
+            
+            var objDiv = document.getElementById("chatting");
+            objDiv.scrollTop = objDiv.scrollHeight;
+        }
+		
+		function clearText(field) {
+            field.value="";
+        }
+		
+		
+        
+    </script>
+    
+
+    <title>채팅방</title>
+</head>
+<!--메뉴 영역 시작 : 나중에 파일로 따로 빼기 -->
+<!--여기선 메뉴명 채팅방으로 되어 있음-->
+    
+    
+<body class="whiteB">
+    
+<nav class="navbar blueB">
+
+    <div class="top">
+        <img src="../img/menu3.png" width="30rem" height="30rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+
+        <p class="logo">채팅방</p>
+
+        <a href="/chatroom"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarsExample01">
+        <div class="mypage">
+            <img src="../img/jisung_90.png"id="profile_pic" style="margin-right: .2rem">
+            <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= name %></span>
+            <a href="/profileedit"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
+            <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+        </div>
+
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">홈 (매칭 팀 검색)<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item" style="display:flex; align-items:center">
+                <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
+                <!--<hr align="right" style="border: solid 0.1rem white; width: 70%;">-->
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/teamreceivedreview" style="margin-left:2rem">우리 팀 평가 점수</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/teamschedule" style="margin-left:2rem">경기 스케줄</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/matchapplication">매칭 등록</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="../views/contact.ejs">개발자에게 연락</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="py-4 text-center"></div>
+
+<!--메뉴 영역 끝 : 나중에 파일로 따로 빼기 -->
+
+<style>
+    #mydiv{
+        background-color:#e5e5e5;
+    }
+</style>
+
+<div id="mydiv">
+ <!--   <ul id="results" style="height:71vh;">
+        
+        <div class="chatting">
+        
+        </div>
+        
+    </ul> -->
+    <div class="chatting" id="chatting" style="height:74vh;"></div>
+</div>
+
+<div class="mb-3" style="display: flex; margin-left: .5rem; margin-right: .5rem; margin-top: 1.2rem; justify-content: space-between; align-items: center">
+    <img src="../css/img/add.png" id="add_button" width="30rem" height="30rem" alt="" style="margin-right: 1rem">
+        <input type="text" class="form-control" id="dataInput" placeholder="내용을 입력해주세요." style="margin-right: .5rem" onFocus="clearText(this)">
+        <button type="submit" class="btn btn-warning" id="sendButton" onclick="send()">전송</button>
+</div>
+
+<div id="add_button_content" style="display: flex; margin-left: .5rem; margin-right: .5rem; justify-content: space-around">
+    <button class="btn" style="color:black; width: 40%">경기 끝</button>
+    <button class="btn" style="color:black; width: 40%">시간 장소 정하기</button>
+</div>
+
+</body>
+</html>

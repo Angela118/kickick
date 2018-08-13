@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/FRAME.css" rel="stylesheet">
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+
+    <title>개발자에게 연락</title>
+</head>
+
+<body class="whiteB">
+
+
+<!--메뉴 영역 시작-->
+<!--여기선 메뉴명 개발자에게 연락하기로 되어 있음-->
+
+<script type="text/javascript">
+    function goBack(){
+        window.history.back();
+    }
+</script>
+
+<nav class="navbar blueB">
+    <div class="top">
+        <div>
+            <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack();">
+
+            <p class="logo ml-sm-3">개발자에게 연락하기</p>
+        </div>
+
+        <div>
+            <a href="/chatroom"><img src="../img/envelope.png" class="menu_img" width="20rem" height="20rem" style="margin-right:1rem"></a>
+
+            <img src="../img/menu.png" width="20rem" height="20rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        </div>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarsExample01">
+        <div class="mypage">
+            <img src="../img/jisung_90.png"id="profile_pic" style="margin-right: .2rem">
+			<span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= name %></span>
+            <a href="profile.html"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
+            <a href="login.html"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+        </div>
+
+
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">홈 (매칭 팀 검색)</a>
+            </li>
+            <li class="nav-item" style="display:flex; align-items:center">
+                <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
+                <!--<hr align="right" style="border: solid 0.1rem white; width: 70%;">-->
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/teamreceivedreview" style="margin-left:2rem">우리 팀 평가 점수</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/teamschedule" style="margin-left:2rem">경기 스케줄</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/matchapplication">매칭 등록</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/contact">개발자에게 연락</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="py-4 text-center"></div>
+
+<!--메뉴 영역 끝-->
+
+<div class="container">
+    <div class="reco" style="margin-top: 2.3rem">
+
+        <div class="mb-3">
+            <p style="font-weight: bold; margin-bottom: .5rem">개발자 이메일</p>
+            <p>lsk201808@gmail.com</p>
+        </div>
+
+        <!--<form>
+            <div class="mb-3">
+                <label for="email">답변 받으실 이메일:</label>
+                <input type="email" id="email" class="form-control">
+            </div>
+            <select name="category" class="form-control mb-3">
+                <option value="" selected disabled hidden>분류</option>
+                <option value="query">문의</option>
+                <option value="dissatisied">불만</option>
+                <option value="recommendation">추천</option>
+                <option value="else">기타</option>
+            </select>
+            <textarea name="comments" class="form-control mb-3" rows="7" placeholder="내용을 입력해주세요."></textarea>
+            <button type="submit" class="btn btn-block" style="color:black">의견보내기</button>
+        </form>
+    </div>-->
+    </div>
+	</div>
+
+</body>
+</html>
