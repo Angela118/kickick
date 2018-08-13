@@ -27,7 +27,7 @@
 <nav class="navbar blueB">
   <div style="display: flex; justify-content: space-between; align-items: center;  margin-left:1rem; margin-right:1rem;">
     <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem;" onclick="goBack();">
-    <p class="logo">상대팀 평가</p>
+    <p class="logo whiteW">상대팀 평가</p>
   </div>
 </nav>
 
@@ -43,8 +43,14 @@
   </div>
 
   <form>
-    <textarea class="form-control mb-3" rows=5 autofocus required wrap="hard" placeholder="한줄평을 남겨주세요"></textarea>
-    <button class="btn btn-block" type="submit">평가완료</button>
+    <textarea class="form-control mb-4" rows=5 autofocus required wrap="hard" placeholder="한줄평을 남겨주세요"></textarea>
+
+    <div style="display: flex; justify-content: space-around">
+      <button class="btn" type="submit" style="width: 40%">평가 제출</button>
+      <!--팀 스케줄 또는 뒤로가기로 연결-->
+      <button class="btn" type="button" onclick="location.href='team_schedule.html'" style="width: 40%" >창 닫기</button>
+    </div>
+
   </form>
 
 </div>

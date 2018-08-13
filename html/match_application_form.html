@@ -34,7 +34,7 @@
         <div>
             <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack();">
 
-            <p class="logo ml-sm-3">매칭 등록</p>
+            <p class="logo ml-sm-3 whiteW">매칭 등록</p>
         </div>
 
         <div>
@@ -46,10 +46,13 @@
 
     <div class="collapse navbar-collapse" id="navbarsExample01">
         <div class="mypage">
-            <img src="../img/jisung_90.png"id="profile_pic" style="margin-right: .2rem">
-            <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem">조이</span>
-            <a href="profile.html"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
-            <a href="login.html"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+            <div class="img_div" style="margin-left: 0rem; margin-right: 0"><img class="profile_img" src="../img/testdog.jpg"/></div>
+            <!--닉네임 5글자 넘어갈시 잘려 나옴-->
+            <span class="name" style="font-size: 1.2rem">조이</span>
+            <div style="">
+                <a href="profile.html"><button class="btn btn-sm btn-warning" type="submit" style="margin-right:.3rem">내 정보</button></a>
+                <a href="login.html"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+            </div>
         </div>
 
         <ul class="navbar-nav mr-auto">

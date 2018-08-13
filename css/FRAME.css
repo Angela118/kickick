@@ -53,17 +53,38 @@ a{color:white;text-decoration:none;background-color:transparent;-webkit-text-dec
 .mypage{
   display: flex;
   width: 100%;
-  /*position: fixed;*/
   flex-wrap: wrap;
   background-color: white;
   align-items: center;
   margin-top: 1em;
-  padding: 1.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-left: 1.3rem;
+  padding-right: 1.3rem;
   justify-content: space-between;
 }
 
-#profile_pic{
+.name{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 6rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.img_div{
+  overflow:hidden;
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
   display: block;
+  margin: 0 auto;
+}
+
+.profile_img {
+  max-height: 100%;
+  margin: 0 auto;
 }
 
 #name{

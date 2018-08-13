@@ -17,10 +17,6 @@
     <script src="../js/jquery.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Insert title here</title>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-
     <script>
         $('.score_content').hide();
 
@@ -51,7 +47,7 @@
         <div>
             <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack();">
 
-            <p class="logo ml-sm-3">경기 스케줄</p>
+            <p class="logo ml-sm-3 whiteW">경기 스케줄</p>
         </div>
 
         <div>
@@ -63,12 +59,14 @@
 
     <div class="collapse navbar-collapse" id="navbarsExample01">
         <div class="mypage">
-            <img src="../img/jisung_90.png"id="profile_pic" style="margin-right: .2rem">
-            <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem">조이</span>
-            <a href="profile.html"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
-            <a href="login.html"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+            <div class="img_div" style="margin-left: 0rem; margin-right: 0"><img class="profile_img" src="../img/testdog.jpg"/></div>
+            <!--닉네임 5글자 넘어갈시 잘려 나옴-->
+            <span class="name" style="font-size: 1.2rem">조이</span>
+            <div style="">
+                <a href="profile.html"><button class="btn btn-sm btn-warning" type="submit" style="margin-right:.3rem">내 정보</button></a>
+                <a href="login.html"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+            </div>
         </div>
-
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" href="main.html">홈 (매칭 팀 검색)<span class="sr-only">(current)</span></a>
@@ -101,8 +99,6 @@
 
 <div class="container">
     <div class="reco">
-
-        <!--<h1 style="letter-spacing: .4rem; margin-top: 1rem; text-align: center; font-weight: 500">2018</h1>-->
 
         <!--달력-->
         <div class="calendar-wrapper">
@@ -305,7 +301,7 @@
                 <div class="score_content">
                     <div class="match-teams mb-3">
                         <div class="match-team">
-                            <img src="../img/team_100.png" width="70rem" class="team-img">
+                            <div class="img_div" style="margin-bottom: 0.5rem; width: 4.5rem; height: 4.5rem"><img class="profile_img" src="../img/team_100.png"/></div>
                             <button class="btn btn-sm" style="color:black">로로롱</button>
                         </div>
 
@@ -316,7 +312,7 @@
                         </div>
 
                         <div class="match-team">
-                            <img src="../img/soccer-ball.png" width="70rem" class="team-img">
+                            <div class="img_div" style="margin-bottom: 0.5rem; width: 4.5rem; height: 4.5rem"><img class="profile_img" src="../img/soccer-ball.png"/></div>
                             <button class="btn btn-sm" style="color:black">우리가 남이가</button>
                         </div>
                     </div>
