@@ -130,7 +130,7 @@
                     <th>연령대</th>
                     <td>
                         <select name="age" class="form-control">
-                            <option value="" selected disabled hidden> 평균 연령대 검색 </option>
+                            <option value="" selected disabled hidden> 평균 연령대 </option>
                             <option value="teen">10대</option>
                             <option value="twenties">20대</option>
                             <option value="thirties">30대</option>
@@ -144,15 +144,29 @@
                 <tr>
                     <th>날짜</th>
                     <td>
-                        <input type="date" class="form-control">
+                        <input type="date" name="event_date" id="theDate" class="form-control">
                     </td>
+
+                    <script>
+                        $(document).ready(function() {
+                            var date = new Date();
+
+                            var day = date.getDate();
+                            var month = date.getMonth() + 1;
+                            var year = date.getFullYear();
+
+                            if (month < 10) month = "0" + month;
+                            if (day < 10) day = "0" + day;
+
+                            var today = year + "-" + month + "-" + day;
+                            $("#theDate").attr("value", today);
+                        });
+                    </script>
                 </tr>
                 <tr>
-                    <th>시간대</th>
+                    <th>시작 시간</th>
                     <td>
-                        <input type="time" class="form-control" value="00:00:00">
-                        <p style="text-align: center; margin-bottom: 0">~</p>
-                            <input type="time" class="form-control" value="00:00:00">
+                        <input type="time" class="form-control" value="00:00:00" step="600">
                     </td>
                 </tr>
                 <tr>
