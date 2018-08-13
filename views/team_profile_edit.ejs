@@ -1,180 +1,357 @@
 <!doctype html>
+
 <html lang="kr">
+
 <head>
+
     <meta charset="utf-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <meta name="description" content="">
+
     <meta name="author" content="">
+
+ 
 
     <title>회원 정보 수정</title>
 
+ 
+
     <!-- Bootstrap core CSS -->
+
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
+ 
+
     <!-- Custom styles for this template -->
+
     <link href="../css/profile.css" rel="stylesheet">
+
     <link href="../css/common.css" rel="stylesheet">
+
     <link href="../css/profile.css" rel="stylesheet">
+
+ 
 
     <script src="../js/jquery.js"></script>
+
     <script src="../js/bootstrap.bundle.min.js"></script>
+
 </head>
 
+ 
+
 <body class="whiteB">
+
 	
+
 	
+
 <script type="text/javascript">
+
     function goBack(){
+
         window.history.back();
+
     }
+
 </script>
 
+ 
+
 <nav class="navbar blueB">
+
     <div style="display: flex; justify-content: space-between; align-items: center;  margin-left:1rem; margin-right:1rem;">
+
         <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem;" onclick="goBack();">
+
         <p class="logo">회원 정보 수정</p>
+
     </div>
+
 </nav>
+
     
+
 <div class="container">
+
     <div class="reco">
+
         <h5 class="mb-3" style="font-weight: bold;">기본 정보</h5>
-        <form class="needs-validation" novalidate>
+
+        <form class="needs-validation" action="/profileedit" method="post" novalidate>
+
+ 
 
             <p class="mb-3">
+
             <p>프로필 사진 등록</p> <!--프로필 사진-->
+
             <div class="profile_img_upload">
+
                 <div class="img_div mb-1"><img id="profile_img" src="../img/profile_basic.png"/></div>
+
                 <div class="filebox"> <label for="new_profile_img">업로드</label> <input type="file" id="new_profile_img"> </div>
+
             </div>
 
+ 
 
+ 
+
+ 
 
             <div class="mb-3"> <!--아이디-->
-                <label for="user-ID">팀장 이메일</label>
+
+                <label for="user-ID">아이디</label>
+
 				<div class="change" type="email" name="email" id=email><p> <%= email %></p></div>
+
                 <!--<div class="input-group">
+
                     <input type="text" class="form-control" id="user-ID" placeholder="" required>
+
                     <div class="invalid-feedback" style="width: 100%;">
+
                         Your ID is required.
+
                     </div>
+
                 </div>-->
+
             </div>
+
 			
+
 			<div class="mb-3">
+
                 <label for="user-name">팀 이름</label> <!--이름-->
+
                 <input type="text" class="form-control" name="teamname" id="user-name" placeholder="<%= teamname %>" value="" required>
+
                 <div class="invalid-feedback">
+
                     Valid name is required.
+
                 </div>
+
             </div>
+
 			
 
+ 
+
             <div class="mb-3">
+
                 <label for="user-gender">성별</label>
+
                 <select class="custom-select d-block w-100" name="gender" id="user-gender" required>
+					<option value="" disabled selected hidden><%= gender %></option>
+
                     <option>무관</option>
+
                     <option>여</option>
+
                     <option>남</option>
+
                 </select>
+
             </div>
 
+ 
+
             <div class="mb-3">
+
                 <label for="">평균 연령</label>
+
                 <select class="custom-select d-block w-100" name="age" id="age" required>
-					<option value="">Choose...</option>
+
+					<option value="" disabled selected hidden><%= age %></option>
+
                     <option>10대</option>
+
                     <option>20대</option>
+
                     <option>30대</option>
+
                     <option>40대</option>
+
                     <option>50대</option>
+
                     <option>60대</option>
+
                     <option>70대 이상</option>
+
                 </select>
+
             </div>
 
+ 
+
+ 
 
             <div class="mb-3">
+
                 <label for="region">주 경기 장소</label>
+
                 <input type="text" class="form-control" name="region" id="region" placeholder=<%= region %> required>
+
             </div>
 
+ 
+
             <div class="mb-3">
+
                 <label for="">원정 가능 유무</label>
+
                 <select class="custom-select d-block w-100" name="move" id="move" required>
-					<option value="">Choose...</option>
+
+					<option value="" disabled selected hidden><%= move %></option>
+
                     <option>가능</option>
+
                     <option>불가능</option>
+
                 </select>
+
             </div>
 
-            <div class="mb-3">
-                <label for="">팀원 수(숫자만 입력)</label>
-                <input type="text" class="form-control" name="nofteam" id="nofteam" placeholder="<%= nofteam %>"onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' required>
-				<span>명&nbsp</span>
-            </div>
+ 
 
             <div class="mb-3">
+
+                <label for="">팀원 수</label>
+
+                <input type="text" class="form-control" name="nofteam" id="nofteam" placeholder="<%= nofteam %>"onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' required><span>명&nbsp</span>
+
+            </div>
+
+ 
+
+            <div class="mb-3">
+
                 <label for="">경기 경력</label>
+
                 <input type="text" class="form-control" name="career_year" id="career_year" placeholder="<%= career_year %>" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' required>
+
 				<span>년&nbsp</span>
+
             </div>
 
+ 
+
             <div class="mb-3">
+
                 <label for="">여태까지 경기 횟수</label>
-				<span>약&nbsp</span>
+				
                 <input type="text" class="form-control" name="career_count" id="career_count" placeholder="<%= career_count %>" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' required>
+
 				<span>번&nbsp</span>
+
             </div>
 
+ 
+
             <div class="mb-3">
+
                 <label for="">팀 소개글</label>
+
                 <textarea class="form-control" name="introteam" rows="5" placeholder="100자 내로 입력"><%= introteam %></textarea>
+
             </div>
 
+ 
+
 			
+
 			
+
 <!--
+
             <div class="mb-3">
+
                 <label>이메일 인증(변경)</label>
+
                 <div style="display: flex">
+
                     <input type="email" class="form-control" placeholder="" required>
+
                     <div class="btn">인증</div>
+
                 </div>
 
+ 
+
             </div>
 
+ 
 
+ 
+
+ 
 
             <div class="mb-3">
+
                 <label for="serurity-char">보안문자</label>
+
                 <input type="text" class="form-control" id="serurity-char" placeholder="" required>
+
             </div>
+
 -->
+
             <hr class="mb-4">
+
 			<a href="/profileeditok"><button class="btn btn-block" type="submit">회원정보 수정 완료</button></a>
+
         </form>
+
     </div>
+
 </div>
+
+ 
 
 <footer class="my-5 pt-5 text-muted text-center text-small">
 
+ 
+
 </footer>
+
+ 
 
 </body>
 
+ 
+
 <script type="text/javascript">
+
     function readURL(input) {
+
         if (input.files && input.files[0]) {
+
             var reader = new FileReader();
+
             reader.onload = function(e) {
+
                 $('#profile_img').attr('src', e.target.result);
+
             }
+
             reader.readAsDataURL(input.files[0]);
+
         }
+
     }
+
     $("#new_profile_img").change(function() {
+
         readURL(this);
+
     });
+
 </script>
+
 </html>
+
