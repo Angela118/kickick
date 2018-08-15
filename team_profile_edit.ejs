@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="kr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>회원 정보 수정</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/profile.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body class="whiteB">
+   
+   
+<script type="text/javascript">
+    function goBack(){
+        window.history.back();
+    }
+</script>
+
+<nav class="navbar blueB">
+    <div style="display: flex; justify-content: space-between; align-items: center;  margin-left:1rem; margin-right:1rem;">
+        <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem;" onclick="goBack();">
+        <p class="logo">회원 정보 수정</p>
+    </div>
+</nav>
+    
+<div class="container">
+    <div class="reco">
+        <h5 class="mb-3" style="font-weight: bold;">기본 정보</h5>
+        <form class="needs-validation" action="/teamprofileedit" method="post" novalidate>
+
+            <p class="mb-3">
+            <p>프로필 사진 등록</p> <!--프로필 사진-->
+            <div class="profile_img_upload">
+                <div class="img_div mb-1"><img id="profile_img" src="../img/profile_basic.png"/></div>
+                <div class="filebox"> <label for="new_profile_img">업로드</label> <input type="file" id="new_profile_img"> </div>
+            </div>
+
+
+
+            <div class="mb-3"> <!--아이디-->
+                <label for="user-ID">아이디</label>
+            <div class="change" type="email" name="email" id=email><p> <%= email %></p></div>
+                <!--<div class="input-group">
+                    <input type="text" class="form-control" id="user-ID" placeholder="" required>
+                    <div class="invalid-feedback" style="width: 100%;">
+                        Your ID is required.
+                    </div>
+                </div>-->
+            </div>
+         
+         <div class="mb-3">
+                <label for="user-name">팀 이름</label> <!--이름-->
+                <input type="text" class="form-control" name="teamname" id="user-name" placeholder="<%= teamname %>" value="" required>
+                <div class="invalid-feedback">
+                    Valid name is required.
+                </div>
+            </div>
+         
+
+            <div class="mb-3">
+                <label for="user-gender">성별</label>
+                <select class="custom-select d-block w-100" name="gender" id="user-gender" required>
+                    <option value="" disabled selected hidden><%= gender %></option>
+                    <option>무관</option>
+                    <option>여</option>
+                    <option>남</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="">평균 연령</label>
+                <select class="custom-select d-block w-100" name="age" id="age" required>
+                    <option value="" disabled selected hidden><%= age %></option>
+                    <option>10대</option>
+                    <option>20대</option>
+                    <option>30대</option>
+                    <option>40대</option>
+                    <option>50대</option>
+                    <option>60대</option>
+                    <option>70대 이상</option>
+                </select>
+            </div>
+
+
+             <div class="mb-3">
+                <label for="region">주 경기 장소</label>	
+				<br>
+			
+			
+			<input type="text" name="region" id="sample5_address" placeholder="<%= region %>">
+			<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+			<div id="map" style="width:1000px;height:300px;margin-top:10px;display:none"></div>
+
+			<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+			<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df8f5565b51994aa9c71d2128dcdfec5&libraries=services"></script>
+			<script>
+				var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        			mapOption = {
+						center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+						level: 5 // 지도의 확대 레벨
+					};
+
+				//지도를 미리 생성
+				var map = new daum.maps.Map(mapContainer, mapOption);
+				//주소-좌표 변환 객체를 생성
+				var geocoder = new daum.maps.services.Geocoder();
+    			//마커를 미리 생성
+				var marker = new daum.maps.Marker({
+					position: new daum.maps.LatLng(37.537187, 127.005476),
+					map: map
+				});
+
+
+				function sample5_execDaumPostcode() {
+					new daum.Postcode({
+						oncomplete: function(data) {
+							// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+							// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+							var fullAddr = data.address; // 최종 주소 변수
+							var extraAddr = ''; // 조합형 주소 변수
+
+							// 기본 주소가 도로명 타입일때 조합한다.
+							if(data.addressType === 'R'){
+								//법정동명이 있을 경우 추가한다.
+								if(data.bname !== ''){
+									extraAddr += data.bname;
+								}
+								// 건물명이 있을 경우 추가한다.
+								if(data.buildingName !== ''){
+									extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+								}
+								// 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+								fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+							}
+
+							// 주소 정보를 해당 필드에 넣는다.
+							document.getElementById("sample5_address").value = fullAddr;
+							// 주소로 상세 정보를 검색
+							geocoder.addressSearch(data.address, function(results, status) {
+								// 정상적으로 검색이 완료됐으면
+								if (status === daum.maps.services.Status.OK) {
+
+									var result = results[0]; //첫번째 결과의 값을 활용
+									
+									// 해당 주소에 대한 좌표를 받아서
+									var coords = new daum.maps.LatLng(result.y, result.x);
+									// 지도를 보여준다.
+									mapContainer.style.display = "block";
+									map.relayout();
+									// 지도 중심을 변경한다.
+									map.setCenter(coords);
+									// 마커를 결과값으로 받은 위치로 옮긴다.
+									marker.setPosition(coords)
+								}
+							});
+						}
+					}).open();
+				}
+				
+			</script>
+			
+			</div>
+			
+
+            <div class="mb-3">
+                <label for="">원정 가능 유무</label>
+                <select class="custom-select d-block w-100" name="move" id="move" required>
+                    <option value="" disabled selected hidden><%= move %></option>
+                    <option>가능</option>
+                    <option>불가능</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="">팀원 수</label>
+                <div class="enter">
+                    <input type="text" class="form-control one" name="nofteam" id="nofteam" placeholder="<%= nofteam %>"onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' required>
+                    <div class="two">명</two>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="">경기 경력</label>
+                <div class="enter">
+                    <input type="text" class="form-control one" name="career_year" id="career_year" placeholder="<%= career_year %>" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' required>
+                <div class="two">년</div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="">여태까지 경기 횟수</label>
+                <div class="enter">
+                    <input type="text" class="form-control one" name="career_count" id="career_count" placeholder="<%= career_count %>" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' required>
+                <div class="two">번</two>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="">팀 소개글</label>
+                <textarea class="form-control" name="introteam" rows="5" placeholder="100자 내로 입력"><%= introteam %></textarea>
+            </div>
+
+         
+         
+<!--
+            <div class="mb-3">
+                <label>이메일 인증(변경)</label>
+                <div style="display: flex">
+                    <input type="email" class="form-control" placeholder="" required>
+                    <div class="btn">인증</div>
+                </div>
+
+            </div>
+
+
+
+            <div class="mb-3">
+                <label for="serurity-char">보안문자</label>
+                <input type="text" class="form-control" id="serurity-char" placeholder="" required>
+            </div>
+-->
+            <hr class="mb-4">
+         <a href="/profileeditok"><button class="btn btn-block" type="submit">회원정보 수정 완료</button></a>
+        </form>
+    </div>
+</div>
+
+<footer class="my-5 pt-5 text-muted text-center text-small">
+
+</footer>
+
+</body>
+
+<script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#profile_img').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#new_profile_img").change(function() {
+        readURL(this);
+    });
+</script>
+</html>
