@@ -385,7 +385,7 @@ io.sockets.on('connection', function(socket){
     	database.ChatModel.find(function (err, result) {
 			for(var i = 0 ; i < result.length ; i++) {
 				if(result[i]._doc.email === input.id){
-            		var dbData = {email : result[i].email, teamname : result[i].teamname, message : result[i].message};
+            		var dbData = {email : result[i].email, teamname : result[i].teamname, message : result[i].message };
            			io.sockets.sockets[socket.id].emit('preload', dbData);
 				}
         	}
