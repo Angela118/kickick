@@ -323,6 +323,9 @@ var server = http.createServer(app).listen(app.get('port'), function(){
  
 
 
+
+
+
  
 
 //===== socket.io 서버 시작 =====//
@@ -339,15 +342,10 @@ var login_ids = {};	//socket id와 login id를 매칭
 
  
 
- 
-
- 
 
 io.sockets.on('connection', function(socket){
 
 	//연결 되었을때 호출 되는 콜백함수
-
-	
 
 	console.log('connection info -> ' + JSON.stringify(socket.request.connection._peername));
 
@@ -357,7 +355,7 @@ io.sockets.on('connection', function(socket){
 	socket.remoteAddress = socket.request.connection._peername.address;
 
 	socket.remotePort = socket.request.connection._peername.port;
-
+	
 
 
 	socket.on('login', function(input){
@@ -371,17 +369,38 @@ io.sockets.on('connection', function(socket){
 		login_ids[input.id] = socket.id;
 
 		socket.login_id = input.id;
+		
+			
+
+/*
+		// receives message from DB
+	database.ChatModel.findByEmail({email:input.id}, function (err, result) {
+        for(var i = 0 ; i < result.length ; i++) {
+            var dbData = {teamname : result[i].teamname, message : result[i].message};
+            io.sockets.sockets[socket.id].emit('preload', dbData);
+        }
+	});
+*/		
+		// receives message from DB
+    	database.ChatModel.find(function (err, result) {
+			for(var i = 0 ; i < result.length ; i++) {
+				if(result[i]._doc.email === input.id){
+            		var dbData = {email : result[i].email, teamname : result[i].teamname, message : result[i].message};
+           			io.sockets.sockets[socket.id].emit('preload', dbData);
+				}
+        	}
+		});
 
 		
 
 		sendResponse(socket, 'login', 200, 'OK');	//로그인이 정상적으로 되었다는 뜻
 
-		
 
 	});
 
-	
 
+	
+	 
 	
 
 	socket.on('message', function(message){
@@ -418,6 +437,17 @@ io.sockets.on('connection', function(socket){
 			}
 
 		}
+		
+		
+		// add chat into the model
+        var chat = new database.ChatModel({ email:message.email, teamname: message.sender, message: message.data });
+ 
+        chat.save(function (err, data) {
+          if (err) {// TODO handle the error
+              console.log("error");
+          }
+          console.log('message is inserted');
+        });
 
 	});
 
