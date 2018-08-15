@@ -26,6 +26,10 @@
         $(function(){
             connect();
             login();
+			
+			
+			
+			
         });
 
         function connect(){
@@ -55,8 +59,14 @@
             
             socket.on('message', function(message){
                 //println('수신 -> ' + JSON.stringify(message));
-                addToChatting('you', message);
+		//		$(output).prependTo('#content');
+                addToChatting(message.email, message.data);
             });
+
+		
+			socket.on('preload',function(dbData){
+				addToChatting(dbData.email, dbData.message);
+        	});
 /*
             socket.on('room', function(input){
                 if(input.command == 'list'){
@@ -83,9 +93,10 @@
             
             var output = {
                 id:id,
-                user_nickname:teamname,
+               	teamname:teamname,
                 today:today
             };
+			
 
             socket.emit('login', output);
 
@@ -94,7 +105,8 @@
 
         
         function send(){
-            var sender = '<%= email %>';   //senderInput 입력상자에서 입력 값 가져오기
+			var email = '<%= email %>';
+            var sender = '<%= teamname %>';   //senderInput 입력상자에서 입력 값 가져오기
 //			var recipient = $('#recipientInput').val();
             var data = $('#dataInput').val();
 
@@ -103,6 +115,7 @@
 
 
             var message = {
+				email:email,
                 sender:sender,
                 recepient:'ALL',
                 command:chattype,
@@ -112,23 +125,27 @@
 
             socket.emit('message', message);
             
-            addToChatting('me', message.data);
+            addToChatting(message.email, message.data);
         }
+		
+		
+		function addToChatting(writer, msg) {
+			var contents = "<li class="+ writer +">"
+                       +"<div class='msg'"+"<p>"+msg+"</p>"
+                       +"</li>";
+			$(".chatting").append(contents);           
+           
+           	var objDiv = document.getElementById("chatting");
+           		objDiv.scrollTop = objDiv.scrollHeight;
+		}
+		
 
         function println(data){      //상태 프린트
      //       console.log(data);
             $('#chatting').append('<p>' + data + '</p>');
         }      
         
-        function addToChatting(writer, msg) {
-            var contents = "<li class="+ writer +">"
-                        +"<div class='msg'"+"<p>"+msg+"</p>"
-                        +"</li>";
-            $(".chatting").append(contents);           
-            
-            var objDiv = document.getElementById("chatting");
-            objDiv.scrollTop = objDiv.scrollHeight;
-        }
+        
 		
 		function clearText(field) {
             field.value="";
@@ -246,7 +263,7 @@
 				
 
                 <div class="modal-body">
-                    시간<input type="time" class="form-control" value="00:00:00" step="600">
+                    시간<input type="time" name="event_time" class="form-control" value="00:00:00" step="600">
                     <p style="text-align: center; margin-bottom: 0">
                 </div>
 
