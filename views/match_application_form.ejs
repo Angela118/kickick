@@ -14,8 +14,9 @@
     <!-- Bootstrap core JavaScript -->
     <script src="../js/jquery.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
-
-    <title>매칭 신청 폼</title>
+    <script src="../js/match.js"></script>
+    
+    <title>매칭 등록</title>
 </head>
 <body class="whiteB">
 
@@ -76,25 +77,36 @@
     <div class="reco" style="margin-top: 2.3rem">
         <h5 class="mb-3 blackW" style="font-weight: bold">매칭 등록</h5>
 
-        <form method="post" action="/matchapplication">
+        <form name="select_region" method="post" action="/matchapplication">
             <table class="table">
                 <tbody>
                 <tr>
                     <th>지역</th>
                     <td>
                         <div class="mb-2">
-                            <select class="form-control">
+                            <select name="region" onchange="regionChange(this.selectedIndex);" class="form-control">
                                 <option value="" selected disabled hidden>지역 검색</option>
-                                <option value="">서울시</option>
-                                <option value="">경기도</option>
-                                <option value="">지역무관</option>
+                                <option value="1">서울</option>
+                                <option value="2">부산</option>
+                                <option value="3">대구</option>
+                                <option value="4">인천</option>
+                                <option value="5">광주</option>
+                                <option value="6">대전</option>
+                                <option value="7">울산</option>
+                                <option value="8">경기도</option>
+                                <option value="9">강원도</option>
+                                <option value="10">충청북도</option>
+                                <option value="11">충청남도</option>
+                                <option value="12">전라북도</option>
+                                <option value="13">전라남도</option>
+                                <option value="14">경상북도</option>
+                                <option value="15">경상남도</option>
+                                <option value="16">제주도</option>
+                                <option value="0">지역무관</option>
                             </select>
                         </div>
-                        <select class="form-control">
-                            <option value="" selected disabled hidden>상세 검색</option>
-                            <option value="">용산구</option>
-                            <option value="">양천구</option>
-                            <option value="">강서구</option>
+                        <select name="region" class="form-control">
+                            <option>상세 검색</option>
                         </select>
                     </td>
                 </tr>
@@ -106,8 +118,9 @@
                     <th>원정가능 유무</th>
                     <td>
                         <select class="form-control">
-                            <option value="" selected>O</option>
-                            <option value="">X</option>
+                            <option value="move" selected disabled hidden>원정 가능 여부</option>
+                            <option value="yes">O</option>
+                            <option value="no">X</option>
                         </select>
                     </td>
                 </tr>
