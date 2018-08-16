@@ -1,8 +1,4 @@
-/**
- * 패스포트 라우팅 함수 정의
- *
- */
-  
+
 module.exports = function(router, passport) {
     console.log('user_passport 호출됨.');
 	
