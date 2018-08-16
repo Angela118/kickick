@@ -19,12 +19,12 @@ Schema.createSchema = function(mongoose) {
 	    , salt: {type:String, required:true}
  //       , nickname: {type:String, index:'hashed', 'default':''}
         , gender: {type:String, 'default':''} 
-        , age: {type:Number, default:''}
-		, region: {type:String, default:''}
-		, move: {type:String, default:''}
-		, nofteam: {type:Number, default:''}
-		, career_year: {type:Number, default:''}
-		, career_count: {type:Number, default:''}
+        , age: {type:Number, 'default':''}
+		, region: {type:String, 'default':''}
+		, move: {type:String, 'default':''}
+		, nofteam: {type:Number, 'default':''}
+		, career_year: {type:Number, 'default':''}
+		, career_count: {type:Number, 'default':''}
 		, introteam: {type:String, default:''}
 		, created_at: {type: Date, index: {unique: false}, 'default': Date.now}
 	    , updated_at: {type: Date, index: {unique: false}, 'default': Date.now}
