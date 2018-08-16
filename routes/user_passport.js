@@ -58,9 +58,7 @@ module.exports = function(router, passport) {
         console.log('/teamsignup 패스 get 요청됨.');
         res.render('team_signup.ejs', {message: req.flash('signupMessage')});
     });
-	 
-	
-	
+		
 	
     // 프로필 
     router.route('/teamprofile').get(function(req, res) {
@@ -126,6 +124,7 @@ module.exports = function(router, passport) {
 	
     router.route('/teamprofileedit').post(function(req, res) {
         console.log('/teamprofileedit 패스 post 요청됨.');
+		
 		var dbm = require('../database/database');
 		console.log('database 모듈 가져옴');
 		
@@ -142,7 +141,7 @@ module.exports = function(router, passport) {
 				'career_year':req.user.career_year,
 				'career_count':req.user.career_count,
 				'introteam':req.user.introteam
-			};			
+		};			
 		
 		
 		if(req.body.teamname || req.query.teamname){
@@ -153,18 +152,6 @@ module.exports = function(router, passport) {
 		}
 		if(req.body.age || req.query.age){
 			user_context.age = req.body.age || req.query.age;
-			
-			//나이 변환
-			switch(user_context.age){
-				case '10대' : user_context.age=10; break;
-				case '20대' : user_context.age=20; break;
-				case '30대' : user_context.age=30; break;
-				case '40대' : user_context.age=40; break;
-				case '50대' : user_context.age=50; break;
-				case '60대' : user_context.age=60; break;
-				case '70대 이상' : user_context.age=70; break;
-			}
-			
 		}
 		if(req.body.region || req.query.region){
 			user_context.region = req.body.region || req.query.region;
@@ -287,11 +274,51 @@ module.exports = function(router, passport) {
 			};		
 			
 			
-            res.render('chat_.ejs', user_context);
+            res.render('chat.ejs', user_context);
         }
     });
+	
+	router.route('/chat').post(function(req, res){
+		console.log('/chat 패스 post 요청됨.');
+		
+		var dbm = require('../database/database');
+		console.log('database 모듈 가져옴');
+		
+		
+		var event = {
+			'email':req.user.email,
+			'teamname':req.user.teamname,
+			'event_date': '',
+			'event_time': '',
+			'event_place': ''
+		};
+		
+		
+		
+		event.event_date = req.body.event_date || req.query.event_date;
+		event.event_time = req.body.event_time || req.query.event_time;
+		event.event_place = req.body.event_place || req.query.event_place;
+		event.event_nofteam = req.body.event_nofteam || req.query.event_nofteam;
+		
+
+		
+		console.dir(event);
+		
+		
+		var event_appointment = new dbm.AppointmentModel(event);
+ 
+        event_appointment.save(function (err, data) {
+          if (err) {// TODO handle the error
+              console.log("appointment save error");
+          }
+          console.log('New appointment inserted');
+        });
+		
+		
+
+	});
     
-    
+	
     
     
     // ===== 메뉴
@@ -317,11 +344,81 @@ module.exports = function(router, passport) {
 				'career_year':req.user.career_year,
 				'career_count':req.user.career_count,
 				'introteam':req.user.introteam
-			};		
-        	res.render('main_search.ejs', user_context);
+			};
+			console.log('/mainsearch 사용자 인증 된 상태임.');
+        	res.render('main_search_.ejs', user_context);
 		}
     });
-    
+	
+	
+	router.route('/mainsearch').post(function(req, res){
+		console.log('/mainsearch 패스 post 요청됨.');
+		
+		var dbm = require('../database/database');
+		console.log('database 모듈 가져옴');
+		
+	/*	
+		var city =  req.body.city || req.query.city;
+		var district =  req.body.district || req.query.district;
+		var gender =  req.body.gender || req.query.gender;
+		var age =  req.body.age || req.query.age;
+		var event_date =  req.body.event_date || req.query.event_date;
+		var event_time =  req.body.event_time || req.query.event_time;
+		var event_day =  req.body.event_day || req.query.event_day;
+	*/	
+		
+		var event = {
+			'teamname':req.body.search_team || req.query.search_team,
+			'city': req.body.city || req.query.city,
+			'district': req.body.district || req.query.district,
+			'gender': req.body.gender || req.query.gender,
+			'age': req.body.age || req.query.age,
+	//		'event_date': req.body.event_date || req.query.event_date,
+			'event_time': req.body.event_time || req.query.event_time,
+			'event_day': req.body.event_day || req.query.event_day,
+		}
+		
+		console.dir(event);
+		
+		
+		dbm.db.collection("matchings").find(event, function(err, result){
+			
+		});
+		
+		
+		
+		res.redirect('/mainsearchresult');
+		
+	});
+	
+	
+	
+	router.route('/mainsearchresult').get(function(req, res){
+		console.log('/mainsearchresult 패스 get 요청됨.');
+		
+		
+		if(!req.user){
+			console.log('사용자 인증 안된 상태임.');
+			res.redirect('/');
+		}
+		else{
+			var user_context = {
+				'email':req.user.email, 
+				'password':req.user.password, 
+				'teamname':req.user.teamname, 
+				'gender':req.user.gender, 
+				'age':req.user.age,
+				'region':req.user.region,
+				'move':req.user.move,
+				'nofteam':req.user.nofteam,
+				'career_year':req.user.career_year,
+				'career_count':req.user.career_count,
+				'introteam':req.user.introteam
+			};		
+        	res.render('main_search_result.ejs', user_context);
+		}
+	});
+
     
     //경기 스케쥴
     router.route('/teamschedule').get(function(req, res){
@@ -403,6 +500,45 @@ module.exports = function(router, passport) {
              res.render('match_application_form.ejs', user_context);
         }       
     });
+	
+	router.route('/matchapplication').post(function(req, res){
+		console.log('/match_application 패스 post 요청됨.');
+		
+		var dbm = require('../database/database');
+		console.log('database 모듈 가져옴');
+		
+		
+		
+		var event = {
+			'email': req.user.email,
+			'teamname': req.user.teamname,	
+			'city': req.body.city || req.query.city,
+			'district': req.body.district || req.query.district,
+			'place' : req.body.place || req.query.place,
+			'move' : req.body.move || req.query.move,
+			'age': req.body.age || req.query.age,	
+			'event_date': req.body.event_date || req.query.event_date,
+			'event_time': req.body.event_time || req.query.event_time,
+			'mention': req.body.mention || req.query.mention
+		};
+		
+		
+		
+		console.dir(event);
+		
+		
+		var event_application = new dbm.ApplicationModel(event);
+ 
+        event_application.save(function (err, data) {
+          if (err) {// TODO handle the error
+              console.log("application save error");
+          }
+          console.log('New application inserted');
+        });
+		
+		res.redirect('/');
+		
+	});
 	
 	
 	router.route('/contact').get(function(req, res){
