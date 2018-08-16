@@ -11,8 +11,8 @@
   <link href="/views/css/FRAME.css" rel="stylesheet">
 
   <!-- Bootstrap core JavaScript -->
-  <script src="/views/js/jquery.js"></script>
-  <script src="/views/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/jquery.js"></script>
+  <script src="../js/bootstrap.bundle.min.js"></script>
 
   <title>메인페이지-검색</title>
 </head>
@@ -28,7 +28,7 @@
 
     <p class="logo">축하싶</p>
 
-    <a href="/chat_room"><img src="/views/css/img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
+    <a href="/chatroom"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
   </div>
 
   <div class="collapse navbar-collapse" id="navbarsExample01">
@@ -50,13 +50,13 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="/team_received_review" style="margin-left:2rem">우리 팀 평가 점수</a>
+        <a class="nav-link" href="/teamreceivedreview" style="margin-left:2rem">우리 팀 평가 점수</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/team_schedule" style="margin-left:2rem">경기 스케줄</a>
+        <a class="nav-link" href="/teamschedule" style="margin-left:2rem">경기 스케줄</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/match_application">매칭 등록</a>
+        <a class="nav-link" href="/matchapplication">매칭 등록</a>
       </li>
 
       <li class="nav-item">
@@ -74,8 +74,8 @@
 
 <div class="search blueB">
   <div class="top_range">
-    <p class="logo"><img src="/views/css/img/soccer_30.png" alt="" style="margin-right: 1rem">매칭팀 찾기</p>
-    <a href="/"><img src="/views/css/img/up_60.png" class="btn" width="60" style="float: right;  margin-right: -.9rem"></a>
+    <p class="logo"><img src="../img/soccer_30.png" alt="" style="margin-right: 1rem">매칭팀 찾기</p>
+    <a href="/"><img src="../img/up_60.png" class="btn" width="60" style="float: right;  margin-right: -.9rem"></a>
   </div>
 </div>
 
@@ -89,21 +89,22 @@
 <div class="container">
   <div class="reco" style="margin-top: 1rem">
     <div class="wrapper">
-      <form action="" method="post" class="search_team">
+      <form action="/mainsearch" method="post" class="search_team">
         <input type="text" class="search_team form-control" name="search_team" placeholder="매칭/가입할 팀명 검색">
       </form>
     </div>
 
     <div class="wrapper">
-      <form action="" method="post" class="form-group" style="display: flex; justify-content: space-between">
-        <select class="mr-sm-2 form-control" style="width:9.5rem">
+      <form action="/mainsearch" method="post" class="form-group" style="display: flex; justify-content: space-between">
+		  
+        <select class="mr-sm-2 form-control" name="city" style="width:9.5rem">
           <option value="" selected disabled hidden> 지역 검색 </option>
           <option value="">서울시</option>
           <option value="">경기도</option>
           <option value="">지역무관</option>
         </select>
 
-        <select class="form-control" style="width:9.5rem">
+        <select class="form-control" name="district" style="width:9.5rem">
           <option value="" selected disabled hidden>상세검색</option>
           <option value="">용산구</option>
           <option value="">양천구</option>
@@ -113,7 +114,7 @@
     </div>
 
     <div class="wrapper">
-      <form action="" method="post" class="wrapper_small">
+      <form action="/mainsearch" method="post" class="wrapper_small">
         <select name="gender" class="form-control">
           <option value="" selected disabled hidden> 성별 검색 </option>
           <option value="female">여자</option>
@@ -124,7 +125,7 @@
     </div>
 
     <div class="wrapper">
-      <form action="" method="post">
+      <form action="/mainsearch" method="post">
         <select name="age" class="form-control">
           <option value="" selected disabled hidden> 평균 연령대 검색 </option>
           <option value="teen">10대</option>
@@ -138,7 +139,7 @@
     </div>
 
     <div class="wrapper">
-      <input type="date" id="theDate" class="form-control">
+      <input type="date" id="theDate" name="event_date" class="form-control">
         
         <script>
 				
@@ -152,18 +153,16 @@
                 var today = year + "-" + month + "-" + day;       
                 $("#theDate").attr("value", today);
             });
-
-
         </script>
     </div>
 
     <div class="wrapper">
-      <input class="form-control" type="time" value="00:00:00">
+      <input class="form-control" name="event_time" type="time" value="00:00:00">
       <!--모바일에서 터치해서 바꾸는 것 안 나오면 다른 방법 찾기..-->
     </div>
 
     <div class="wrapper">
-      <select name="age" class="form-control">
+      <select name="event_day" class="form-control">
         <option value="" selected disabled hidden> 요일 검색
         <option>
         <option value="mon">월</option>
@@ -178,7 +177,7 @@
     </div>
 
     <div style="padding-top: .5rem">
-      <button class="btn btn-block" style="color:black;" type="submit">검색하기</button>
+		<a href="/mainsearchresult"><button class="btn btn-block" style="color:black;" type="submit">검색하기</button></a>
     </div>
 
 

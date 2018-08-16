@@ -1,3 +1,13 @@
+<!--
+
+시간 장소 정하기에서 입력 안 한 칸 있는 경우 저장 못 하도록.
+저장한 경우 저장된 약속 시간 뜨도록.
+약속 수정하기 버튼.
+
+-->
+
+
+
 <!doctype html>
 <html lang="kr">
 <head>
@@ -26,6 +36,10 @@
         $(function(){
             connect();
             login();
+         
+         
+         
+         
         });
 
         function connect(){
@@ -55,8 +69,14 @@
             
             socket.on('message', function(message){
                 //println('수신 -> ' + JSON.stringify(message));
-                addToChatting('you', message);
+      //      $(output).prependTo('#content');
+                addToChatting(message.email, message.data);
             });
+
+      
+         socket.on('preload',function(dbData){
+            addToChatting(dbData.email, dbData.message);
+           });
 /*
             socket.on('room', function(input){
                 if(input.command == 'list'){
@@ -69,23 +89,22 @@
                 }
             });
 */
-            socket.on('response', function(input){
-                //println('응답 -> ' + JSON.stringify(input));
-            });
+
 
         }
         
 
         function login(){
             var id = '<%= email %>';
-            var user_nickname = '<%= nickname %>';
+            var teamname = '<%= teamname %>';
             var today = new Date();
             
             var output = {
                 id:id,
-                user_nickname:user_nickname,
+                  teamname:teamname,
                 today:today
             };
+         
 
             socket.emit('login', output);
 
@@ -94,8 +113,9 @@
 
         
         function send(){
-            var sender = '<%= email %>';   //senderInput 입력상자에서 입력 값 가져오기
-//			var recipient = $('#recipientInput').val();
+         var email = '<%= email %>';
+            var sender = '<%= teamname %>';   //senderInput 입력상자에서 입력 값 가져오기
+//         var recipient = $('#recipientInput').val();
             var data = $('#dataInput').val();
 
 
@@ -103,6 +123,7 @@
 
 
             var message = {
+            email:email,
                 sender:sender,
                 recepient:'ALL',
                 command:chattype,
@@ -112,29 +133,33 @@
 
             socket.emit('message', message);
             
-            addToChatting('me', message.data);
+            addToChatting(message.email, message.data);
         }
+      
+      
+      function addToChatting(writer, msg) {
+         var contents = "<li class="+ writer +">"
+                       +"<div class='msg'"+"<p>"+msg+"</p>"
+                       +"</li>";
+         $(".chatting").append(contents);           
+           
+              var objDiv = document.getElementById("chatting");
+                 objDiv.scrollTop = objDiv.scrollHeight;
+      }
+      
 
         function println(data){      //상태 프린트
      //       console.log(data);
             $('#chatting').append('<p>' + data + '</p>');
         }      
         
-        function addToChatting(writer, msg) {
-            var contents = "<li class="+ writer +">"
-                        +"<div class='msg'"+"<p>"+msg+"</p>"
-                        +"</li>";
-            $(".chatting").append(contents);           
-            
-            var objDiv = document.getElementById("chatting");
-            objDiv.scrollTop = objDiv.scrollHeight;
-        }
-		
-		function clearText(field) {
+        
+      
+      function clearText(field) {
             field.value="";
         }
-		
-		
+      
+      
         
     </script>
     
@@ -146,7 +171,7 @@
     
     
 <body class="whiteB">
-	
+   
 <script type="text/javascript">
     function goBack(){
         window.history.back();
@@ -157,50 +182,26 @@
 
     <div class="top">
         <div>
-            <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack();">
+            <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack()">
 
             <p class="logo ml-sm-3">채팅방</p>
         </div>
-		
-		<div>
+      
+      <div>
             <img src="../img/menu.png" width="20rem" height="20rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
         </div>
 
-        <a href="/chatroom"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
-    </div>
-
-    <div class="collapse navbar-collapse" id="navbarsExample01">
-        <div class="mypage">
-            <img src="../img/jisung_90.png"id="profile_pic" style="margin-right: .2rem">
-            <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= teamname %> 팀</span>
-            <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
-            <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
-        </div>
-
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/">홈 (매칭 팀 검색)<span class="sr-only">(current)</span></a>
+        <div class="collapse navbar-collapse" id="navbarsExample01">
+         <ul class="navbar-nav mr-auto">
+               <li class="nav-item">
+               <a class="nav-link" href="/chatroom">
+                  <b>매칭 중단 / 채팅방 나가기</b><br>
+                  <span style="text-decoration: line-through">경기 스케줄란에서 평가를 안 하고 중간에 나갈 시, 우리 팀이 받은 평가를 볼 수 없습니다.</span>
+                    </a>
             </li>
-            <li class="nav-item" style="display:flex; align-items:center">
-                <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
-                <!--<hr align="right" style="border: solid 0.1rem white; width: 70%;">-->
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/teamreceivedreview" style="margin-left:2rem">우리 팀 평가 점수</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/teamschedule" style="margin-left:2rem">경기 스케줄</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/matchapplication">매칭 등록</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="../views/contact.ejs">개발자에게 연락</a>
-            </li>
-        </ul>
-    </div>
+           </ul>
+       </div>
+   </div>
 </nav>
 
 <div class="py-4 text-center"></div>
@@ -214,25 +215,183 @@
 </style>
 
 <div id="mydiv">
- <!--   <ul id="results" style="height:71vh;">
-        
-        <div class="chatting">
-        
-        </div>
-        
-    </ul> -->
     <div class="chatting" id="chatting" style="height:74vh;"></div>
 </div>
 
-<div class="mb-3" style="display: flex; margin-left: .5rem; margin-right: .5rem; margin-top: 1.2rem; justify-content: space-between; align-items: center">
-    <img src="../css/img/add.png" id="add_button" width="30rem" height="30rem" alt="" style="margin-right: 1rem">
-        <input type="text" class="form-control" id="dataInput" placeholder="내용을 입력해주세요." style="margin-right: .5rem" onFocus="clearText(this)">
-        <button type="submit" class="btn btn-warning" id="sendButton" onclick="send()">전송</button>
+<div class="mb-3" style="display: flex; margin-left: .5rem; margin-right: .5rem; justify-content: space-between; align-items: center">
+    <img src="../img/add.png" id="add_button" width="30rem" height="30rem" alt="" style="margin-right: 1rem">
+        <input type="text" class="form-control" id="dataInput" placeholder="내용을 입력해주세요."  style="margin-right: .5rem" onFocus="clearText(this)">
+        <button type="submit" class="btn btn-warning" id="text_button" onclick="send()">전송</button>
+   
+   <script>
+       // $(".add_button_content").hide();
+
+      $("#add_button").click(function(){
+         $("#add_button_content").toggle();
+
+         var add = '../img/add.png';
+           var close = '../img/close-button.png';
+
+           if($('#add_button').attr('src') === add) {
+            $('#add_button').attr('src', close);
+         } else {
+            $('#add_button').attr('src', add);
+         }
+       });
+   </script>
 </div>
 
-<div id="add_button_content" style="display: flex; margin-left: .5rem; margin-right: .5rem; justify-content: space-around">
-    <button class="btn" style="color:black; width: 40%">경기 끝</button>
-    <button class="btn" style="color:black; width: 40%">시간 장소 정하기</button>
+<div id="add_button_content" style="display: flex; margin-left: .5rem; margin-right: .5rem; justify-content: space-around;">
+ 
+   
+<!--팀원 하게 되면 경기 끝 넣기-->
+  <!--주장만 - 경기 끝 버튼 없음. 아래 버튼 없이 + 누르면 바로 알림창 또는 하단에 입력창 뜨게 만들어도 됨-->
+	
+<form action="/chat" method="post">
+    <button class="btn btn-block" style="color:black" data-toggle="modal" data-target="#myModal">
+        시간 장소 정하기
+    </button>
+
+    <!-- The Modal : 시간/장소 modal 창으로 입력하게 해놨는데 혹시 디비로 안넘어가면 새 창으로 바꾸겠습니당 -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">세부 시간/장소 정하기</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+            
+                
+
+                <!-- Modal body -->            
+                <div class="modal-body">
+                    날짜<input type="date" name="event_date" id="theDate" class="form-control mt-2">
+                </div>
+         
+            <script>
+            
+               $(document).ready(function() {
+                  var date = new Date();
+
+                   var day = date.getDate();
+                  var month = date.getMonth() + 1;
+                   var year = date.getFullYear();
+
+                   if (month < 10) month = "0" + month;
+                   if (day < 10) day = "0" + day;
+
+                   var today = year + "-" + month + "-" + day;       
+                   $("#theDate").attr("value", today);
+               });
+            
+   
+            </script>
+            
+            
+
+                <div class="modal-body">
+                    시간<input type="time" name="event_time" class="form-control" value="00:00:00" step="600">
+                    <p style="text-align: center; margin-bottom: 0">
+                </div>
+
+                <div class="modal-body">
+               장소
+                    <input type="text" name="event_place" id="sample5_address"  placeholder="주소" class="form-control mt-2" readonly/ >
+               <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+               <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+
+            <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+            <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df8f5565b51994aa9c71d2128dcdfec5&libraries=services"></script>
+            <script>
+               var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                  mapOption = {
+                     center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+                     level: 5 // 지도의 확대 레벨
+                  };
+
+               //지도를 미리 생성
+               var map = new daum.maps.Map(mapContainer, mapOption);
+               //주소-좌표 변환 객체를 생성
+               var geocoder = new daum.maps.services.Geocoder();
+                //마커를 미리 생성
+               var marker = new daum.maps.Marker({
+                  position: new daum.maps.LatLng(37.537187, 127.005476),
+                  map: map
+               });
+
+
+               function sample5_execDaumPostcode() {
+                  new daum.Postcode({
+                     oncomplete: function(data) {
+                        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        var fullAddr = data.address; // 최종 주소 변수
+                        var extraAddr = ''; // 조합형 주소 변수
+
+                        // 기본 주소가 도로명 타입일때 조합한다.
+                        if(data.addressType === 'R'){
+                           //법정동명이 있을 경우 추가한다.
+                           if(data.bname !== ''){
+                              extraAddr += data.bname;
+                           }
+                           // 건물명이 있을 경우 추가한다.
+                           if(data.buildingName !== ''){
+                              extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                           }
+                           // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                           fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+                        }
+
+                        // 주소 정보를 해당 필드에 넣는다.
+                        document.getElementById("sample5_address").value = fullAddr;
+                        // 주소로 상세 정보를 검색
+                        geocoder.addressSearch(data.address, function(results, status) {
+                           // 정상적으로 검색이 완료됐으면
+                           if (status === daum.maps.services.Status.OK) {
+
+                              var result = results[0]; //첫번째 결과의 값을 활용
+                           
+                              // 해당 주소에 대한 좌표를 받아서
+                              var coords = new daum.maps.LatLng(result.y, result.x);
+                              // 지도를 보여준다.
+                              mapContainer.style.display = "block";
+                              map.relayout();
+                              // 지도 중심을 변경한다.
+                              map.setCenter(coords);
+                              // 마커를 결과값으로 받은 위치로 옮긴다.
+                              marker.setPosition(coords)
+                           }
+                        });
+                     }
+                  }).open();
+               }
+            
+            </script>
+               
+               
+               
+                </div>
+
+                <div class="modal-body">
+                    우리 팀 참여 인원 수<input type="text" name="event_nofteam" placeholder="<%= nofteam %>" class="form-control mt-2">
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary" data-dismiss="modal">저장</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                </div>
+				</div>
+			</div>
+		</div>
+</form>              
+
+            
+        
+    
 </div>
 
 </body>

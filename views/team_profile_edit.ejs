@@ -73,9 +73,9 @@
                 <label for="user-gender">성별</label>
                 <select class="custom-select d-block w-100" name="gender" id="user-gender" required>
                     <option value="" disabled selected hidden><%= gender %></option>
-                    <option>무관</option>
-                    <option>여</option>
-                    <option>남</option>
+                    <option value="none">혼성</option>
+                    <option>여자</option>
+          			<option>남자</option>
                 </select>
             </div>
 
@@ -83,13 +83,14 @@
                 <label for="">평균 연령</label>
                 <select class="custom-select d-block w-100" name="age" id="age" required>
                     <option value="" disabled selected hidden><%= age %></option>
-                    <option>10대</option>
-                    <option>20대</option>
-                    <option>30대</option>
-                    <option>40대</option>
-                    <option>50대</option>
-                    <option>60대</option>
-                    <option>70대 이상</option>
+                    <option value="10">10대</option>
+					<option value="20">20대</option>
+					<option value="30">30대</option>
+					<option value="40">40대</option>
+					<option value="50">50대</option>
+					<option value="60">60대</option>
+					<option value="70">70대</option>
+					<option value="80">80대 이상</option>
                 </select>
             </div>
 
@@ -178,8 +179,8 @@
                 <label for="">원정 가능 유무</label>
                 <select class="custom-select d-block w-100" name="move" id="move" required>
                     <option value="" disabled selected hidden><%= move %></option>
-                    <option>가능</option>
-                    <option>불가능</option>
+                    <option>O</option>
+                    <option>X</option>
                 </select>
             </div>
 

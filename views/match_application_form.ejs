@@ -84,43 +84,118 @@
                     <th>지역</th>
                     <td>
                         <div class="mb-2">
-                            <select name="region" onchange="regionChange(this.selectedIndex);" class="form-control">
+                            <select name="city" onchange="regionChange(this.selectedIndex);" class="form-control">
                                 <option value="" selected disabled hidden>지역 검색</option>
-                                <option value="1">서울</option>
-                                <option value="2">부산</option>
-                                <option value="3">대구</option>
-                                <option value="4">인천</option>
-                                <option value="5">광주</option>
-                                <option value="6">대전</option>
-                                <option value="7">울산</option>
-                                <option value="8">경기도</option>
-                                <option value="9">강원도</option>
-                                <option value="10">충청북도</option>
-                                <option value="11">충청남도</option>
-                                <option value="12">전라북도</option>
-                                <option value="13">전라남도</option>
-                                <option value="14">경상북도</option>
-                                <option value="15">경상남도</option>
-                                <option value="16">제주도</option>
-                                <option value="0">지역무관</option>
+                                <option>서울</option>
+                                <option>부산</option>
+                                <option>대구</option>
+                                <option>인천</option>
+                                <option>광주</option>
+                                <option>대전</option>
+                                <option>울산</option>
+                                <option>경기도</option>
+                                <option>강원도</option>
+                                <option>충청북도</option>
+                                <option>충청남도</option>
+                                <option>전라북도</option>
+                                <option>전라남도</option>
+                                <option>경상북도</option>
+                                <option>경상남도</option>
+                                <option>제주도</option>
+                                <option>지역무관</option>
                             </select>
                         </div>
-                        <select name="region" class="form-control">
+                        <select name="district" class="form-control">
                             <option>상세 검색</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <th>장소</th>
-                    <td><input type="text" class="form-control"></td>
+                    <td>
+					
+					<input type="text" name="place" id="sample5_address" placeholder="주소">
+			<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+			<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+
+			<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+			<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df8f5565b51994aa9c71d2128dcdfec5&libraries=services"></script>
+			<script>
+				var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        			mapOption = {
+						center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+						level: 5 // 지도의 확대 레벨
+					};
+
+				//지도를 미리 생성
+				var map = new daum.maps.Map(mapContainer, mapOption);
+				//주소-좌표 변환 객체를 생성
+				var geocoder = new daum.maps.services.Geocoder();
+    			//마커를 미리 생성
+				var marker = new daum.maps.Marker({
+					position: new daum.maps.LatLng(37.537187, 127.005476),
+					map: map
+				});
+
+
+				function sample5_execDaumPostcode() {
+					new daum.Postcode({
+						oncomplete: function(data) {
+							// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+							// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+							var fullAddr = data.address; // 최종 주소 변수
+							var extraAddr = ''; // 조합형 주소 변수
+
+							// 기본 주소가 도로명 타입일때 조합한다.
+							if(data.addressType === 'R'){
+								//법정동명이 있을 경우 추가한다.
+								if(data.bname !== ''){
+									extraAddr += data.bname;
+								}
+								// 건물명이 있을 경우 추가한다.
+								if(data.buildingName !== ''){
+									extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+								}
+								// 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+								fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+							}
+
+							// 주소 정보를 해당 필드에 넣는다.
+							document.getElementById("sample5_address").value = fullAddr;
+							// 주소로 상세 정보를 검색
+							geocoder.addressSearch(data.address, function(results, status) {
+								// 정상적으로 검색이 완료됐으면
+								if (status === daum.maps.services.Status.OK) {
+
+									var result = results[0]; //첫번째 결과의 값을 활용
+									
+									// 해당 주소에 대한 좌표를 받아서
+									var coords = new daum.maps.LatLng(result.y, result.x);
+									// 지도를 보여준다.
+									mapContainer.style.display = "block";
+									map.relayout();
+									// 지도 중심을 변경한다.
+									map.setCenter(coords);
+									// 마커를 결과값으로 받은 위치로 옮긴다.
+									marker.setPosition(coords)
+								}
+							});
+						}
+					}).open();
+				}
+				
+			</script>
+						</td>
+					
+					
                 </tr>
                 <tr>
                     <th>원정가능 유무</th>
                     <td>
-                        <select class="form-control">
-                            <option value="move" selected disabled hidden>원정 가능 여부</option>
-                            <option value="yes">O</option>
-                            <option value="no">X</option>
+                        <select name="move" class="form-control">
+                            <option selected disabled hidden>원정 가능 여부</option>
+                            <option>O</option>
+                            <option>X</option>
                         </select>
                     </td>
                 </tr>
@@ -129,13 +204,15 @@
                     <th>연령대</th>
                     <td>
                         <select name="age" class="form-control">
-                            <option value="" selected disabled hidden> 평균 연령대 </option>
-                            <option value="teen">10대</option>
-                            <option value="twenties">20대</option>
-                            <option value="thirties">30대</option>
-                            <option value="thirties">40대</option>
-                            <option value="thirties">50대</option>
-                            <option value="thirties">나이무관</option>
+                            <option selected disabled hidden> 평균 연령대 </option>
+                            <option value="10">10대</option>
+							<option value="20">20대</option>
+							<option value="30">30대</option>
+							<option value="40">40대</option>
+							<option value="50">50대</option>
+							<option value="60">60대</option>
+							<option value="70">70대</option>
+							<option value="80">80대 이상</option>
                         </select>
                     </td>
                 </tr>
@@ -143,7 +220,7 @@
                 <tr>
                     <th>날짜</th>
                     <td>
-                        <input type="date" id="theDate" class="form-control">
+                        <input type="date" name="event_date" id="theDate" class="form-control">
                     </td>
                     
                     <script>
@@ -161,23 +238,24 @@
 				
 	
 				    </script>
+				
                     
                 </tr>
                 <tr>
                     <th>시간대</th>
                     <td>
-                        <input type="time" class="form-control" value="00:00:00">
+                        <input type="time" name="event_time" class="form-control" value="00:00:00">
                         <p style="text-align: center; margin-bottom: 0">~</p>
                             <input type="time" class="form-control" value="00:00:00">
                     </td>
                 </tr>
                 <tr>
                     <th>기타 할 말</th>
-                    <td><textarea class="form-control" name="" rows="7" cols="30" placeholder="100자 내로 입력"></textarea></td>
+                    <td><textarea class="form-control" name="mention" rows="7" cols="30" placeholder="100자 내로 입력"></textarea></td>
                 </tr>
                 </tbody>
             </table>
-            <button class="btn btn-block" style="color:black">매칭 등록</button>
+            <button type="submit" class="btn btn-block" style="color:black">매칭 등록</button>
         </form>
 
 
