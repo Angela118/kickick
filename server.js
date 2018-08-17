@@ -61,11 +61,41 @@ var route_loader = require('./routes/route_loader');
 
  
 
- 
 
- 
+// 프로필 사진
 
- 
+var multer = require('multer');
+var fs = require('fs');
+
+
+var storage = multer.diskStorage({
+	destination: function(req, file, callback){
+		callback(null, './profile_img');	//uploads폴더를 목적지로 정한다. ->uploads 폴더에 올린 파일이 저장됨
+	},
+	filename: function(req, file, callback){
+		//callback(null, file.originalname + Date.now());	->원래 파일 이름+날짜
+		/*file이 동일한 이름으로 저장할 수도 있음. 그래서 업로드될 파일을 고유한 정보(시간정보 등)를 이용하여 별도의 이름으로 저장.
+		*/
+		
+		var extension = path.extname(file.originalname);
+		var basename = path.basename(file.originalname, extension);
+		callback(null, basename + Date.now() + extension);	//원래 파일 이름+날짜+파일 확장자
+	}
+});
+
+var upload = multer({
+	//속성:할당
+	storage:storage,
+	limits:{	//최대 1024^3사이즈 파일을 10개까지 업로드 가능
+		files:10,
+		fileSize:1024*1024*1024
+	}
+});
+
+
+
+
+
 
 //===== Passport 사용 =====//
 
@@ -212,9 +242,8 @@ var router = express.Router();
 
 route_loader.init(app, router);
 
- 
 
- 
+
 
 // 패스포트 설정
 
@@ -228,7 +257,7 @@ configPassport(app, passport);
 
 var userPassport = require('./routes/user_passport');
 
-userPassport(router, passport);
+userPassport(router, passport, upload);
 
  
 
@@ -321,6 +350,13 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 });
 
  
+
+
+
+
+
+
+
 
 
 
@@ -444,9 +480,9 @@ io.sockets.on('connection', function(socket){
  
         chat.save(function (err, data) {
           if (err) {// TODO handle the error
-              console.log("error");
+              console.log("chat save error");
           }
-          console.log('message is inserted');
+          console.log('New message is inserted');
         });
 
 	});
@@ -471,9 +507,6 @@ function sendResponse(socket, command, code, message){
 
 	
 
-	
-
-	socket.emit('response', output);
 
 }
 
