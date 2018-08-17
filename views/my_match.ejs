@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="kr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="../css/bootstrap.min.css" rel="stylesheet">
+  <link href="../css/common.css" rel="stylesheet">
+  <link href="../css/FRAME.css" rel="stylesheet">
+  <link href="../css/my_match.css" rel="stylesheet">
+  <!--<link href="https://fonts.googleapis.com/css?family=Yeon+Sung" rel="stylesheet">-->
+  <title>내가 등록한 매칭</title>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="../js/jquery.js"></script>
+  <script src="../js/bootstrap.bundle.min.js"></script>
+
+</head>
+
+<body class="whiteB">
+
+<!--메뉴 영역 시작-->
+
+<script type="text/javascript">
+    function goBack(){
+        window.history.back();
+    }
+</script>
+
+<nav class="navbar blueB">
+  <div class="top">
+    <div>
+      <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack();">
+
+      <p class="logo ml-sm-3 whiteW">내가 등록한 매칭</p>
+    </div>
+
+    <div>
+      <a href="chat_room.html"><img src="../img/close-envelope.png" class="menu_img" width="20rem" height="20rem" style="margin-right:1rem"></a>
+
+      <img src="../img/menu.png" width="20rem" height="20rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+    </div>
+  </div>
+
+  <div class="collapse navbar-collapse" id="navbarsExample01">
+    <div class="mypage">
+      <div class="img_div" style="margin-left: 0rem; margin-right: 0"><img class="profile_img" src="../img/testdog.jpg"/></div>
+      <!--닉네임 5글자 넘어갈시 잘려 나옴-->
+      <span class="name" style="font-size: 1.2rem">조이</span>
+      <div style="">
+        <a href="profile.html"><button class="btn btn-sm btn-warning" type="submit" style="margin-right:.3rem">내 정보</button></a>
+        <a href="login.html"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+      </div>
+    </div>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="main.html">홈 (매칭 팀 검색)</a>
+      </li>
+      <li class="nav-item" style="display:flex; align-items:center">
+        <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="team_received_review.html" style="margin-left:2rem">우리 팀 평가 점수</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="team_schedule.html" style="margin-left:2rem">경기 스케줄</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="match_application_form.html">매칭 등록</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="my_match.html">내가 등록한 매칭</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="contact.html">개발자에게 연락</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="py-4 text-center"></div>
+
+<!--메뉴 영역 끝-->
+
+<div class="container" style="padding-top:1rem">
+  <div class="reco">
+
+    <div class="content mb-3"> <!--content-->
+      <div class="date">
+        <h3 style="font-weight: bold">08. 20</h3>
+      </div>
+
+      <div class= "events mb-3">
+        <div class="score_content">
+          <div class = "schedule-detail">
+            <p class="schedule-detail-content">
+              <span class="bold">지역 | </span>
+              <span>내용 입력</span>
+            </p>
+
+            <p class="schedule-detail-content">
+              <span class="bold">장소 | </span>
+            </p>
+
+            <p class="schedule-detail-content">
+              <span class="bold">원정가능 유무 | </span>
+            </p>
+
+            <p class="schedule-detail-content">
+              <span class="bold">연령대 | </span>
+            </p>
+
+            <p class="schedule-detail-content">
+              <span class="bold">시작 시간 | </span>
+            </p>
+
+            <p class="schedule-detail-content">
+              <span class="bold">시간 | </span>
+            </p>
+
+            <p class="schedule-detail-content">
+              <span class="bold">기타 할 말 | </span>
+            </p>
+
+            <p class="schedule-detail-content">
+              <span class="bold">인원수 | </span>
+            </p>
+
+            <div>
+              <a href="team_review.html"><button class="btn btn-block blueB mt-3">수정하기</button></a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div> <!--content-->
+
+    <div class="content mb-3"> <!--content-->
+      <div class="date">
+        <h3 style="font-weight: bold">08. 20</h3>
+      </div>
+
+      <div class= "events mb-3">
+        <div class="score_content">
+          <div class = "schedule-detail">
+            <p class="schedule-detail-content">
+              <span class="bold">지역 | </span>
+            </p>
+
+            <p class="schedule-detail-content">
+              <span class="bold">장소 | </span>
+            </p>
+
+            <p class="schedule-detail-content">
+              <span class="bold">원정가능 유무 | </span>
+            </p>
+
+            <p class="schedule-detail-content">
+              <span class="bold">연령대 | </span>
+            </p>
+
+            <p class="schedule-detail-content">
+              <span class="bold">시작 시간 | </span>
+            </p>
+
+            <p class="schedule-detail-content">
+              <span class="bold">시간 | </span>
+            </p>
+
+            <p class="schedule-detail-content">
+              <span class="bold">기타 할 말 | </span>
+            </p>
+
+            <p class="schedule-detail-content">
+              <span class="bold">인원수 | </span>
+            </p>
+
+            <div>
+              <a href="team_review.html"><button class="btn btn-block blueB mt-3">수정하기</button></a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div> <!--content-->
+
+
+
+
+  </div> <!--reco-->
+
+</div><!--container-->
+
+</body>
+</html>

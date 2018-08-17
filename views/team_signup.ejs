@@ -56,15 +56,13 @@
 <div class="container">
     <div class="reco">
         <h5 class="mb-3 blackW" style="font-weight: bold">기본 정보</h5>
-        <form class="" action="/teamsignup" method="post">
-
-            <p class="mb-3">
-            <p>프로필 사진 등록</p> <!--프로필 사진-->
-            <div class="profile_img_upload">
-                <div class="img_div mb-1"><img id="profile_img" src="../img/profile_basic.png"/></div>
-                <div class="filebox"> <label for="new_profile_img">업로드</label> <input type="file" id="new_profile_img"> </div>
-            </div>
-
+		
+		  <form class="" action="/teamsignup" method="post">
+			  
+			  
+			
+			  
+			  
             <div class="mb-3">
                 <label for="user-name">팀 이름</label> <!--이름-->
                 <input type="text" class="form-control" name="teamname" id="user-name" placeholder="" value="" required>
@@ -120,7 +118,7 @@
 				<br>
 			
 			
-			<input type="text" name="region" id="sample5_address" placeholder="주소">
+			<input type="text" name="region" id="sample5_address" placeholder="주소" readonly/>
 			<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
 			<div id="map" style="width:1000px;height:300px;margin-top:10px;display:none"></div>
 
@@ -237,7 +235,7 @@
                 <textarea class="form-control" name="introteam" rows="5" placeholder="100자 내로 입력"></textarea>
             </div>
 
-            <button class="btn btn-block" type="submit">팀 가입 완료</button>
+			  <a href="/uploadimg"><button class="btn btn-block" type="submit">팀 가입 완료</button></a>
         </form>
     </div>
 </div>

@@ -23,7 +23,6 @@
 
     <script>
         $('.score_content').hide();
-
         function doShow() {
             if ($('.score_content').is(":visible")) {
                 $('.score_content').hide(); // 클래스값을 받아서 숨기기
@@ -31,7 +30,6 @@
                 $('.score_content').fadeIn("fast"); // 클래스값을 받아서 보이기
             }
         }
-
     </script>
 
 </head>
@@ -52,9 +50,10 @@
 
     <div class="collapse navbar-collapse" id="navbarsExample01">
         <div class="mypage">
-            <img src="../img/jisung_90.png"id="profile_pic" style="margin-right: .2rem">
+            <img src="../profile_img/<%= profile_img %>" id="profile_pic" style="margin-right: .2rem; width:3rem; height: 3rem">
             <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= teamname %> 팀</span>
             <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
+			<a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
             <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
         </div>
         

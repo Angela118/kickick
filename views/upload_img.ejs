@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="kr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>내 회원 정보</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/profile.css" rel="stylesheet">
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+	
+	
+</head>
+
+<body class="whiteB">
+
+<nav class="navbar blueB">
+
+      <p class="logo ml-sm-3">프로필 사진 수정</p>
+
+</nav>
+<br>
+<div class="container">
+    <div class="col-md-8 order-md-1">
+
+		<form class="" enctype="multipart/form-data" action="/uploadimg" method="post">
+			
+			
+            <p class="mb-3">
+            <p>프로필 사진 등록</p> <!--프로필 사진-->
+            <div class="profile_img_upload">
+                <div class="img_div mb-1"><img id="profile_img" src="../profile_img/<%= profile_img %>"/></div>
+				<div class="filebox">
+					<label>
+					<input type="file" name="photo" id="new_profile_img" value="업로드">
+					</label>
+				</div>
+		   </div>
+		
+		
+            <hr class="mb-4">
+
+			<a href="/"><button class="btn btn-block" type="submit">확인</button></a>
+		</form>
+    </div>
+</div>
+</body>
+<footer class="my-5 pt-5 text-muted text-center text-small">
+
+</footer>

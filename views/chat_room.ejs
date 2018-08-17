@@ -35,75 +35,58 @@
             var roomId = $('#roomIdInput').val();
             var roomName = $('#roomNameInput').val();
             var id = $('#idInput').val();
-
             var output = {
                 command:'create',
                 roomId:roomId,
                 roomName:roomName,
                 roomOwnoer:id
             };
-
             socket.emit('room', output);
         }
-
         function updateRoom(){
             var roomId = $('#roomIdInput').val();
             var roomName = $('#roomNameInput').val();
             var id = $('#idInput').val();
-
             var output = {
                 command:'update',
                 roomId:roomId,
                 roomName:roomName,
                 roomOwnoer:id
             };
-
             socket.emit('room', output);
         }
-
         function deleteRoom(){
             var roomId = $('#roomIdInput').val();
             var id = $('#idInput').val();
-
             var output = {
                 command:'delete',
                 roomId:roomId,
                 roomName:'',
                 roomOwnoer:id
             };
-
             socket.emit('room', output);
         }
-
         function joinRoom(){
             var roomId = $('#roomIdInput').val();
-
             var output = {
                 command:'join',
                 roomId:roomId
             };
-
             socket.emit('room', output);
         }
-
         function leaveRoom(){
             var roomId = $('#roomIdInput').val();
-
             var output = {
                 command:'leave',
                 roomId:roomId
             };
-
             socket.emit('room', output);
         }
-
-
         function println(data){		//상태 프린트
             console.log(data);
             $('#results').append('<p>' + data + '</p>');
         }
         
-
     </script>
     
 
@@ -133,11 +116,12 @@
 
   <div class="collapse navbar-collapse" id="navbarsExample01">
     <div class="mypage">
-	   <img src="../img/jisung_90.png"id="profile_pic" style="margin-right: .2rem">
-	   <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= teamname %> 팀</span>
-	   <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
-	   <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
-   </div>
+            <img src="../profile_img/<%= profile_img %>" id="profile_pic" style="margin-right: .2rem; width:3rem; height: 3rem">
+            <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= teamname %> 팀</span>
+            <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
+			<a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
+            <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+        </div>
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">

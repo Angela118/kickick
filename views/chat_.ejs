@@ -1,9 +1,8 @@
 <!--
-
 시간 장소 정하기에서 입력 안 한 칸 있는 경우 저장 못 하도록.
 저장한 경우 저장된 약속 시간 뜨도록.
 약속 수정하기 버튼.
-
+지도 map div 꽉차게
 -->
 
 
@@ -30,8 +29,6 @@
     
     <script>
         var socket;
-
-
         //jquery에서 문서가 다 로딩 되었을 때 호출되는 함수
         $(function(){
             connect();
@@ -41,28 +38,21 @@
          
          
         });
-
         function connect(){
-            var host = '192.168.26.29';  // $('#hostInput').val();
+            var host = '192.168.29.111';  // $('#hostInput').val();
             var port = 3000;  // $('#portInput').val();
-
             //서버에 접속
             connectToServer(host, port);
         }
-
         function connectToServer(host, port){
             var url = 'http://' + host + ':' + port;
             var options = {
                 forceNew:true   //연결이 끊어질 때마다 새로운 연결을 만들어라
             };
-
-
             socket = io.connect(url, options);   //socket객체 생성
-
             socket.on('connect'/*connect 이벤트 발생*/, function(){
                 console.log('웹소켓 서버에 연결됨 -> ' + url);
             });
-
             socket.on('disconnect'/*disconnect 이벤트 발생*/, function(){
                 console.log('웹소켓 연결 종료됨.');
             });
@@ -72,7 +62,6 @@
       //      $(output).prependTo('#content');
                 addToChatting(message.email, message.data);
             });
-
       
          socket.on('preload',function(dbData){
             addToChatting(dbData.email, dbData.message);
@@ -81,19 +70,14 @@
             socket.on('room', function(input){
                 if(input.command == 'list'){
                     $('#roomList').html('');
-
-
                     for(var i=0; i<input.rooms.length; i++){
                         $('#roomList').append('<p>방 #' + i + ' -> ' + input.rooms[i].id + ', ' + input.rooms[i].name + ', ' + input.rooms[i].owner);
                     }
                 }
             });
 */
-
-
         }
         
-
         function login(){
             var id = '<%= email %>';
             var teamname = '<%= teamname %>';
@@ -105,23 +89,15 @@
                 today:today
             };
          
-
             socket.emit('login', output);
-
         }
-
-
         
         function send(){
          var email = '<%= email %>';
             var sender = '<%= teamname %>';   //senderInput 입력상자에서 입력 값 가져오기
 //         var recipient = $('#recipientInput').val();
             var data = $('#dataInput').val();
-
-
             var chattype = $('#chattype option:selected').val();
-
-
             var message = {
             email:email,
                 sender:sender,
@@ -130,7 +106,6 @@
                 data:data,
                 type:'text'
             };
-
             socket.emit('message', message);
             
             addToChatting(message.email, message.data);
@@ -147,7 +122,6 @@
                  objDiv.scrollTop = objDiv.scrollHeight;
       }
       
-
         function println(data){      //상태 프린트
      //       console.log(data);
             $('#chatting').append('<p>' + data + '</p>');
@@ -225,13 +199,10 @@
    
    <script>
        // $(".add_button_content").hide();
-
       $("#add_button").click(function(){
          $("#add_button_content").toggle();
-
          var add = '../img/add.png';
            var close = '../img/close-button.png';
-
            if($('#add_button').attr('src') === add) {
             $('#add_button').attr('src', close);
          } else {
@@ -246,151 +217,16 @@
    
 <!--팀원 하게 되면 경기 끝 넣기-->
   <!--주장만 - 경기 끝 버튼 없음. 아래 버튼 없이 + 누르면 바로 알림창 또는 하단에 입력창 뜨게 만들어도 됨-->
-	
-<form action="/chat" method="post">
-    <button class="btn btn-block" style="color:black" data-toggle="modal" data-target="#myModal">
+ 
+    <button class="btn btn-block" style="color:black" onclick="movePage()">
         시간 장소 정하기
     </button>
+    <script>
+        function movePage() {
+            location.href = "/chatappointment";
+        }
+    </script>
 
-    <!-- The Modal : 시간/장소 modal 창으로 입력하게 해놨는데 혹시 디비로 안넘어가면 새 창으로 바꾸겠습니당 -->
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-            
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">세부 시간/장소 정하기</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-            
-                
-
-                <!-- Modal body -->            
-                <div class="modal-body">
-                    날짜<input type="date" name="event_date" id="theDate" class="form-control mt-2">
-                </div>
-         
-            <script>
-            
-               $(document).ready(function() {
-                  var date = new Date();
-
-                   var day = date.getDate();
-                  var month = date.getMonth() + 1;
-                   var year = date.getFullYear();
-
-                   if (month < 10) month = "0" + month;
-                   if (day < 10) day = "0" + day;
-
-                   var today = year + "-" + month + "-" + day;       
-                   $("#theDate").attr("value", today);
-               });
-            
-   
-            </script>
-            
-            
-
-                <div class="modal-body">
-                    시간<input type="time" name="event_time" class="form-control" value="00:00:00" step="600">
-                    <p style="text-align: center; margin-bottom: 0">
-                </div>
-
-                <div class="modal-body">
-               장소
-                    <input type="text" name="event_place" id="sample5_address"  placeholder="주소" class="form-control mt-2" readonly/ >
-               <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
-               <div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
-
-            <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-            <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df8f5565b51994aa9c71d2128dcdfec5&libraries=services"></script>
-            <script>
-               var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-                  mapOption = {
-                     center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-                     level: 5 // 지도의 확대 레벨
-                  };
-
-               //지도를 미리 생성
-               var map = new daum.maps.Map(mapContainer, mapOption);
-               //주소-좌표 변환 객체를 생성
-               var geocoder = new daum.maps.services.Geocoder();
-                //마커를 미리 생성
-               var marker = new daum.maps.Marker({
-                  position: new daum.maps.LatLng(37.537187, 127.005476),
-                  map: map
-               });
-
-
-               function sample5_execDaumPostcode() {
-                  new daum.Postcode({
-                     oncomplete: function(data) {
-                        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                        var fullAddr = data.address; // 최종 주소 변수
-                        var extraAddr = ''; // 조합형 주소 변수
-
-                        // 기본 주소가 도로명 타입일때 조합한다.
-                        if(data.addressType === 'R'){
-                           //법정동명이 있을 경우 추가한다.
-                           if(data.bname !== ''){
-                              extraAddr += data.bname;
-                           }
-                           // 건물명이 있을 경우 추가한다.
-                           if(data.buildingName !== ''){
-                              extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                           }
-                           // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
-                           fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
-                        }
-
-                        // 주소 정보를 해당 필드에 넣는다.
-                        document.getElementById("sample5_address").value = fullAddr;
-                        // 주소로 상세 정보를 검색
-                        geocoder.addressSearch(data.address, function(results, status) {
-                           // 정상적으로 검색이 완료됐으면
-                           if (status === daum.maps.services.Status.OK) {
-
-                              var result = results[0]; //첫번째 결과의 값을 활용
-                           
-                              // 해당 주소에 대한 좌표를 받아서
-                              var coords = new daum.maps.LatLng(result.y, result.x);
-                              // 지도를 보여준다.
-                              mapContainer.style.display = "block";
-                              map.relayout();
-                              // 지도 중심을 변경한다.
-                              map.setCenter(coords);
-                              // 마커를 결과값으로 받은 위치로 옮긴다.
-                              marker.setPosition(coords)
-                           }
-                        });
-                     }
-                  }).open();
-               }
-            
-            </script>
-               
-               
-               
-                </div>
-
-                <div class="modal-body">
-                    우리 팀 참여 인원 수<input type="text" name="event_nofteam" placeholder="<%= nofteam %>" class="form-control mt-2">
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-secondary" data-dismiss="modal">저장</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                </div>
-				</div>
-			</div>
-		</div>
-</form>              
-
-            
-        
     
 </div>
 
