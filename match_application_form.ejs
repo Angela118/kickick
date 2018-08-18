@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/FRAME.css" rel="stylesheet">
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/match.js"></script>
+    
+    <title>매칭 등록</title>
+</head>
+<body class="whiteB">
+
+
+<!--메뉴 영역 시작 : 나중에 파일로 따로 빼기 -->
+<!--여기선 메뉴명 매칭 등록으로 되어 있음-->
+
+<nav class="navbar blueB">
+
+    <div class="top">
+        <img src="../img/menu3.png" width="30rem" height="30rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+
+        <p class="logo">매칭 등록</p>
+
+        <a href="/chatroom"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarsExample01">
+        <div class="mypage">
+            <img src="../img/jisung_90.png"id="profile_pic" style="margin-right: .2rem">
+            <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= teamname %> 팀</span>
+            <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
+            <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+        </div>
+
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">홈 (매칭 팀 검색)</a>
+            </li>
+            <li class="nav-item" style="display:flex; align-items:center">
+                <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
+                <!--<hr align="right" style="border: solid 0.1rem white; width: 70%;">-->
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/teamreceivedreview" style="margin-left:2rem">우리 팀 평가 점수</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/teamschedule" style="margin-left:2rem">경기 스케줄</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/matchapplication">매칭 등록</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/contact">개발자에게 연락</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="py-4 text-center"></div>
+
+<!--메뉴 영역 끝 : 나중에 파일로 따로 빼기 -->
+
+
+<div class="container">
+    <div class="reco" style="margin-top: 2.3rem">
+        <h5 class="mb-3 blackW" style="font-weight: bold">매칭 등록</h5>
+
+        <form name="select_region" method="post" action="/matchapplication">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>지역</th>
+                    <td>
+                        <div class="mb-2">
+                            <select name="region" onchange="regionChange(this.selectedIndex);" class="form-control">
+                                <option value="" selected disabled hidden>지역 검색</option>
+                                <option value="1">서울</option>
+                                <option value="2">부산</option>
+                                <option value="3">대구</option>
+                                <option value="4">인천</option>
+                                <option value="5">광주</option>
+                                <option value="6">대전</option>
+                                <option value="7">울산</option>
+                                <option value="8">경기도</option>
+                                <option value="9">강원도</option>
+                                <option value="10">충청북도</option>
+                                <option value="11">충청남도</option>
+                                <option value="12">전라북도</option>
+                                <option value="13">전라남도</option>
+                                <option value="14">경상북도</option>
+                                <option value="15">경상남도</option>
+                                <option value="16">제주도</option>
+                                <option value="0">지역무관</option>
+                            </select>
+                        </div>
+                        <select name="region" class="form-control">
+                            <option>상세 검색</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>장소</th>
+                    <td><input type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <th>원정가능 유무</th>
+                    <td>
+                        <select class="form-control">
+                            <option value="move" selected disabled hidden>원정 가능 여부</option>
+                            <option value="yes">O</option>
+                            <option value="no">X</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>연령대</th>
+                    <td>
+                        <select name="age" class="form-control">
+                            <option value="" selected disabled hidden> 평균 연령대 </option>
+                            <option value="teen">10대</option>
+                            <option value="twenties">20대</option>
+                            <option value="thirties">30대</option>
+                            <option value="thirties">40대</option>
+                            <option value="thirties">50대</option>
+                            <option value="thirties">나이무관</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>날짜</th>
+                    <td>
+                        <input type="date" id="theDate" class="form-control">
+                    </td>
+                    
+                    <script>
+				
+					$(document).ready(function() {
+						var date = new Date();
+    					var day = date.getDate();
+						var month = date.getMonth() + 1;
+    					var year = date.getFullYear();
+    					if (month < 10) month = "0" + month;
+    					if (day < 10) day = "0" + day;
+    					var today = year + "-" + month + "-" + day;       
+    					$("#theDate").attr("value", today);
+					});
+				
+	
+				    </script>
+                    
+                </tr>
+                <tr>
+                    <th>시간대</th>
+                    <td>
+                        <input type="time" class="form-control" value="00:00:00">
+                        <p style="text-align: center; margin-bottom: 0">~</p>
+                            <input type="time" class="form-control" value="00:00:00">
+                    </td>
+                </tr>
+                <tr>
+                    <th>기타 할 말</th>
+                    <td><textarea class="form-control" name="" rows="7" cols="30" placeholder="100자 내로 입력"></textarea></td>
+                </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-block" style="color:black">매칭 등록</button>
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+
+</body>
+</html>
