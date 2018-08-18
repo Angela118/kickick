@@ -18,8 +18,8 @@
 
     <script src="../js/jquery.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
-	
-	
+   
+   
 </head>
 
 <body class="whiteB">
@@ -31,30 +31,47 @@
 </nav>
 <br>
 <div class="container">
-    <div class="col-md-8 order-md-1">
+    
 
-		<form class="" enctype="multipart/form-data" action="/uploadimg" method="post">
-			
-			
+      <form class="" enctype="multipart/form-data" action="/uploadimg" method="post">
+		  <div class="col-md-8 order-md-1">
+         
+         
             <p class="mb-3">
             <p>프로필 사진 등록</p> <!--프로필 사진-->
             <div class="profile_img_upload">
                 <div class="img_div mb-1"><img id="profile_img" src="../profile_img/<%= profile_img %>"/></div>
-				<div class="filebox">
-					<label>
-					<input type="file" name="photo" id="new_profile_img" value="업로드">
-					</label>
-				</div>
-		   </div>
-		
-		
+                <div class="filebox"> <label for="new_profile_img">업로드</label> <input type="file" name="photo" id="new_profile_img"> </div>
+<!--            <div class="filebox">
+               <label>
+               <input type="file" name="photo" id="new_profile_img" value="업로드">
+               </label>-->
+            </div>
+         </div>
+      
+      
             <hr class="mb-4">
 
-			<a href="/"><button class="btn btn-block" type="submit">확인</button></a>
-		</form>
+         <a href="/"><button class="btn btn-block" type="submit">확인</button></a>
+      </form>
     </div>
-</div>
 </body>
 <footer class="my-5 pt-5 text-muted text-center text-small">
 
 </footer>
+
+<script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#profile_img').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#new_profile_img").change(function() {
+        readURL(this);
+    });
+</script>
