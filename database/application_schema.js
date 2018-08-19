@@ -1,7 +1,17 @@
 
+
 var Schema = {};
 
 Schema.createSchema = function(mongoose) {
+	
+
+	var newDate = new Date();
+
+	// Get the month, day, and year.
+	var monthString = (newDate.getMonth() + 1);
+	var dayString = newDate.getDate();
+//	dateString += newDate.getFullYear();
+
 	
 	// 스키마 정의
 	var ApplicationSchema = mongoose.Schema({
@@ -14,8 +24,9 @@ Schema.createSchema = function(mongoose) {
 		age: {type:Number, default:''},	
 		event_date: {type: Date, 'default': ''},
 		event_time: {type: String, 'default': ''},
-		mention:{type: String, default:''}
-
+		mention:{type: String, default:''},
+		created_month: {type: String, 'default': monthString},
+		created_day: {type: String, 'default': dayString}
 	});
 	
 
