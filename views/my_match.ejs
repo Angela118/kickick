@@ -36,7 +36,7 @@
     </div>
 
     <div>
-      <a href="chat_room.html"><img src="../img/close-envelope.png" class="menu_img" width="20rem" height="20rem" style="margin-right:1rem"></a>
+      <a href="/chatroom"><img src="../img/envelope.png" class="menu_img" width="20rem" height="20rem" style="margin-right:1rem"></a>
 
       <img src="../img/menu.png" width="20rem" height="20rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
     </div>
@@ -44,13 +44,11 @@
 
   <div class="collapse navbar-collapse" id="navbarsExample01">
     <div class="mypage">
-      <div class="img_div" style="margin-left: 0rem; margin-right: 0"><img class="profile_img" src="../img/testdog.jpg"/></div>
-      <!--닉네임 5글자 넘어갈시 잘려 나옴-->
-      <span class="name" style="font-size: 1.2rem">조이</span>
-      <div style="">
-        <a href="profile.html"><button class="btn btn-sm btn-warning" type="submit" style="margin-right:.3rem">내 정보</button></a>
-        <a href="login.html"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
-      </div>
+      <img src="../profile_img/<%= profile_img %>" id="profile_pic" style="margin-right: .2rem; width:3rem; height: 3rem">
+      <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= teamname %> 팀</span>
+      <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
+      <a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
+      <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
     </div>
 
     <ul class="navbar-nav mr-auto">
@@ -62,19 +60,19 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="team_received_review.html" style="margin-left:2rem">우리 팀 평가 점수</a>
+        <a class="nav-link" href="/teamreceivedreview" style="margin-left:2rem">우리 팀 평가 점수</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="team_schedule.html" style="margin-left:2rem">경기 스케줄</a>
+        <a class="nav-link" href="/teamschedule" style="margin-left:2rem">경기 스케줄</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="match_application_form.html">매칭 등록</a>
+        <a class="nav-link" href="matchapplication">매칭 등록</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="my_match.html">내가 등록한 매칭</a>
+        <a class="nav-link" href="/mymatch">내가 등록한 매칭</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="contact.html">개발자에게 연락</a>
+        <a class="nav-link" href="/contact">개발자에게 연락</a>
       </li>
     </ul>
   </div>
@@ -87,9 +85,25 @@
 <div class="container" style="padding-top:1rem">
   <div class="reco">
 
+    <% for(var i = 0; i < event_data.length; i++) {
+      var curEmail = event_data[i].email;
+      var curCreatedMonth = event_data[i].created_month;
+      var curCreatedDay = event_data[i].created_day;
+      var curTeamname = event_data[i].teamname;
+      var curCity = event_data[i].city;
+      var curDistrict = event_data[i].district;
+      var curPlace = event_data[i].place;
+      var curMove = event_data[i].move;
+      var curAge = event_data[i].age;
+      var curDate = event_data[i].event_date;
+      var curTime = event_data[i].event_time;
+      var curMention = event_data[i].mention;
+    %>
+
+
     <div class="content mb-3"> <!--content-->
       <div class="date">
-        <h3 style="font-weight: bold">08. 20</h3>
+        <h3 style="font-weight: bold"><%= curCreatedMonth %>.<%= curCreatedDay %></h3>
       </div>
 
       <div class= "events mb-3">
@@ -97,39 +111,41 @@
           <div class = "schedule-detail">
             <p class="schedule-detail-content">
               <span class="bold">지역 | </span>
-              <span>내용 입력</span>
+              <span><%= curCity %></span>
             </p>
 
             <p class="schedule-detail-content">
               <span class="bold">장소 | </span>
+              <span><%= curPlace %></span>
             </p>
 
             <p class="schedule-detail-content">
               <span class="bold">원정가능 유무 | </span>
+              <span><%= curMove %></span>
             </p>
 
             <p class="schedule-detail-content">
               <span class="bold">연령대 | </span>
+              <span><%= curAge %></span>
             </p>
 
             <p class="schedule-detail-content">
-              <span class="bold">시작 시간 | </span>
+              <span class="bold">날짜 | </span>
+              <span><%= curDate %></span>
             </p>
 
             <p class="schedule-detail-content">
               <span class="bold">시간 | </span>
+              <span><%= curTime %></span>
             </p>
 
             <p class="schedule-detail-content">
               <span class="bold">기타 할 말 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">인원수 | </span>
+              <span><%= curMention %></span>
             </p>
 
             <div>
-              <a href="team_review.html"><button class="btn btn-block blueB mt-3">수정하기</button></a>
+              <a href="/matchapplicationedit"><button class="btn btn-block blueB mt-3">수정하기</button></a>
             </div>
 
           </div>
@@ -137,58 +153,7 @@
       </div>
     </div> <!--content-->
 
-    <div class="content mb-3"> <!--content-->
-      <div class="date">
-        <h3 style="font-weight: bold">08. 20</h3>
-      </div>
-
-      <div class= "events mb-3">
-        <div class="score_content">
-          <div class = "schedule-detail">
-            <p class="schedule-detail-content">
-              <span class="bold">지역 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">장소 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">원정가능 유무 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">연령대 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">시작 시간 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">시간 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">기타 할 말 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">인원수 | </span>
-            </p>
-
-            <div>
-              <a href="team_review.html"><button class="btn btn-block blueB mt-3">수정하기</button></a>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div> <!--content-->
-
-
-
-
+    <%} %>
   </div> <!--reco-->
 
 </div><!--container-->
