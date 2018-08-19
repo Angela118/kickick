@@ -11,10 +11,12 @@ module.exports = function(router, passport, upload) {
 	var profile_photo;
 
 
-	
-    // 홈 화면
+	/*
+    // 홈 화면, 추천
     router.route('/').get(function(req, res) {
-        console.log('/main 패스 요청됨.');
+        console.log('/main 패스 get 요청됨.');
+		var dbm = require('../database/database');
+			console.log('database 모듈 가져옴');
 
        
         // 인증 안된 경우
@@ -30,8 +32,6 @@ module.exports = function(router, passport, upload) {
 				profile_img = req.user.profile_img;
 			if(profile_img != req.user.profile_img)
 				profile_photo = profile_img;
-			
-			console.log('===== profile photo : ' + profile_photo);
 
 			
 			var user_context = {
@@ -51,9 +51,78 @@ module.exports = function(router, passport, upload) {
 			
 			
             console.log('사용자 인증된 상태임.');
-            res.render('main.ejs', user_context /*, {login_success:true}*/);
+            res.render('main.ejs', user_context /*, {login_success:true});
         }
     });
+	*/
+	
+	router.route('/').get(function(req, res){
+		console.log('/main 패스 get 요청됨.');
+        
+        if (!req.user) {
+            console.log('사용자 인증 안된 상태임.');
+            res.redirect('/login');
+        }else{
+			
+			
+			profile_photo = req.user.profile_img;			
+			if(profile_img == null)
+				profile_img = req.user.profile_img;
+			if(profile_img != req.user.profile_img)
+				profile_photo = profile_img;
+			
+			
+			
+			var dbm = require('../database/database');
+			console.log('database 모듈 가져옴');
+			
+			
+			var eventData = new Array();			
+
+
+			dbm.ApplicationModel.find({age: { $gt: req.user.age-5 , $lte: req.user.age+5 } },function (err, result) {				
+				for(var i = 0 ; i < result.length ; i++) {
+					if(result[i]._doc.email == req.user.email){
+						var data = {
+							'email' : result[i]._doc.email, 
+							'teamname' : result[i]._doc.teamname,
+							'city' : result[i]._doc.city,
+							'district' : result[i]._doc.district,
+							'place' : result[i]._doc.place,
+							'move' : result[i]._doc.move,
+							'age' : result[i]._doc.age,	
+							'event_date' : result[i]._doc.event_date,
+							'event_time' : result[i]._doc.event_time,
+							'mention' : result[i]._doc.mention,
+							'created_month' : result[i]._doc.created_month,
+							'created_day' : result[i]._doc.created_day
+						};
+					}					
+					eventData[i] = data;
+				}
+										
+				var user_context = {
+					'email':req.user.email,
+					'teamname':req.user.teamname, 
+					'gender':req.user.gender, 
+					'age':req.user.age,
+					'region':req.user.region,
+					'move':req.user.move,
+					'nofteam':req.user.nofteam,
+					'career_year':req.user.career_year,
+					'career_count':req.user.career_count,
+					'introteam':req.user.introteam,
+					'profile_img':profile_photo,
+					'event_data':eventData
+				};
+				
+				console.dir(user_context);
+				
+							
+            	res.render('main.ejs', user_context);			
+			});
+        }
+	});
     
 	
 	
@@ -232,7 +301,7 @@ module.exports = function(router, passport, upload) {
         // 인증 안된 경우
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
-            res.redirect('/');
+            res.redirect('/login');
         } else {
             console.log('사용자 인증된 상태임.');
    
@@ -389,7 +458,7 @@ module.exports = function(router, passport, upload) {
 		
 		if(!req.user){
 			console.log('사용자 인증 안된 상태임.');
-			res.redirect('/');
+			res.redirect('/login');
 		}
 		else{
 			console.log('회원정보 수정 완료.');
@@ -420,7 +489,7 @@ module.exports = function(router, passport, upload) {
         
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
-            res.redirect('/');
+            res.redirect('/login');
         }else{
 			
 			
@@ -457,7 +526,7 @@ module.exports = function(router, passport, upload) {
         
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
-            res.redirect('/');
+            res.redirect('/login');
         }else{
 			
 			profile_photo = req.user.profile_img;			
@@ -534,7 +603,7 @@ module.exports = function(router, passport, upload) {
         
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
-            res.redirect('/');
+            res.redirect('/login');
         }else{
          profile_photo = req.user.profile_img;			
 			if(profile_img == null)
@@ -605,12 +674,13 @@ module.exports = function(router, passport, upload) {
     // ===== 메뉴
 	
 	
+	//경기 검색
     router.route('/mainsearch').get(function(req, res){
         console.log('/main_search 패스 get 요청됨.');
 		
 		if(!req.user){
 			console.log('사용자 인증 안된 상태임.');
-			res.redirect('/');
+			res.redirect('/login');
 		}
 		else{
 			
@@ -682,15 +752,14 @@ module.exports = function(router, passport, upload) {
 		
 	});
 	
-	
-	
+		
 	router.route('/mainsearchresult').get(function(req, res){
 		console.log('/mainsearchresult 패스 get 요청됨.');
 		
 		
 		if(!req.user){
 			console.log('사용자 인증 안된 상태임.');
-			res.redirect('/');
+			res.redirect('/login');
 		}
 		else{
 			
@@ -727,7 +796,7 @@ module.exports = function(router, passport, upload) {
 
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
-            res.redirect('/');
+            res.redirect('/login');
         } else {
 
             profile_photo = req.user.profile_img;
@@ -787,7 +856,7 @@ module.exports = function(router, passport, upload) {
         
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
-            res.redirect('/');
+            res.redirect('/login');
         }else{
 			
 			profile_photo = req.user.profile_img;			
@@ -824,7 +893,7 @@ module.exports = function(router, passport, upload) {
         
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
-            res.redirect('/');
+            res.redirect('/login');
         }else{
 			
 			profile_photo = req.user.profile_img;			
@@ -898,7 +967,7 @@ module.exports = function(router, passport, upload) {
         
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
-            res.redirect('/');
+            res.redirect('/login');
         }else{
 			
 			
@@ -957,8 +1026,6 @@ module.exports = function(router, passport, upload) {
             	res.render('my_match.ejs', user_context);
 			
 			});
-
-
         }
 	});
 	
@@ -968,7 +1035,7 @@ module.exports = function(router, passport, upload) {
         
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
-            res.redirect('/');
+            res.redirect('/login');
         }else{
 			
 			
@@ -1101,7 +1168,7 @@ module.exports = function(router, passport, upload) {
 		
 		if(!req.user){
 			console.log('사용자 인증 안된 상태임.');
-			res.redirect('/');
+			res.redirect('/login');
 		}
 		else{
 			
@@ -1137,7 +1204,7 @@ module.exports = function(router, passport, upload) {
     router.route('/logout').get(function(req, res) {
         console.log('/logout 패스 get 요청됨.');
         req.logout();
-        res.redirect('/');
+        res.redirect('/login');
     });
 
     
