@@ -26,6 +26,7 @@ Schema.createSchema = function(mongoose) {
 		, career_year: {type:Number, 'default':''}
 		, career_count: {type:Number, 'default':''}
 		, introteam: {type:String, default:''}
+		, profile_img: {type:String, 'default':'profile_basic.png'}
 		, created_at: {type: Date, index: {unique: false}, 'default': Date.now}
 	    , updated_at: {type: Date, index: {unique: false}, 'default': Date.now}
 	});
