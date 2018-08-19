@@ -87,7 +87,7 @@
 
     <div class="content mb-3"> <!--content-->
       <div class="date">
-        <h3 style="font-weight: bold">08. 20</h3>
+        <h3 style="font-weight: bold"><%= event_data[0].created_month %>.<%= event_data[0].created_day %></h3>
       </div>
 
       <div class= "events mb-3">
@@ -110,26 +110,26 @@
 
             <p class="schedule-detail-content">
               <span class="bold">연령대 | </span>
+				<span><%= event_data[0].age %></span>
             </p>
 
             <p class="schedule-detail-content">
-              <span class="bold">시작 시간 | </span>
+              <span class="bold">날짜 | </span>
+				<span><%= event_data[0].event_date %></span>
             </p>
 
             <p class="schedule-detail-content">
               <span class="bold">시간 | </span>
+				<span><%= event_data[0].event_time %></span>
             </p>
 
             <p class="schedule-detail-content">
               <span class="bold">기타 할 말 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">인원수 | </span>
+				<span><%= event_data[0].mention %></span>
             </p>
 
             <div>
-              <a href="/matchapplication"><button class="btn btn-block blueB mt-3">수정하기</button></a>
+              <a href="/matchapplicationedit"><button class="btn btn-block blueB mt-3">수정하기</button></a>
             </div>
 
           </div>

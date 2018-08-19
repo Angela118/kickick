@@ -44,7 +44,7 @@
             <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
         </div>
 
-        <ul class="navbar-nav mr-auto">
+       <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link" href="main.html">홈 (매칭 팀 검색)</a>
       </li>
@@ -88,7 +88,7 @@
                     <td>
                         <div class="mb-2">
                             <select name="city" onchange="regionChange(this.selectedIndex);" class="form-control">
-                                <option value="" selected disabled hidden>지역 검색</option>
+                                <option value="" selected disabled hidden><%= event_data[0].city %></option>
                                 <option>서울</option>
                                 <option>부산</option>
                                 <option>대구</option>
@@ -117,7 +117,7 @@
                     <th>장소</th>
                     <td>
 					
-					<input type="text" name="place" id="sample5_address" placeholder="주소" readonly/>
+					<input type="text" name="place" id="sample5_address" placeholder="<%= event_data[0].place %>" readonly/>
 			<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
 			<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
 
@@ -196,7 +196,7 @@
                     <th>원정가능 유무</th>
                     <td>
                         <select name="move" class="form-control">
-                            <option selected disabled hidden>원정 가능 여부</option>
+                            <option selected disabled hidden><%= event_data[0].move %></option>
                             <option>O</option>
                             <option>X</option>
                         </select>
@@ -207,7 +207,7 @@
                     <th>연령대</th>
                     <td>
                         <select name="age" class="form-control">
-                            <option selected disabled hidden> 평균 연령대 </option>
+                            <option selected disabled hidden><%= event_data[0].age %></option>
                             <option value="10">10대</option>
 							<option value="20">20대</option>
 							<option value="30">30대</option>
@@ -253,13 +253,12 @@
                 </tr>
                 <tr>
                     <th>기타 할 말</th>
-                    <td><textarea class="form-control" name="mention" rows="7" cols="30" placeholder="100자 내로 입력"></textarea></td>
+                    <td><textarea class="form-control" name="mention" rows="7" cols="30" value="<%= event_data[0].mention %>" placeholder="100자 내로 입력"></textarea></td>
                 </tr>
                 </tbody>
             </table>
-            <button type="submit" class="btn btn-block" style="color:black">매칭 등록</button>
+            <button type="submit" class="btn btn-block" style="color:black">수정 완료</button>
         </form>
-
 
     </div>
 
