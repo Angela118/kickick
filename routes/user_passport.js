@@ -880,85 +880,66 @@ module.exports = function(router, passport, upload) {
             res.redirect('/');
         }else{
 			
+			
 			profile_photo = req.user.profile_img;			
 			if(profile_img == null)
 				profile_img = req.user.profile_img;
 			if(profile_img != req.user.profile_img)
 				profile_photo = profile_img;
-
-			
-			var user_context = {
-				'email':req.user.email, 
-				'password':req.user.password, 
-				'teamname':req.user.teamname, 
-				'gender':req.user.gender, 
-				'age':req.user.age,
-				'region':req.user.region,
-				'move':req.user.move,
-				'nofteam':req.user.nofteam,
-				'career_year':req.user.career_year,
-				'career_count':req.user.career_count,
-				'introteam':req.user.introteam,
-				'profile_img':profile_photo
-			};
 			
 			
 			
 			var dbm = require('../database/database');
 			console.log('database 모듈 가져옴');
 			
-			var event = dbm.collection("appointment");
+			
+			var eventData = new Array();			
 
-			event.find({email : user_context.email}, function (err, result) {
+
+			dbm.ApplicationModel.find(function (err, result) {				
 				for(var i = 0 ; i < result.length ; i++) {
-					var eventData = {
-						email : result[i].email, 
-						teamname : result[i].teamname,
-						city : result[i].city,
-						district: result[i].district,
-						place : result[i].place,
-						move : result[i].move,
-						age: result[i].age,	
-						event_date: result[i].event_date,
-						event_time: result[i].event_time,
-						mention: result[i].mention
-					};
-				}	
+					if(result[i]._doc.email == req.user.email){
+						var data = {
+							'email' : result[i]._doc.email, 
+							'teamname' : result[i]._doc.teamname,
+							'city' : result[i]._doc.city,
+							'district' : result[i]._doc.district,
+							'place' : result[i]._doc.place,
+							'move' : result[i]._doc.move,
+							'age' : result[i]._doc.age,	
+							'event_date' : result[i]._doc.event_date,
+							'event_time' : result[i]._doc.event_time,
+							'mention' : result[i]._doc.mention
+						};
+					}					
+					eventData[i] = data;
+				}
+				
+				
+				var user_context = {
+					'email':req.user.email,
+					'teamname':req.user.teamname, 
+					'gender':req.user.gender, 
+					'age':req.user.age,
+					'region':req.user.region,
+					'move':req.user.move,
+					'nofteam':req.user.nofteam,
+					'career_year':req.user.career_year,
+					'career_count':req.user.career_count,
+					'introteam':req.user.introteam,
+					'profile_img':profile_photo,
+					'event_data':eventData
+				};
+				
+				
+				console.dir(user_context);
+				
+							
+            	res.render('my_match.ejs', user_context);
+			
 			});
-			
-			/*
-			// receives message from DB
-    		event.find(function (err, result) {
-				for(var i = 0 ; i < result.length ; i++) {
-					if(result[i]._doc.email === user_context.email){
-            			var dbData = {email : result[i].email, teamname : result[i].teamname, message : result[i].message };
-					}
-        		}
-			});
-			
-		*/
-		
-		
-			var event = {
-				'email': req.user.email,
-				'teamname': req.user.teamname,	
-				'city': req.body.city || req.query.city,
-				'district': req.body.district || req.query.district,
-				'place' : req.body.place || req.query.place,
-				'move' : req.body.move || req.query.move,
-				'age': req.body.age || req.query.age,	
-				'event_date': req.body.event_date || req.query.event_date,
-				'event_time': req.body.event_time || req.query.event_time,
-				'mention': req.body.mention || req.query.mention
-			};
-		
-		
-		
-			console.dir(event);
-			
-			
-			
-            res.render('my_match.ejs', user_context);
+
+
         }
 	});
 	
