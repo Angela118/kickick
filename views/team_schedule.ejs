@@ -277,17 +277,17 @@
 
         <div class="main">
             <div class="date">
-                <h3 style="font-weight: bold">08. 20</h3>
+                <h3 style="font-weight: bold"><%= event_data[0].event_date %></h3>
                 <!--<p>Schedule of Events</p>-->
             </div>
 
             <div class= "events">
                 <div class="events-detail">
                     <div onclick="javascript:doShow()" class="event_content">
-                        <span class="event-time">9:00am - </span>
-                        <span class="event-name">Vs 우리가 남이가</span>
+                        <span class="event-time"><%= event_data[0].event_time %> - </span>
+                        <span class="event-name">Vs 상대팀</span>
                         <br />
-                        <span class="event-location">서울-강동 / 명일여자고등학교</span>
+                        <span class="event-location"><%= event_data[0].event_place %></span>
                     </div>
                 </div>
 
@@ -295,7 +295,7 @@
                     <div class="match-teams mb-3">
                         <div class="match-team">
                             <img src="../img/team_100.png" width="70rem" class="team-img">
-                            <button class="btn btn-sm" style="color:black">로로롱</button>
+                            <button class="btn btn-sm" style="color:black"><%= event_data[0].teamname %> 팀</button>
                         </div>
 
                         <div class="score">
@@ -306,29 +306,14 @@
 
                         <div class="match-team">
                             <img src="../img/soccer-ball.png" width="70rem" class="team-img">
-                            <button class="btn btn-sm" style="color:black">우리가 남이가</button>
+                            <button class="btn btn-sm" style="color:black">상대팀</button>
                         </div>
                     </div>
 
                     <div class = "schedule-detail">
                         <p class="schedule-detail-content">
-                            <span class="bold">장소 | </span>
-                        </p>
-
-                        <p class="schedule-detail-content">
-                            <span class="bold">날짜 | </span>
-                        </p>
-
-                        <p class="schedule-detail-content">
-                            <span class="bold">시간 | </span>
-                        </p>
-
-                        <p class="schedule-detail-content">
-                            <span class="bold">장소 | </span>
-                        </p>
-
-                        <p class="schedule-detail-content">
                             <span class="bold">인원수 | </span>
+                            <span><%= event_data[0].event_nofteam %></span>
                         </p>
 
                         <div class="schedule-detail-content">
@@ -336,11 +321,11 @@
                                 <span class="bold" style="margin-top: .3rem">스코어 입력 | &nbsp</span>
                                 <div class="score_input">
                                     <div class="form-group"  style="display: flex; align-items: center">
-                                        로로롱팀 : &nbsp
+                                        <%= event_data[0].teamname %>팀 : &nbsp
                                         <input type="text" class="form-control" style="height:1.8rem">&nbsp <button class="btn btn-sm" style="color:black">제출</button>
                                     </div>
                                     <div class="form-group"  style="display: flex; align-items: center">
-                                        우리가남이가팀 : &nbsp
+                                        상대(이름넣기) 팀 : &nbsp
                                         <input type="text" class="form-control" style="height:1.8rem">&nbsp <button class="btn btn-sm" style="color:black">제출</button>
                                     </div>
                                 </div>
