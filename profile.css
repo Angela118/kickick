@@ -1,0 +1,61 @@
+.container {
+    max-width: 960px;
+}
+
+.border-top { border-top: 1px solid #e5e5e5; }
+.border-bottom { border-bottom: 1px solid #e5e5e5; }
+.border-top-gray { border-top-color: #adb5bd; }
+.bg-light{background-color:#ffffff!important}
+
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+.lh-condensed { line-height: 1.25; }
+
+.navbar{
+    justify-content:space-around;
+    padding:1rem 0rem;
+}
+
+.birth{
+    display:flex;
+    justify-content: space-around;
+    text-align:center;
+}
+
+.profile_img_upload{
+    /*display: flex; justify-content: center; align-items: center;*/
+    text-align: center;
+}
+
+.img_div{
+    overflow:hidden;
+    height: 6rem;
+    width: 6rem;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+#profile_img {
+    max-height: 100%;
+    position:relative;
+    margin: 0 auto;
+}
+
+.filebox label { display: inline-block; padding: .5em .75em; color: #999; font-size: inherit; line-height: normal; vertical-align: middle; background-color: #fdfdfd; cursor: pointer; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em; } .filebox input[type="file"] { /* 파일 필드 숨기기 */ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0; }
+
+.change {
+   font-size: 1.3em;
+   font-weight: bold;
+}
+
+.enter {
+    display: flex;
+    width: 100%;
+}
+.one two {
+    display: block;
+}
+.two {
+    padding-left: 0.3em;
+}
