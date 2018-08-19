@@ -36,7 +36,7 @@
     </div>
 
     <div>
-      <a href="chat_room.html"><img src="../img/close-envelope.png" class="menu_img" width="20rem" height="20rem" style="margin-right:1rem"></a>
+      <a href="/chatroom"><img src="../img/envelope.png" class="menu_img" width="20rem" height="20rem" style="margin-right:1rem"></a>
 
       <img src="../img/menu.png" width="20rem" height="20rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
     </div>
@@ -44,14 +44,12 @@
 
   <div class="collapse navbar-collapse" id="navbarsExample01">
     <div class="mypage">
-      <div class="img_div" style="margin-left: 0rem; margin-right: 0"><img class="profile_img" src="../img/testdog.jpg"/></div>
-      <!--닉네임 5글자 넘어갈시 잘려 나옴-->
-      <span class="name" style="font-size: 1.2rem">조이</span>
-      <div style="">
-        <a href="profile.html"><button class="btn btn-sm btn-warning" type="submit" style="margin-right:.3rem">내 정보</button></a>
-        <a href="login.html"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
-      </div>
-    </div>
+            <img src="../profile_img/<%= profile_img %>" id="profile_pic" style="margin-right: .2rem; width:3rem; height: 3rem">
+            <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= teamname %> 팀</span>
+            <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
+			<a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
+            <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+        </div>
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
@@ -62,19 +60,19 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="team_received_review.html" style="margin-left:2rem">우리 팀 평가 점수</a>
+        <a class="nav-link" href="/teamreceivedreview" style="margin-left:2rem">우리 팀 평가 점수</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="team_schedule.html" style="margin-left:2rem">경기 스케줄</a>
+        <a class="nav-link" href="/teamschedule" style="margin-left:2rem">경기 스케줄</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="match_application_form.html">매칭 등록</a>
+        <a class="nav-link" href="matchapplication">매칭 등록</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="my_match.html">내가 등록한 매칭</a>
+        <a class="nav-link" href="/mymatch">내가 등록한 매칭</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="contact.html">개발자에게 연락</a>
+        <a class="nav-link" href="/contact">개발자에게 연락</a>
       </li>
     </ul>
   </div>
@@ -178,7 +176,7 @@
             </p>
 
             <div>
-              <a href="team_review.html"><button class="btn btn-block blueB mt-3">수정하기</button></a>
+              <a href="/teamreview"><button class="btn btn-block blueB mt-3">수정하기</button></a>
             </div>
 
           </div>
