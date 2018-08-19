@@ -95,15 +95,17 @@
           <div class = "schedule-detail">
             <p class="schedule-detail-content">
               <span class="bold">지역 | </span>
-              <span>내용 입력</span>
+              <span><%= event_data[0].city %></span>
             </p>
 
             <p class="schedule-detail-content">
-              <span class="bold">장소 | </span>
+              <span class="bold">장소 | </span>				
+				<span><%= event_data[0].place %></span>
             </p>
 
             <p class="schedule-detail-content">
               <span class="bold">원정가능 유무 | </span>
+				<span><%= event_data[0].move %></span>
             </p>
 
             <p class="schedule-detail-content">
@@ -127,7 +129,7 @@
             </p>
 
             <div>
-              <a href="team_review.html"><button class="btn btn-block blueB mt-3">수정하기</button></a>
+              <a href="/matchapplication"><button class="btn btn-block blueB mt-3">수정하기</button></a>
             </div>
 
           </div>
@@ -176,7 +178,7 @@
             </p>
 
             <div>
-              <a href="/teamreview"><button class="btn btn-block blueB mt-3">수정하기</button></a>
+              <a href="/matchapplication"><button class="btn btn-block blueB mt-3">수정하기</button></a>
             </div>
 
           </div>
