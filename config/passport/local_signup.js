@@ -23,29 +23,9 @@ module.exports = new LocalStrategy({
 	var career_year = req.body.career_year || req.query.career_year;
 	var career_count = req.body.career_count || req.query.career_count;
 	var introteam = req.body.introteam || req.query.introteam;
-	
-	
-	
-	//나이 변환
-	switch(age){
-		case '10대' : age=10; break;
-		case '20대' : age=20; break;
-		case '30대' : age=30; break;
-		case '40대' : age=40; break;
-		case '50대' : age=50; break;
-		case '60대' : age=60; break;
-		case '70대 이상' : age=70; break;
-	}
+	var profile_img = "profile_basic.png";
 	
 
-	
-	/*
-    //나이 계산
-    var today = new Date();
-    var nowYear = today.getFullYear();
-    var age = nowYear - birth + 1;
-	
-	*/
 
 	console.log('passport의 local-signup 호출됨.');
 	
@@ -78,7 +58,8 @@ module.exports = new LocalStrategy({
 					'nofteam':nofteam,
 					'career_year':career_year,
 					'career_count':career_count,
-					'introteam':introteam
+					'introteam':introteam,
+					'profile_img':profile_img
                 });
                 
                 user.save(function(err) {
