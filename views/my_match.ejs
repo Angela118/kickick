@@ -44,12 +44,12 @@
 
   <div class="collapse navbar-collapse" id="navbarsExample01">
     <div class="mypage">
-            <img src="../profile_img/<%= profile_img %>" id="profile_pic" style="margin-right: .2rem; width:3rem; height: 3rem">
-            <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= teamname %> 팀</span>
-            <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
-			<a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
-            <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
-        </div>
+      <img src="../profile_img/<%= profile_img %>" id="profile_pic" style="margin-right: .2rem; width:3rem; height: 3rem">
+      <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= teamname %> 팀</span>
+      <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
+      <a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
+      <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+    </div>
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
@@ -85,110 +85,62 @@
 <div class="container" style="padding-top:1rem">
   <div class="reco">
 
+    <% for(var i = 0; i < event_data.length; i++) {
+      var curEmail = event_data[i].email;
+      var curCreatedMonth = event_data[i].created_month;
+      var curCreatedDay = event_data[i].created_day;
+      var curTeamname = event_data[i].teamname;
+      var curRegion = event_data[i].region[0] + event_data[i].region[1];
+      var curPlace = event_data[i].place;
+      var curMove = event_data[i].move;
+      var curAge = event_data[i].age;
+      var curDate = event_data[i].event_date;
+      var curTime = event_data[i].event_time;
+      var curMention = event_data[i].mention;
+    %>
     <div class="content mb-3"> <!--content-->
       <div class="date">
-        <h3 style="font-weight: bold"><%= event_data[0].created_month %>.<%= event_data[0].created_day %></h3>
+        <h3 style="font-weight: bold"><%= curCreatedMonth %>.<%= curCreatedDay %></h3>
       </div>
-
       <div class= "events mb-3">
         <div class="score_content">
           <div class = "schedule-detail">
             <p class="schedule-detail-content">
               <span class="bold">지역 | </span>
-              <span><%= event_data[0].city %></span>
+              <span><%= curRegion %></span>
             </p>
-
             <p class="schedule-detail-content">
-              <span class="bold">장소 | </span>				
-				<span><%= event_data[0].place %></span>
+              <span class="bold">장소 | </span>
+              <span><%= curPlace %></span>
             </p>
-
             <p class="schedule-detail-content">
               <span class="bold">원정가능 유무 | </span>
-				<span><%= event_data[0].move %></span>
+              <span><%= curMove %></span>
             </p>
-
             <p class="schedule-detail-content">
               <span class="bold">연령대 | </span>
-				<span><%= event_data[0].age %></span>
+              <span><%= curAge %></span>
             </p>
-
             <p class="schedule-detail-content">
               <span class="bold">날짜 | </span>
-				<span><%= event_data[0].event_date %></span>
+              <span><%= curDate %></span>
             </p>
-
             <p class="schedule-detail-content">
               <span class="bold">시간 | </span>
-				<span><%= event_data[0].event_time %></span>
+              <span><%= curTime %></span>
             </p>
-
             <p class="schedule-detail-content">
               <span class="bold">기타 할 말 | </span>
-				<span><%= event_data[0].mention %></span>
+              <span><%= curMention %></span>
             </p>
-
             <div>
               <a href="/matchapplicationedit"><button class="btn btn-block blueB mt-3">수정하기</button></a>
             </div>
-
           </div>
         </div>
       </div>
     </div> <!--content-->
-
-    <div class="content mb-3"> <!--content-->
-      <div class="date">
-        <h3 style="font-weight: bold">08. 20</h3>
-      </div>
-
-      <div class= "events mb-3">
-        <div class="score_content">
-          <div class = "schedule-detail">
-            <p class="schedule-detail-content">
-              <span class="bold">지역 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">장소 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">원정가능 유무 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">연령대 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">시작 시간 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">시간 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">기타 할 말 | </span>
-            </p>
-
-            <p class="schedule-detail-content">
-              <span class="bold">인원수 | </span>
-            </p>
-
-            <div>
-              <a href="/matchapplication"><button class="btn btn-block blueB mt-3">수정하기</button></a>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </div> <!--content-->
-
-
-
-
+    <%} %>
   </div> <!--reco-->
 
 </div><!--container-->

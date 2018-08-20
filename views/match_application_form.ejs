@@ -89,26 +89,26 @@
                         <div class="mb-2">
                             <select name="city" onchange="regionChange(this.selectedIndex);" class="form-control">
                                 <option value="" selected disabled hidden>지역 검색</option>
-                                <option>서울</option>
-                                <option>부산</option>
-                                <option>대구</option>
-                                <option>인천</option>
-                                <option>광주</option>
-                                <option>대전</option>
-                                <option>울산</option>
-                                <option>경기도</option>
-                                <option>강원도</option>
-                                <option>충청북도</option>
-                                <option>충청남도</option>
-                                <option>전라북도</option>
-                                <option>전라남도</option>
-                                <option>경상북도</option>
-                                <option>경상남도</option>
-                                <option>제주도</option>
-                                <option>지역무관</option>
+                                <option value="서울">서울</option>
+                                <option value="부산">부산</option>
+                                <option value="대구">대구</option>
+                                <option value="인천">인천</option>
+                                <option value="광주">광주</option>
+                                <option value="대전">대전</option>
+                                <option value="울산">울산</option>
+                                <option value="경기도">경기도</option>
+                                <option value="강원도">강원도</option>
+                                <option value="충청북도">충청북도</option>
+                                <option value="충청남도">충청남도</option>
+                                <option value="전라북도">전라북도</option>
+                                <option value="전라남도">전라남도</option>
+                                <option value="경상북도">경상북도</option>
+                                <option value="경상남도">경상남도</option>
+                                <option value="제주도">제주도</option>
+                                <option value="지역무관">지역무관</option>
                             </select>
                         </div>
-                        <select name="district" class="form-control">
+                        <select name="city" class="form-control">
                             <option>상세 검색</option>
                         </select>
                     </td>
@@ -118,12 +118,17 @@
                     <td>
 					
 					<input type="text" name="place" id="sample5_address" placeholder="주소" readonly/>
-			<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+					<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색">
+						
+					<input name="resultLat" id="resultLat" class="form-control" readonly/ > 
+					<input name="resultLng" id="resultLng" class="form-control" readonly/ >
+					<br>
 			<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
 
 			<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 			<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df8f5565b51994aa9c71d2128dcdfec5&libraries=services"></script>
 			<script>
+				
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         			mapOption = {
 						center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
@@ -174,6 +179,16 @@
 									
 									// 해당 주소에 대한 좌표를 받아서
 									var coords = new daum.maps.LatLng(result.y, result.x);
+									
+				
+									var geoLat = result.y;
+									var geoLng = result.x;
+									
+									var resultLat = document.getElementById('resultLat');
+									resultLat.value = geoLat;
+									var resultLng = document.getElementById('resultLng');
+									resultLng.value = geoLng;
+									
 									// 지도를 보여준다.
 									mapContainer.style.display = "block";
 									map.relayout();
