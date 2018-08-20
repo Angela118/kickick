@@ -693,7 +693,7 @@ module.exports = function(router, passport, upload) {
 			};	
 			
 			
-            res.render('chat_.ejs', user_context);
+            res.render('chat.ejs', user_context);
         }
     });
 /*	
