@@ -120,8 +120,8 @@
 					<input type="text" name="place" id="sample5_address" placeholder="주소" readonly/>
 					<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색">
 						
-					<input name="resultLat" id="resultLat" class="form-control" readonly/ > 
-					<input name="resultLng" id="resultLng" class="form-control" readonly/ >
+					<input name="resultLat" id="resultLat" placeholder="위도" class="form-control" readonly/ > 
+					<input name="resultLng" id="resultLng" placeholder="경도" class="form-control" readonly/ >
 					<br>
 			<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
 
@@ -231,6 +231,17 @@
 							<option value="60">60대</option>
 							<option value="70">70대</option>
 							<option value="80">80대 이상</option>
+                        </select>
+                    </td>
+                </tr>
+					<tr>
+                    <th>성별</th>
+                    <td>
+                        <select name="gender" class="form-control">
+                            <option selected disabled hidden>성별</option>
+                            <option value="0">여자</option>
+                            <option value="1">남자</option>
+							<option value="2">혼성</option>
                         </select>
                     </td>
                 </tr>
