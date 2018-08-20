@@ -18,19 +18,7 @@
     <script src="../js/bootstrap.bundle.min.js"></script>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Insert title here</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-
-    <script>
-        $('.score_content').hide();
-        function doShow() {
-            if ($('.score_content').is(":visible")) {
-                $('.score_content').hide(); // 클래스값을 받아서 숨기기
-            } else {
-                $('.score_content').fadeIn("fast"); // 클래스값을 받아서 보이기
-            }
-        }
-    </script>
 
 </head>
 <body class="whiteB">
@@ -53,10 +41,10 @@
             <img src="../profile_img/<%= profile_img %>" id="profile_pic" style="margin-right: .2rem; width:3rem; height: 3rem">
             <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= teamname %> 팀</span>
             <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
-			<a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
+            <a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
             <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
         </div>
-        
+
 
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
@@ -176,7 +164,6 @@
                 html += '<td colspan="7" style="font-weight: bold">' + this.Months[m] + ' ' + y + '</td>';
                 html += '</tr></thead>';
 
-
                 // Write the header of the days of the week
                 html += '<tr class="days">';
                 for(var i=0; i < this.DaysOfWeek.length;i++) {
@@ -209,11 +196,16 @@
                     var chk = new Date();
                     var chkY = chk.getFullYear();
                     var chkM = chk.getMonth();
+                    var todayDb = event_data[0].event_date;
+
                     if (chkY == this.currYear && chkM == this.currMonth && i == this.currDay) {
                         html += '<td class="today">' + i + '</td>';
+                    } else if( todayDb.substring(5,7) == this.currMonth ){
+                        html += '<td class="today_db">' + i + '</td>';
                     } else {
-                        html += '<td class="normal">' + i + '</td>';
-                    }
+                        html += '<td class="normal">' + i + '</td>'
+                    };
+
                     // If Saturday, closes the row
                     if ( dow == 6 ) {
                         html += '</tr>';
@@ -259,35 +251,43 @@
                 return document.getElementById(id);
             }
 
-            /*
-
-                    // 해당 달 일정 띄우기 - 서버랑 연동해서 해보기
-                    if(this.Months[m] == 일정 날짜) {
-
-
-                    }
-
-                    // 해당 달 일정 날짜에 색칠하기
-
-            */
-
-
         </script>
         <!--달력 끝-->
 
         <div class="main">
+
+
+            <% for(var i = 0; i < event_data.length; i++) {
+                var curDate = event_data[i].event_date;
+                var curTime = event_data[i].event_time;
+                var curPlace = event_data[i].event_place;
+                var curTeamname = event_data[i].teamname;
+                var curNofteam = event_data[i].event_nofteam;
+                var matchMonth = curDate.substring(5,7);
+                var matchDay = curDate.substring(8,10)%>
+
+            <!--            <script>
+                            $('.score_content').hide();
+                            function doShow() {
+                                if ($('.score_content').is(":visible")) {
+                                    $('.score_content').hide(); // 클래스값을 받아서 숨기기
+                                } else {
+                                    $('.score_content').fadeIn("fast"); // 클래스값을 받아서 보이기
+                                }
+                            }
+                        </script>-->
+
             <div class="date">
-                <h3 style="font-weight: bold"><%= event_data[0].event_date %></h3>
-                <!--<p>Schedule of Events</p>-->
+                <h3 style="font-weight: bold"><%= matchMonth%>. <%= matchDay%></h3>
             </div>
 
             <div class= "events">
                 <div class="events-detail">
                     <div onclick="javascript:doShow()" class="event_content">
-                        <span class="event-time"><%= event_data[0].event_time %> - </span>
+                        <span class="event-time"><%= curTime %> - </span>
                         <span class="event-name">Vs 상대팀</span>
                         <br />
-                        <span class="event-location"><%= event_data[0].event_place %></span>
+                        <span class="event-location"><%= curPlace %></span>
                     </div>
                 </div>
 
@@ -295,7 +295,7 @@
                     <div class="match-teams mb-3">
                         <div class="match-team">
                             <img src="../img/team_100.png" width="70rem" class="team-img">
-                            <button class="btn btn-sm" style="color:black"><%= event_data[0].teamname %> 팀</button>
+                            <button class="btn btn-sm" style="color:black"><%= curTeamname %> 팀</button>
                         </div>
 
                         <div class="score">
@@ -313,7 +313,8 @@
                     <div class = "schedule-detail">
                         <p class="schedule-detail-content">
                             <span class="bold">인원수 | </span>
-                            <span><%= event_data[0].event_nofteam %></span>
+                            <span><%= curTeamname %> 팀 : <%= curNofteam %>명 /                             <span>상대 팀 : 명</span>
+</span>
                         </p>
 
                         <div class="schedule-detail-content">
@@ -321,22 +322,26 @@
                                 <span class="bold" style="margin-top: .3rem">스코어 입력 | &nbsp</span>
                                 <div class="score_input">
                                     <div class="form-group"  style="display: flex; align-items: center">
-                                        <%= event_data[0].teamname %>팀 : &nbsp
-                                        <input type="text" class="form-control" style="height:1.8rem">&nbsp <button class="btn btn-sm" style="color:black">제출</button>
+                                        <%= curTeamname %>팀 : &nbsp
+                                        <input type="text" class="form-control" style="height:1.8rem">
                                     </div>
                                     <div class="form-group"  style="display: flex; align-items: center">
                                         상대(이름넣기) 팀 : &nbsp
                                         <input type="text" class="form-control" style="height:1.8rem">&nbsp <button class="btn btn-sm" style="color:black">제출</button>
                                     </div>
                                 </div>
-
-
                             </div>
+                        </div>
+
+                        <div>
+                            <a href="/teamreview"><button class="btn btn-block blueB">상대팀 평가/채팅방 삭제하기</button></a>
                         </div>
                     </div>
                 </div>
-
             </div>
+            <%
+            } %>
+
 
             <div class="date">
                 <h3 style="font-weight: bold">08. 30</h3>
