@@ -10,5 +10,6 @@ module.exports = {
 		{file:'./application_schema', collection:'application', schemaName:'ApplicationSchema', modelName:'ApplicationModel'}
 	],
 	route_info: [
+		
 	]
 }
