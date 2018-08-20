@@ -54,8 +54,8 @@ module.exports = function(router, passport, upload) {
             res.render('main.ejs', user_context /*, {login_success:true});
         }
     });
-	*/
 	
+	/*
 	router.route('/').get(function(req, res){
 		console.log('/main 패스 get 요청됨.');
         
@@ -124,6 +124,147 @@ module.exports = function(router, passport, upload) {
         }
 	});
     
+	
+	*/
+	/*
+	router.route('/').get(function(req, res){
+		console.log('/main 패스 get 요청됨.');
+        
+        if (!req.user) {
+            console.log('사용자 인증 안된 상태임.');
+            res.redirect('/login');
+        }else{
+			const fs = require('fs');
+			const moment = require('moment');
+			const json2csv = require('json2csv').parse;
+			const path = require('path');
+			const fields = ['email', 'teamname', 'city', 'district', 'place',	'move',	'age', 'event_date', 'event_time', 'mention', 'created_month', 'created_day'];
+			const dbm = require('../database/database');
+			
+			dbm.ApplicationModel.find({}, function (err, results) {
+				if (err) {
+      				return res.status(500).json({err});
+				}
+    			else {					
+      				let csv
+      				try {
+        				csv = json2csv(results, { fields });
+					} catch (err) {
+						return res.status(500).json({ err });
+					}
+					const dateTime = moment().format('YYYYMMDDhhmmss');
+      				const filePath = path.join(__dirname, "..", "csv-" + dateTime + ".csv");
+					
+					console.log('/////////////////////');
+	  
+      				fs.writeFile(filePath, csv, function (err) {
+        				if (err) {
+							return res.status(500).json({ err });
+        				}
+						else {
+						//	setTimeout(function () {
+								fs.unlinkSync(filePath); // delete this file after 30 seconds
+					//	}, 30000);
+							console.log('/////////////////////');
+          				//	return res.json("/exports/csv-" + dateTime + ".csv");
+        				}
+      				});
+    			}
+			})
+				
+            res.render('main_.ejs');			
+        }
+	});
+	
+	
+	*/
+	
+	
+	 router.route('/').get(function(req, res) {
+		 console.log('/main 패스 get 요청됨.');
+		 
+     
+        // 인증 안된 경우
+        if (!req.user) {
+            console.log('사용자 인증 안된 상태임.');
+            res.redirect('/login');
+        } else {
+			var fs = require('fs');
+			var dbm = require('../database/database');
+			console.log('database 모듈 가져옴');
+			
+			
+			//서울시
+			
+			const Json2csvParser = require('json2csv').Parser;
+			const fields = ['email', 'age', 'gender', 'event_date', 'geoLng', 'geoLat'];
+			const eventData = [];
+			
+						
+			dbm.ApplicationModel.find(function (err, result) {				
+				for(var i = 0 ; i < result.length ; i++) {
+					var data = {
+						'email' : result[i]._doc.email, 
+			//			'teamname' : result[i]._doc.teamname,
+			//			'city' : result[i]._doc.city,
+			//			'district' : result[i]._doc.district,
+			//			'place' : result[i]._doc.place,
+			//			'move' : result[i]._doc.move,
+						'age' : result[i]._doc.age,	
+						'gender' : result[i]._doc.gender,
+						'event_date' : result[i]._doc.event_date,
+			//			'event_time' : result[i]._doc.event_time,
+			//			'mention' : result[i]._doc.mention,
+			//			'created_month' : result[i]._doc.created_month,
+			//			'created_day' : result[i]._doc.created_day,
+						'geoLng' : result[i]._doc.geoLng,
+						'geoLat' : result[i]._doc.geoLat
+					};										
+					eventData[i] = data;
+				}
+				
+				profile_photo = req.user.profile_img;			
+				if(profile_img == null)
+					profile_img = req.user.profile_img;
+				if(profile_img != req.user.profile_img)
+					profile_photo = profile_img;
+										
+				var user_context = {
+					'email':req.user.email,
+					'teamname':req.user.teamname, 
+					'gender':req.user.gender, 
+					'age':req.user.age,
+					'region':req.user.region,
+					'move':req.user.move,
+					'nofteam':req.user.nofteam,
+					'career_year':req.user.career_year,
+					'career_count':req.user.career_count,
+					'introteam':req.user.introteam,
+					'profile_img':profile_photo,
+					'event_data':eventData
+				};
+				
+				
+				const json2csvParser = new Json2csvParser({ fields });
+				const csv = json2csvParser.parse(eventData);
+				
+				console.log(csv);	
+				
+				fs.writeFile('recEvent.csv', csv, 'utf8', function(err){
+					if(err) throw err
+					console.log('File Write.');
+				});
+							
+            	res.render('main.ejs', user_context);
+			
+			});
+			
+
+				
+
+        }
+    });
+	
 	
 	
     // 로그인 화면
@@ -927,20 +1068,22 @@ module.exports = function(router, passport, upload) {
 		
 		var dbm = require('../database/database');
 		console.log('database 모듈 가져옴');
-		
+			
 		
 		
 		var event = {
 			'email': req.user.email,
 			'teamname': req.user.teamname,	
-			'city': req.body.city || req.query.city,
-			'district': req.body.district || req.query.district,
+			'region': req.body.city || req.query.city,
 			'place' : req.body.place || req.query.place,
 			'move' : req.body.move || req.query.move,
-			'age': req.body.age || req.query.age,	
+			'age': req.body.age || req.query.age,
+			'gender': req.body.gender || req.query.gender,
 			'event_date': req.body.event_date || req.query.event_date,
 			'event_time': req.body.event_time || req.query.event_time,
-			'mention': req.body.mention || req.query.mention
+			'mention': req.body.mention || req.query.mention,
+			'geoLng': req.body.resultLng || req.query.resultLng,
+			'geoLat': req.body.resultLat || req.query.resultLat
 		};
 		
 		
@@ -957,7 +1100,7 @@ module.exports = function(router, passport, upload) {
           console.log('New application inserted');
         });
 		
-		res.redirect('/mymatch');
+		res.redirect('/');
 		
 	});
 	
@@ -992,8 +1135,7 @@ module.exports = function(router, passport, upload) {
 						var data = {
 							'email' : result[i]._doc.email, 
 							'teamname' : result[i]._doc.teamname,
-							'city' : result[i]._doc.city,
-							'district' : result[i]._doc.district,
+							'region' : result[i]._doc.region,
 							'place' : result[i]._doc.place,
 							'move' : result[i]._doc.move,
 							'age' : result[i]._doc.age,	
@@ -1001,7 +1143,9 @@ module.exports = function(router, passport, upload) {
 							'event_time' : result[i]._doc.event_time,
 							'mention' : result[i]._doc.mention,
 							'created_month' : result[i]._doc.created_month,
-							'created_day' : result[i]._doc.created_day
+							'created_day' : result[i]._doc.created_day,
+							'geoLng' : result[i]._doc.geoLng,
+							'geoLat' : result[i]._doc.geoLat
 						};
 					}					
 					eventData[i] = data;
