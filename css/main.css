@@ -1,14 +1,19 @@
 
 .search{
   width: 100%;
-  padding-top: .4rem;
-  padding-bottom: .4rem;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
 }
 
 .top_range{
   margin-left: 1rem; margin-right: 1rem;
+  justify-content: space-between;
   display: flex;
   align-items: center;
+}
+
+.reco {
+  margin: 1rem;
 }
 
 select.custom-select option{
@@ -103,38 +108,4 @@ select.custom-select option{
 .menu_img { 
   display: block;
   float: left;
-}
-
-
-/*main_search-------------------------------------------*/
-
-.wrapper {
-  margin-bottom:1rem;
-  align-items: center;
-  width: 100%;
-}
-
-.search_team{
-  width: 100%;
-  text-align: center;
-}
-
-select {
-  display: flex;
-  width: 100%;
-  height: 50px;
-  text-align: center;
-}
-
-/*match_application_form-------------------------------------------*/
-.table{
-  border-top:2px solid #dee2e6;
-  border-bottom: 2px solid #dee2e6;
-  font-size: 1rem;
-}
-
-.table td,.table th{
-  padding:.50rem;
-  vertical-align:top;
-  border-top:1px solid #dee2e6
 }

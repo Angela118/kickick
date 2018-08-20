@@ -1,0 +1,71 @@
+
+.schedule-detail{
+  font-size:smaller;
+}
+
+.schedule-detail-content{
+  margin-bottom:0.5rem;
+}
+
+.bold{
+  font-weight:600;
+}
+
+
+.date {
+  width: 17%;
+  padding: 1% 1% 0 0 ;
+  float: left;
+}
+
+.date h3 {
+  font-size: 1.5em;
+}
+
+.events {
+  float: left;
+  width: 80%;
+  border-left: 1px solid #ccc;
+  margin-top: 10%;
+  padding-top: 3%;
+}
+
+.events-detail {
+  max-width: 550px;
+  margin-bottom: 1.2rem;
+}
+
+.event-time {
+  font-weight: 900;
+}
+
+.events-detail li a {
+  text-decoration: none;
+  color: #444;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+
+@media all and (max-width: 641px) {
+  .date {
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+
+  .events {
+    border:none;
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .events-detail {
+    padding: 0;
+  }
+
+  .date p {
+    margin:0;
+  }
+}
