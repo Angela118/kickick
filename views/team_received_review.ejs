@@ -17,26 +17,38 @@
 
     <title>우리 팀 평가</title>
 </head>
-<!--메뉴 영역 시작 : 나중에 파일로 따로 빼기 -->
+<!--메뉴 영역 시 -->
 <!--여기선 메뉴명 우리 팀 평가로 되어 있음-->
 
+<script type="text/javascript">
+    function goBack(){
+        window.history.back();
+    }
+</script>
+
 <nav class="navbar blueB">
-
     <div class="top">
-        <img src="../img/menu3.png" width="30rem" height="30rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        <div>
+            <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack();">
+            <p class="logo ml-sm-3 whiteW">우리 팀 평가</p>
+        </div>
 
-        <p class="logo">우리 팀 평가</p>
-
-        <a href="/chatroom"><img src="../img/envelope.png" class="menu_img" width="30rem" height="30rem" ></a>
+        <div>
+            <a href="/chatroom"><img src="../img/close-envelope.png" class="menu_img" width="20rem" height="20rem" style="margin-right:1rem"></a>
+            <img src="../img/menu.png" width="20rem" height="20rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        </div>
     </div>
-	
+
     <div class="collapse navbar-collapse" id="navbarsExample01">
         <div class="mypage">
-            <img src="../profile_img/<%= profile_img %>" id="profile_pic" style="margin-right: .2rem; width:3rem; height: 3rem">
-            <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= teamname %> 팀</span>
-            <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
-			<a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
-            <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+            <div class="img_div" style="margin-left: 0rem; margin-right: 0"><img class="profile_img" src="../img/testdog.jpg"/></div>
+            <!--닉네임 5글자 넘어갈시 잘려 나옴-->
+            <span class="name" style="font-size: 1.2rem">조이</span>
+            <div style="">
+                <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right:.3rem">내 정보</button></a>
+                <a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
+                <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+            </div>
         </div>
 
         <ul class="navbar-nav mr-auto">
@@ -45,7 +57,6 @@
             </li>
             <li class="nav-item" style="display:flex; align-items:center">
                 <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
-                <!--<hr align="right" style="border: solid 0.1rem white; width: 70%;">-->
             </li>
 
             <li class="nav-item">
@@ -57,7 +68,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/matchapplication">매칭 등록</a>
             </li>
-
+            <li class="nav-item">
+                <a class="nav-link" href="/mymatch">내가 등록한 매칭</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="/contact">개발자에게 연락</a>
             </li>
@@ -74,63 +87,79 @@
     <div class="reco" style="margin-top: 2.3rem">
         <div class="team_score">
             <div class="team_inform" style="">
-                <img src="../profile_img/<%= profile_img %>" style="width: 5rem; margin-bottom: 1rem;">
+                <div class="img_div" style="width: 5rem; margin-bottom: 1rem"><img class="profile_img" src="../profile_img/<%= profile_img %>"/></div>
                 <h6 style="font-weight: bold"><%= teamname %> 팀</h6>
             </div>
 
             <div class = average-score>
-                <span style="font-size:3rem; font-weight:bold">4.56</span>
+                <span style="font-size:3rem; font-weight:bold">
+                    <%
+                    var average = 0;
+                    for(var i = 0; i < event_data.length; i++) {
+                        average += event_data[i].rating;
+                    }
+
+                    if(average === 0) {
+                        var result = 0;
+                    }else {
+                        var result = Math.round((average/event_data.length) * 100)/100;
+                    }
+
+                    %>
+                    <%= result%>
+                </span>
+
                 <div class="stars mb-3">
-                    <img src="../img/star.png" width="20" height="20">
-                    <img src="../img/star.png" width="20" height="20">
-                    <img src="../img/star.png" width="20" height="20">
-                    <img src="../img/star.png" width="20" height="20">
-                    <img src="../img/star-half.png" width="20" height="20">
+                    <% for(var i = 0; i < Math.round(result)-1; i++) {%>
+                        <img src="../img/star.png" width="20" height="20">
+                        <% if(i == Math.round(result)-2){%>
+                            <%if ((result % 1) < 0.5) { %>
+                                <img src="../img/star.png" width="20" height="20">
+                            <%} else {%>
+                                <img src="../img/star-half.png" width="20" height="20">
+                            <%}%>
+                        <%}%>
+                    <%}%>
+                    <%for(var i = 1; i < 5 - Math.round(result - 1); i++) {%>
+                    <img src="../img/star-empty.png" width="20" height="20">
+                    <%}%>
                 </div>
-                <span style="color:#efce4a">40개의 평가</span>
+                <span style="color:#efce4a"><%= event_data.length %>개의 평가</span>
             </div>
         </div>
+
+        <% for(var i = 0; i < event_data.length; i++) {
+            var reviewer_teamname = event_data[i].reviewer_teamname;
+            var event_date = event_data[i].event_date;
+            var rating = event_data[i].rating;
+            var review_comment = event_data[i].review_comment;
+            var random = Math.floor(Math.random() * 100000) + 100000;
+        %>
 
         <hr class="mb-4">
         <div class="review">
             <div class="review-random-profile mb-2">
                 <div class="review-name">
-                    <span style="font-weight:bold">우리가 남이가 randomN&nbsp</span>
+                    <span style="font-weight:bold">
+                        <%= reviewer_teamname %>
+                        <%= random %>&nbsp</span>
+
                     <div class="stars">
-                        <img src="../img/star.png" width="10" height="10">
-                        <img src="../img/star.png" width="10" height="10">
-                        <img src="../img/star.png" width="10" height="10">
-                        <img src="../img/star.png" width="10" height="10">
-                        <img src="../img/star-half.png" width="10" height="10">
+                        <% for(var j = 0; j < rating; j++) {%>
+                            <img src="../img/star.png" width="10" height="10">
+                        <%}%>
+                        <% for(var j = 1; j <  6 - rating; j++){ %>
+                            <img src="../img/star-empty.png" width="10" height="10">
+                        <%}%>
                     </div>
+
                 </div>
-                <span class="review-date">2018-08-20</span>
+                <span class="review-date"><%= event_date %></span>
             </div>
 
-            <span class="review-content">있을 뿐이다 그들에게 생명을 불어 넣는 것은 따뜻한 봄바람이다 풀밭에 속잎나고 가지에 싹이 트고 꽃 피고 새 우는 봄날의 천지는 얼마나 기쁘며 얼마나 아름다우냐? </span>
+            <span class="review-comment"><%= review_comment %></span>
         </div>
-
-
-        <hr class="mb-4">
-        <div class="review">
-            <div class="review-random-profile mb-2">
-                <div class="review-name">
-                    <span style="font-weight:bold">우리가 남이가 randomN&nbsp</span>
-                    <div class="stars">
-                        <img src="../img/star.png" width="10" height="10">
-                        <img src="../img/star.png" width="10" height="10">
-                        <img src="../img/star.png" width="10" height="10">
-                        <img src="../img/star.png" width="10" height="10">
-                        <img src="../img/star-half.png" width="10" height="10">
-                    </div>
-                </div>
-                <span class="review-date">2018-08-20</span>
-            </div>
-
-            <span class="review-content">있을 뿐이다 그들에게 생명을 불어 넣는 것은 따뜻한 봄바람이다 풀밭에 속잎나고 가지에 싹이 트고 꽃 피고 새 우는 봄날의 천지는 얼마나 기쁘며 얼마나 아름다우냐? </span>
-        </div>
-
-
+        <%}%>
     </div>
 </div>
 </body>
