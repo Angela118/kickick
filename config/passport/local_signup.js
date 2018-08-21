@@ -18,6 +18,8 @@ module.exports = new LocalStrategy({
     var gender = req.body.gender || req.query.gender;
 	var age = req.body.age || req.query.age;
 	var region = req.body.region || req.query.region;
+	var geoLng = req.body.resultLng || req.query.resultLng;
+	var geoLat = req.body.resultLat || req.query.resultLat;
 	var move = req.body.move || req.query.move;
 	var nofteam = req.body.nofteam || req.query.nofteam;
 	var career_year = req.body.career_year || req.query.career_year;
@@ -59,7 +61,9 @@ module.exports = new LocalStrategy({
 					'career_year':career_year,
 					'career_count':career_count,
 					'introteam':introteam,
-					'profile_img':profile_img
+					'profile_img':profile_img,
+					'geoLat':geoLat,
+					'geoLng':geoLng
                 });
                 
                 user.save(function(err) {
