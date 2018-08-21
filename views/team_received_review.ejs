@@ -101,11 +101,11 @@
 
                     if(average === 0) {
                         var result = 0;
+                        result.toFixed(2);
                     }else {
-                        var result = Math.round((average/event_data.length) * 100)/100;
-                    }
+                        var result = (Math.round((average/event_data.length) * 100)/100).toFixed(2);
+                    }%>
 
-                    %>
                     <%= result%>
                 </span>
 
