@@ -8,7 +8,7 @@ body{
   position: static;
 }
 
-.menu_img { 
+.menu_img {
   display: block;
   float: left;
 }
@@ -53,17 +53,38 @@ a{color:white;text-decoration:none;background-color:transparent;-webkit-text-dec
 .mypage{
   display: flex;
   width: 100%;
-  /*position: fixed;*/
   flex-wrap: wrap;
   background-color: white;
   align-items: center;
   margin-top: 1em;
-  padding: 1.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-left: 1.3rem;
+  padding-right: 1.3rem;
   justify-content: space-between;
 }
 
-#profile_pic{
+.name{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 6rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.img_div{
+  overflow:hidden;
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
   display: block;
+  margin: 0 auto;
+}
+
+.profile_img {
+  max-height: 100%;
+  margin: 0 auto;
 }
 
 #name{
@@ -73,20 +94,10 @@ a{color:white;text-decoration:none;background-color:transparent;-webkit-text-dec
   margin-right: 2.5rem;
 }
 
-.btn {
-  /*background-color: #FFCC00;*/
-  /*background-color: #fea328;*/
-  color: white;
-}
-
 .nav-bar{
   font-color:white!important;
 }
 
 .nav-item{margin-bottom:-1px;
-font-color:white}
-/*
-.nav-link{border:1px solid transparent;border-top-left-radius:.25rem;border-top-right-radius:.25rem}
-.nav-tabs .nav-link:focus,.nav-link:hover{border-color:#e9ecef #e9ecef #dee2e6}
-.nav-tabs .nav-link.disabled{color:#e9ecef;}.nav-tabs .nav-item.show .nav-link,.nav-tabs .nav-link.active{color:#495057;background-color:#fff;border-color:#dee2e6 #dee2e6 #fff}.nav-tabs .dropdown-menu{margin-top:-1px;border-top-left-radius:0;border-top-right-radius:0}.nav-pills .nav-link{border-radius:.25rem}
-*/
+  font-color:white
+}
