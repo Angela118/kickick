@@ -27,6 +27,8 @@ Schema.createSchema = function(mongoose) {
 		, career_count: {type:Number, 'default':''}
 		, introteam: {type:String, default:''}
 		, profile_img: {type:String, 'default':'profile_basic.png'}
+		, geoLng:{type:Number, 'default':''}
+		, geoLat:{type:Number, 'default':''}
 		, created_at: {type: Date, index: {unique: false}, 'default': Date.now}
 	    , updated_at: {type: Date, index: {unique: false}, 'default': Date.now}
 	});

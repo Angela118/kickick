@@ -9,7 +9,9 @@ Schema.createSchema = function(mongoose) {
       event_date: {type: String, 'default': ''},
       event_time: {type: String, 'default': ''},
       event_place: {type: String, 'default':''},
-       event_nofteam: {type:Number, 'default':''}
+       event_nofteam: {type:Number, 'default':''},
+	   geoLng:{type:Number, 'default':''},
+		geoLat:{type:Number, 'default':''}
    });
    
 
