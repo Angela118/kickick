@@ -9,7 +9,7 @@ module.exports = function(router, passport, upload) {
     console.log('user_passport 호출됨.');
 	var profile_img;
 	var profile_photo;
-
+	var flag=1;
 
 	/*
     // 홈 화면, 추천
@@ -197,7 +197,7 @@ module.exports = function(router, passport, upload) {
 			//서울시
 			
 			const Json2csvParser = require('json2csv').Parser;
-			const fields = ['email', 'age', 'gender', 'event_date', 'geoLng', 'geoLat'];
+			const fields = ['email', 'age', 'gender', 'geoLng', 'geoLat'];
 			const eventData = [];
 			
 						
@@ -212,7 +212,7 @@ module.exports = function(router, passport, upload) {
 			//			'move' : result[i]._doc.move,
 						'age' : result[i]._doc.age,	
 						'gender' : result[i]._doc.gender,
-						'event_date' : result[i]._doc.event_date,
+			//			'event_date' : result[i]._doc.event_date,
 			//			'event_time' : result[i]._doc.event_time,
 			//			'mention' : result[i]._doc.mention,
 			//			'created_month' : result[i]._doc.created_month,
@@ -286,6 +286,7 @@ module.exports = function(router, passport, upload) {
     // 회원가입 화면
     router.route('/teamsignup').get(function(req, res) {
         console.log('/teamsignup 패스 get 요청됨.');
+		flag=0;
         res.render('team_signup.ejs', {message: req.flash('signupMessage')});
     });
 	
@@ -312,12 +313,15 @@ module.exports = function(router, passport, upload) {
 			console.log(profile_img);
 			console.log(req.user.profile_img);
 			
-			profile_photo = req.user.profile_img;			
-			if(profile_img == null)
-				profile_img = req.user.profile_img;
-			if(profile_img != req.user.profile_img)
-				profile_photo = profile_img;
-			
+			if(flag == 0)
+				profile_photo = req.user.profile_img;
+			else{
+				profile_photo = req.user.profile_img;			
+				if(profile_img == null)
+					profile_img = req.user.profile_img;
+				if(profile_img != req.user.profile_img)
+					profile_photo = profile_img;
+			}
 			
 			console.log(profile_img);
 			console.log(req.user.profile_img);
@@ -338,7 +342,7 @@ module.exports = function(router, passport, upload) {
 				'profile_img':profile_photo
 			};
 						
-			
+			flag=1;
             res.render('upload_img.ejs', user_context);
 		}
 	});
@@ -402,7 +406,7 @@ module.exports = function(router, passport, upload) {
 			console.dir(user_context);
 			
 
-		dbm.db.collection("users6").updateOne({email: user_context.email},  {$set: {
+		dbm.db.collection("users6").updateOne({email: req.user.email},  {$set: {
 			'email':user_context.email, 
 			'teamname':user_context.teamname, 
 			'gender':user_context.gender, 
@@ -693,7 +697,7 @@ module.exports = function(router, passport, upload) {
 			};	
 			
 			
-            res.render('chat.ejs', user_context);
+            res.render('chat_.ejs', user_context);
         }
     });
 /*	
@@ -1129,7 +1133,7 @@ module.exports = function(router, passport, upload) {
 			var eventData = new Array();			
 
 
-			dbm.ApplicationModel.find(function (err, result) {				
+			dbm.ApplicationModel.find({email : req.user.email} ,function (err, result) {				
 				for(var i = 0 ; i < result.length ; i++) {
 					if(result[i]._doc.email == req.user.email){
 						var data = {
@@ -1347,6 +1351,8 @@ module.exports = function(router, passport, upload) {
     // 로그아웃
     router.route('/logout').get(function(req, res) {
         console.log('/logout 패스 get 요청됨.');
+		profile_img =null;
+		profile_photo=null;
         req.logout();
         res.redirect('/login');
     });
