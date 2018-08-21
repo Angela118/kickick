@@ -53,7 +53,7 @@
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="main.html">홈 (매칭 팀 검색)</a>
+        <a class="nav-link" href="/main">홈 (매칭 팀 검색)</a>
       </li>
       <li class="nav-item" style="display:flex; align-items:center">
         <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
@@ -85,8 +85,14 @@
 <div class="container" style="padding-top:1rem">
   <div class="reco">
 
-    <% for(var i = 0; i < event_data.length; i++) {
-      var curEmail = event_data[i].email;
+    <% for(var i = 0; i < event_data.length; i++) { %>
+
+        <%if(event_data.length == 0) { %>
+        <p>lalala</p>
+
+        <%}else {%>
+
+      <%var curEmail = event_data[i].email;
       var curCreatedMonth = event_data[i].created_month;
       var curCreatedDay = event_data[i].created_day;
       var curTeamname = event_data[i].teamname;
@@ -99,7 +105,6 @@
       var curTime = event_data[i].event_time;
       var curMention = event_data[i].mention;
     %>
-
 
     <div class="content mb-3"> <!--content-->
       <div class="date">
@@ -153,7 +158,8 @@
       </div>
     </div> <!--content-->
 
-    <%} %>
+    <%}
+    } %>
   </div> <!--reco-->
 
 </div><!--container-->
