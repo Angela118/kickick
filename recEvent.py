@@ -27,7 +27,7 @@ print(predict)
 
 
 
-done = 1
+done = 5
 
 while(done):
     print()
@@ -47,13 +47,16 @@ while(done):
     file.close()
 
 
+    print(data)
+
+
     X = data[1:,1:5]
     print(X)
 
 
 
         
-    number_of_clusters = 6
+    number_of_clusters = len(data)-1
     print()
 
     X = np.array(X)
@@ -78,17 +81,18 @@ while(done):
 
     result_data = []        
 
-        
+    print(rec)
     for i in range(0, len(rec)):
-        result_data.append(data[rec[i]].tolist())
+        result_data.append(data[rec[i]+1].tolist())
       
-
+    print(result_data)
     with open('C:/Users/user/brackets_nodejs/server/recOutput.csv','w', newline='') as output:
         writer = csv.writer(output)
         for val in result_data:
             writer.writerow(val)
-
+    done-=1
 print()
+
     
 
     
