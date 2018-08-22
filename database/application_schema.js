@@ -15,21 +15,23 @@ Schema.createSchema = function(mongoose) {
 	
 	// 스키마 정의
 	var ApplicationSchema = mongoose.Schema({
-		email: {type: String, 'default':''},
-	    teamname: {type: String, index: 'hashed', 'default':''},
-		region: [{type: "String", 'default':''}],
-		place : {type:String, 'default':''},
-		move : {type:String, 'default':''},
-		age: {type:Number, default:''},
-		gender:{type:Number, default:2},
-		event_date: {type: String, 'default': ''},
-		event_time: {type: String, 'default': ''},
-		mention:{type: String, default:''},
-		created_month: {type: String, 'default': monthString},
-		created_day: {type: String, 'default': dayString},
-		geoLng:{type:Number, 'default':''},
-		geoLat:{type:Number, 'default':''}
-	});
+      email: {type: String, 'default':''},
+      teamname: {type: String, index: 'hashed', 'default':''},
+      region: [{type: String, 'default':''}],
+      place : {type:String, 'default':''},
+      move : {type:String, 'default':''},
+      age: {type:Number, default:''},
+      gender:{type:Number, default:25},
+      event_date: {type: String, 'default': ''},
+      event_time: {type: String, 'default': ''},
+      event_day: {type: String, 'default': ''},
+      mention:{type: String, default:''},
+      created_month: {type: String, 'default': monthString},
+      created_day: {type: String, 'default': dayString},
+      geoLng:{type:Number, 'default':''},
+      geoLat:{type:Number, 'default':''},
+      nofteam : {type:String, 'default':''}
+   });
 
 
 	// 스키마에 static 메소드 추가
