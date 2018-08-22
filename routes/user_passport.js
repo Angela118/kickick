@@ -651,7 +651,6 @@ module.exports = function(router, passport, upload) {
         var event = {
             'teamname':req.body.search_team || req.query.search_team,
             'city': req.body.city || req.query.city,
-            'district': req.body.district || req.query.district,
             'gender': req.body.gender || req.query.gender,
             'age': req.body.age || req.query.age,
             //		'event_date': req.body.event_date || req.query.event_date,
@@ -691,15 +690,28 @@ module.exports = function(router, passport, upload) {
 
             var eventData = new Array();
 
-            dbm.ApplicationModel.find({email : req.user.email} ,function (err, result) {
+            dbm.ApplicationModel.find({email : {"$ne" : req.user.email}} ,function (err, result) {
+
                 for (var i = 0; i < result.length; i++) {
-                    if (result[i]._doc.email == req.user.email) {
+                    if (result[i]._doc.email != req.user.email) {
                         var data = {
-                            'teamname': result[i]._doc.teamname,
-                            'event_date': result[i]._doc.event_date,
-                            'event_time': result[i]._doc.event_time,
-                            'event_place': result[i]._doc.event_place,
-                            'event_nofteam': result[i]._doc.event_nofteam
+                            'email' : result[i]._doc.email,
+                            'teamname' : result[i]._doc.teamname,
+                            'city' : result[i]._doc.city,
+                            'place' : result[i]._doc.place,
+                            'move' : result[i]._doc.move,
+                            'age' : result[i]._doc.age,
+                            'gender' : result[i]._doc.gender,
+                            'event_date' : result[i]._doc.event_date,
+                            'event_time' : result[i]._doc.event_time,
+                            'event_day' : result[i]._doc.event_day,
+                            'mention' : result[i]._doc.mention,
+                            'created_month' : result[i]._doc.created_month,
+                            'created_day' : result[i]._doc.created_day,
+                            'geoLng' : result[i]._doc.geoLng,
+                            'geoLat' : result[i]._doc.geoLat,
+                            'nofteam' : result[i]._doc.nofteam,
+
                         };
                     }
                     eventData[i] = data;
@@ -907,7 +919,7 @@ module.exports = function(router, passport, upload) {
     });
 
 
-    //매칭 등록
+//매칭 등록
     router.route('/matchapplication').get(function(req, res){
         console.log('/match_application 패스 get 요청됨.');
 
@@ -929,13 +941,14 @@ module.exports = function(router, passport, upload) {
                 'teamname':req.user.teamname,
                 'gender':req.user.gender,
                 'age':req.user.age,
-                'region':req.user.region,
+                'city':req.user.city,
                 'move':req.user.move,
                 'nofteam':req.user.nofteam,
                 'career_year':req.user.career_year,
                 'career_count':req.user.career_count,
                 'introteam':req.user.introteam,
-                'profile_img':profile_photo
+                'profile_img':profile_photo,
+                'nofteam': req.user.nofteam
             };
 
             res.render('match_application_form.ejs', user_context);
@@ -948,27 +961,27 @@ module.exports = function(router, passport, upload) {
         var dbm = require('../database/database');
         console.log('database 모듈 가져옴');
 
-
-
         var event = {
             'email': req.user.email,
             'teamname': req.user.teamname,
-            'region': req.body.city || req.query.city,
+            'city': req.body.city || req.query.city,
             'place' : req.body.place || req.query.place,
             'move' : req.body.move || req.query.move,
             'age': req.body.age || req.query.age,
             'gender': req.body.gender || req.query.gender,
             'event_date': req.body.event_date || req.query.event_date,
             'event_time': req.body.event_time || req.query.event_time,
+            'event_day' : req.body.event_day,
             'mention': req.body.mention || req.query.mention,
             'geoLng': req.body.resultLng || req.query.resultLng,
-            'geoLat': req.body.resultLat || req.query.resultLat
+            'geoLat': req.body.resultLat || req.query.resultLat,
+            'nofteam' : req.user.nofteam || req.user.nofteam
         };
-
-
+        var week = new Array('일', '월', '화', '수', '목', '금', '토');
+        var whatDay = new Date(event.event_date);
+        event.event_day = week[whatDay.getDay()];
 
         console.dir(event);
-
 
         var event_application = new dbm.ApplicationModel(event);
 
