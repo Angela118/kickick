@@ -93,19 +93,17 @@
         <div class="list mb-3">
             <div class="list_item">
                 <div class="list_item_date">
-                    <h3>2018</h3>
-                    <h3>09</h3>
-                    <h3>30</h3>
+                    <h3><%= event_data[0].created_month %></h3>
+                    <h3><%= event_data[0].created_date %></h3>
                 </div>
                 <div class="list_item_team">
                     <p class="list_item_team_detail">
-                        지역 : <br>
-                        성별 : <br>
-                        나이 : <br>
-                        장소 : <br>
-                        팀원 : <br>
+                        성별 : <%= event_data[0].gender %><br>
+                        나이 : <%= event_data[0].age %><br>
+                        장소 : <%= event_data[0].place %><br>
+                        한마디 : <%= event_data[0].mention %><br>
                     </p>
-                    <h6 class="list_item_team_name">우리가 남이가</h6>
+                    <h6 class="list_item_team_name"><%= event_data[0].teamname %></h6>
                 </div>
 
             </div>
