@@ -87,6 +87,10 @@
                 <option value="3">평균 연령대</option>
             </select>
         </div>
+		
+		<% if(event_data[0] == null) { %>
+        <p style="font-weight: bold">등록된 매칭이 없습니다.</p>
+        <%} else{ %>
 
         <!--<p>로로롱팀의 팀 정보를 기반으로 가장 일치하는 순으로 추천된 리스트입니다.</p>-->
 
@@ -107,6 +111,8 @@
 
             </div>
         </div>
+		
+		<%}%>
 
 
         <!--페이지 넘기는 버튼-->
