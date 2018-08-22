@@ -192,10 +192,7 @@ module.exports = function(router, passport, upload) {
 			var fs = require('fs');
 			var dbm = require('../database/database');
 			console.log('database 모듈 가져옴');
-			
-			
-			//서울시
-			
+
 			const Json2csvParser = require('json2csv').Parser;
 			const fields = ['email', 'age', 'gender', 'geoLng', 'geoLat'];
 			const eventData = [];
@@ -221,47 +218,96 @@ module.exports = function(router, passport, upload) {
 						'geoLat' : result[i]._doc.geoLat
 					};										
 					eventData[i] = data;
-				}
-				
-				profile_photo = req.user.profile_img;			
-				if(profile_img == null)
-					profile_img = req.user.profile_img;
-				if(profile_img != req.user.profile_img)
-					profile_photo = profile_img;
-										
-				var user_context = {
-					'email':req.user.email,
-					'teamname':req.user.teamname, 
-					'gender':req.user.gender, 
-					'age':req.user.age,
-					'region':req.user.region,
-					'move':req.user.move,
-					'nofteam':req.user.nofteam,
-					'career_year':req.user.career_year,
-					'career_count':req.user.career_count,
-					'introteam':req.user.introteam,
-					'profile_img':profile_photo,
-					'event_data':eventData
-				};
-				
+				}				
 				
 				const json2csvParser = new Json2csvParser({ fields });
 				const csv = json2csvParser.parse(eventData);
-				
-				console.log(csv);	
-				
+
 				fs.writeFile('recEvent.csv', csv, 'utf8', function(err){
 					if(err) throw err
 					console.log('File Write.');
-				});
-							
-            	res.render('main.ejs', user_context);
-			
+				});	
 			});
 			
+			
+			var stream = fs.createReadStream("recOutput.csv");			
+			var csvw = require('fast-csv');
+			const eventData2 = [];
 
+			csvw
+			.fromStream(stream, {headers : fields})
+			.on("data", function(data){
+				
+				dbm.ApplicationModel.find({email:data.email, geoLng:data.geoLng, geoLat:data.geoLat}, function (err, result) {		
+					for(var i = 0 ; i < result.length ; i++) {
+						var data2 = {
+							'email' : result[i]._doc.email, 
+							'teamname' : result[i]._doc.teamname,
+							'city' : result[i]._doc.city,
+							'district' : result[i]._doc.district,
+							'place' : result[i]._doc.place,
+							'move' : result[i]._doc.move,
+							'age' : result[i]._doc.age,	
+							'gender' : result[i]._doc.gender,
+							'event_date' : result[i]._doc.event_date,
+							'event_time' : result[i]._doc.event_time,
+							'mention' : result[i]._doc.mention,
+							'created_month' : result[i]._doc.created_month,
+							'created_day' : result[i]._doc.created_day,
+							'geoLng' : result[i]._doc.geoLng,
+							'geoLat' : result[i]._doc.geoLat
+						};										
+					eventData2[i] = data2;
+					}
+					
+					switch(data2.gender){
+						case 100:
+							data2.gender = '여자';
+							break;
+						case 50:
+							data2.gender = '남자';
+							break;
+						case 25:
+							data2.gender = '혼성';
+							break;
+					}
+					
+					profile_photo = req.user.profile_img;			
+					if(profile_img == null)
+						profile_img = req.user.profile_img;
+					if(profile_img != req.user.profile_img)
+						profile_photo = profile_img;
+										
+					var user_context = {
+						'email':req.user.email,
+						'teamname':req.user.teamname, 
+						'gender':req.user.gender, 
+						'age':req.user.age,
+						'region':req.user.region,
+						'move':req.user.move,
+						'nofteam':req.user.nofteam,
+						'career_year':req.user.career_year,
+						'career_count':req.user.career_count,
+						'introteam':req.user.introteam,
+						'profile_img':profile_photo,
+						'event_data':eventData2
+					};
+					
+					console.dir(user_context);
+			
+            		res.render('main.ejs', user_context);
+					
+					
+				});
 				
 
+			})
+			.on("end", function(){
+				console.log("done");
+			});
+			
+			
+			
         }
     });
 	
