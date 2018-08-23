@@ -34,7 +34,7 @@
             <img src="../profile_img/<%= profile_img %>" id="profile_pic" style="margin-right: .2rem; width:3rem; height: 3rem">
             <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= teamname %> 팀</span>
             <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
-			<a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
+         <a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
             <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
         </div>
 
@@ -83,40 +83,84 @@
 <div class="container">
     <div class="reco" style="margin-top: 1rem">
 
-        <div class="mb-3">
-            <p class="small" style="margin-bottom: .5rem">서울-강남 | 여자만 | 20대 | 17:00-18:00</p>
-            <span style="font-weight: bold; font-size: 1.2rem; margin-right: .5rem">검색 결과</span>
-            <span>달력 클릭시 매칭 신청</span>
+            <p class="small" style="margin-bottom: .5rem">(검색결과로)서울-강남 | 여자만 | 20대 | 17:00-18:00</p>
+            <div style="display:flex; justify-content: space-between; align-items: center" class="mb-3">
+            <span style="font-weight: bold; font-size: 1.2rem;">매칭신청 : 달력 클릭</span>
+            
+            <select class="custom-select" style="width: 8rem">
+                <option selected>정렬 기준</option>
+                <option value="1">지역</option>
+                <option value="2">성별</option>
+                <option value="3">평균 연령대</option>
+            </select>
         </div>
 
-        <p>선택한 값들 불러오기</p>
-        <div style="display: flex; justify-content: space-around; margin-left: 1rem; margin-right: 1rem">
-            <!--달력-->
-            <div style="width: 8rem; height: 7rem; background-color: #f8f9fa;">
-                <div style="width: 8rem; height: 2.5rem; background-color: black;">
-                    <p class="whiteW" style="text-align: center; font-size: 1.3rem; font-weight: bold; padding-top: .2rem;" >2018</p>
+<% if(event_data.length == 0) { %>
+        <p style="font-weight: bold">등록된 매칭이 없습니다.</p>
+        <% } %>
+
+        <% for(var i = 0; i < event_data.length; i++) {
+            var curEmail = event_data[i].email;
+            var curTeamname = event_data[i].teamname;
+            var curCity = event_data[i].city;
+            var curPlace = event_data[i].place;
+            var curMove = event_data[i].move;
+            var curAge = event_data[i].age;
+            var curGender = event_data[i].gender;
+            var curDate = event_data[i].event_date;
+            var curTime = event_data[i].event_time;
+            var curDay = event_data[i].event_day;
+            var curMention = event_data[i].mention;
+            var curCreatedMonth = event_data[i].created_month;
+            var curCreatedDay = event_data[i].created_day;
+            //var geoLng = event_data[i].geoLng;
+            //var geoLat = event_data[i].geoLat;
+            var curNofteam = event_data[i].nofteam;
+            //var matchYear = curDate.getFullYear(); //substring(0,4);
+            var matchMonth = curDate.getMonth()+1; //substring(5,7);
+            var matchDate = curDate.getDate(); //substring(8,10);
+            var matchDay = curDay;
+
+            if(curGender == 25) {
+                curGender = '무관'
+            }else if(curGender == 50) {
+                curGender = '남자'
+            }else if(curGender == 100){
+                curGender = '여자'
+            }
+        %>
+
+        <div style="margin-top:1rem;">
+            <div style="display: flex; justify-content: space-around; margin-left: 0; margin-right: 0;">
+                <!--일정 달력-->
+                <div style="width: 8rem; height: 7rem; background-color: #f8f9fa; margin-right:.5rem; ">
+                    <div style="width: 8rem; height: 2.5rem; background-color: black;">
+                        <p class="whiteW" style="text-align: center; font-size: 1.3rem; font-weight: bold; padding-top: .2rem;" ><%=matchDay%></p>
+                    </div>
+                    <p style="text-align: center; font-size: 2.5rem; font-weight: bold"><%= matchMonth %>/<%= matchDate %></p>
                 </div>
-                <p style="text-align: center; font-size: 2.5rem; font-weight: bold">9/30</p>
+
+                <!--팀 요약-->
+                <div style="margin-left:.5rem;">
+                    <p style="font-weight: bold; margin-bottom: 0"><%=curTeamname%> 팀</p>
+                    <p style="font-size: .7rem">
+                        지역 : <%=curCity%><br>
+                        성별 : <%=curGender%><br>
+                        나이 : <%=curAge%>대<br>
+                        장소 : <%=curPlace%><br>
+                        팀원 : <%=curNofteam%>명<br>
+                    </p>
+                </div>
             </div>
-
-            <!--팀 요약-->
-            <div style="">
-                <p style="font-weight: bold; margin-bottom: 0">우리가 남이가</p>
-                <p style="font-size: .7rem">
-                    지역 : 서울 - 강남<br>
-                    성별 : 여<br>
-                    나이 : 20대<br>
-                    장소 : 효창운동장<br>
-                    팀원 : 40명<br>
-                </p>
-
+            <div style="text-align: center; padding-bottom:1rem; border-bottom:1px dotted grey;">
+                <button class="btn" >매칭 신청</button>
             </div>
-
         </div>
-
+        <%}%>
 
     </div>
 </div>
+
 
 <!--페이지 넘기는 버튼-->
 <div class="paging">

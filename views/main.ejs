@@ -80,12 +80,24 @@
         <div style="display:flex; justify-content: space-between; align-items: center" class="mb-3">
             <span style="font-weight: bold;">매칭추천</span>
 
-            <select class="custom-select" style="width: 8rem">
-                <option selected>정렬 기준</option>
-                <option value="1">지역</option>
-                <option value="2">성별</option>
-                <option value="3">평균 연령대</option>
+			
+			<form action="/" name="changesubmit" method="post">
+            <select class="custom-select" name="sort" id="sort" style="width: 8rem">
+                <option selected value="0">정렬 기준</option>
+				<option value="1">지역</option>
+				<option value="2">성별</option>
+				<option value="3">평균 연령대</option>
             </select>
+			</form>
+				 <script type="text/javascript">
+					 
+  						jQuery(function() {
+    						jQuery('#sort').change(function() {
+								this.form.submit();
+							});
+						});
+				</script>
+			
         </div>
 		
 		<% if(event_data[0] == null) { %>
@@ -124,7 +136,7 @@
                 <li><a href="#">3</a></li>
                 <li><a href="#">></a></li>
             </ul>
-        </div>
+		</div>
     </div>
 </div>
 
