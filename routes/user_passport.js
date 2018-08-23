@@ -18,60 +18,58 @@ module.exports = function(router, passport, upload) {
         'age': '',
         'event_time': '',
         'event_day': ''
-      };
+      };	
+	
 
 	
 	//홈 화면, 추천
 	router.route('/').get(function(req, res) {
-		 console.log('/main 패스 get 요청됨.');
-		 
+		 console.log('/main 패스 get 요청됨.');		 
      
         // 인증 안된 경우
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
             res.redirect('/login');
-        } else {
+        } else {			
 			var fs = require('fs');
 			var dbm = require('../database/database');
 			console.log('database 모듈 가져옴');
-
+			
 			const Json2csvParser = require('json2csv').Parser;
 			const fields = ['email', 'age', 'gender', 'geoLng', 'geoLat'];
-			const eventData = [];
-			
-						
-			dbm.ApplicationModel.find(function (err, result) {				
-				for(var i = 0 ; i < result.length ; i++) {
-					var data = {
-						'email' : result[i]._doc.email, 
-			//			'teamname' : result[i]._doc.teamname,
-			//			'city' : result[i]._doc.city,
-			//			'district' : result[i]._doc.district,
-			//			'place' : result[i]._doc.place,
-			//			'move' : result[i]._doc.move,
-						'age' : result[i]._doc.age,	
-						'gender' : result[i]._doc.gender,
-			//			'event_date' : result[i]._doc.event_date,
-			//			'event_time' : result[i]._doc.event_time,
-			//			'mention' : result[i]._doc.mention,
-			//			'created_month' : result[i]._doc.created_month,
-			//			'created_day' : result[i]._doc.created_day,
-						'geoLng' : result[i]._doc.geoLng,
-						'geoLat' : result[i]._doc.geoLat
-					};										
-					eventData[i] = data;
-				}				
-				
-				const json2csvParser = new Json2csvParser({ fields });
-				const csv = json2csvParser.parse(eventData);
+			const eventData = [];			
 
-				fs.writeFile('recEvent.csv', csv, 'utf8', function(err){
-					if(err) throw err
-					console.log('File Write.');
-				});	
-			});
-			
-			
+			dbm.ApplicationModel.find(function (err, result) {				
+			for(var i = 0 ; i < result.length ; i++) {
+				var data = {
+					'email' : result[i]._doc.email, 
+		//			'teamname' : result[i]._doc.teamname,
+		//			'city' : result[i]._doc.city,
+		//			'district' : result[i]._doc.district,
+		//			'place' : result[i]._doc.place,
+		//			'move' : result[i]._doc.move,
+					'age' : result[i]._doc.age,	
+					'gender' : result[i]._doc.gender,
+		//			'event_date' : result[i]._doc.event_date,
+		//			'event_time' : result[i]._doc.event_time,
+		//			'mention' : result[i]._doc.mention,
+		//			'created_month' : result[i]._doc.created_month,
+		//			'created_day' : result[i]._doc.created_day,
+					'geoLng' : result[i]._doc.geoLng,
+					'geoLat' : result[i]._doc.geoLat
+				};										
+				eventData[i] = data;
+			}				
+
+			const json2csvParser = new Json2csvParser({ fields });
+			const csv = json2csvParser.parse(eventData);
+
+			fs.writeFile('recEvent.csv', csv, 'utf8', function(err){
+				if(err) throw err
+				console.log('File Write.');
+			});	
+		});			
+
 			var stream = fs.createReadStream("recOutput.csv");			
 			var csvw = require('fast-csv');
 			const eventData2 = [];
@@ -96,18 +94,17 @@ module.exports = function(router, passport, upload) {
 							'geoLng' : result[i]._doc.geoLng,
 							'geoLat' : result[i]._doc.geoLat,
 							'created_month' : result[i]._doc.created_month,
-							'created_day' : result[i]._doc.created_day,
+							'created_day' : result[i]._doc.created_day
 						};										
-					eventData2[i] = data2;
-					}
-										
+						eventData2[i] = data2;
+					}				
 					
 					profile_photo = req.user.profile_img;			
 					if(profile_img == null)
 						profile_img = req.user.profile_img;
 					if(profile_img != req.user.profile_img)
 						profile_photo = profile_img;
-										
+
 					var user_context = {
 						'email':req.user.email,
 						'teamname':req.user.teamname, 
@@ -122,25 +119,149 @@ module.exports = function(router, passport, upload) {
 						'profile_img':profile_photo,
 						'event_data':eventData2
 					};
-					
-					console.dir(user_context);
-			
-            		res.render('main.ejs', user_context);
-					
-					
-				});
-				
 
+					console.dir(user_context);
+
+					res.render('main.ejs', user_context);				
+				});
 			})
 			.on("end", function(){
 				console.log("done");
-			});
-			
-			
-			
+			});			
         }
     });
 	
+	router.route('/').post(function(req, res){
+		var kofsort = req.body.sort || req.query.sort;
+		console.log(kofsort);
+			
+			if(kofsort == 1){
+				res.redirect('/regionsort');
+			}else if(kofsort == 2){
+				res.redirect('gendersort');
+			}else if(kofsort == 3){
+				res.redirect('/agesort');
+			}
+	});
+	
+	router.route('/regionsort').get(function(req, res){
+		
+	});
+	
+	router.route('/gendersort').get(function(req, res){
+		console.log('Search by gender');
+		
+		// 인증 안된 경우
+        if (!req.user) {
+            console.log('사용자 인증 안된 상태임.');
+            res.redirect('/login');
+        } else {
+			var dbm = require('../database/database');
+			console.log('database 모듈 가져옴');
+			const eventData = [];
+			
+			dbm.ApplicationModel.find({gender:req.user.gender},function (err, result) {				
+				for(var i = 0 ; i < result.length ; i++) {
+						var data = {
+							'email' : result[i]._doc.email, 
+							'teamname' : result[i]._doc.teamname,
+							'region' : result[i]._doc.region,
+							'place' : result[i]._doc.place,
+							'move' : result[i]._doc.move,
+							'age' : result[i]._doc.age,	
+							'gender' : result[i]._doc.gender,
+							'event_date' : result[i]._doc.event_date,
+							'event_time' : result[i]._doc.event_time,
+							'event_day' : result[i]._doc.event_day,
+							'mention' : result[i]._doc.mention,				
+							'geoLng' : result[i]._doc.geoLng,
+							'geoLat' : result[i]._doc.geoLat,
+							'created_month' : result[i]._doc.created_month,
+							'created_day' : result[i]._doc.created_day
+						};
+					eventData[i] = data;
+					}
+				
+				var user_context = {
+					'email':req.user.email,
+					'teamname':req.user.teamname, 
+					'gender':req.user.gender, 
+					'age':req.user.age,
+					'region':req.user.region,
+					'move':req.user.move,
+					'nofteam':req.user.nofteam,
+					'career_year':req.user.career_year,
+					'career_count':req.user.career_count,
+					'introteam':req.user.introteam,
+					'profile_img':profile_photo,
+					'event_data':eventData
+				};
+				
+				console.dir(user_context);
+				
+							
+            	res.render('main.ejs', user_context);			
+			});			
+		}
+			
+	});
+	
+	router.route('/agesort').get(function(req, res){
+		console.log('Search by age');
+		// 인증 안된 경우
+        if (!req.user) {
+            console.log('사용자 인증 안된 상태임.');
+            res.redirect('/login');
+        } else {
+			var dbm = require('../database/database');
+			console.log('database 모듈 가져옴');
+			const eventData = [];
+			
+			dbm.ApplicationModel.find({age: { $gt: req.user.age-5 , $lte: req.user.age+5 } },function (err, result) {				
+				for(var i = 0 ; i < result.length ; i++) {
+						var data = {
+							'email' : result[i]._doc.email, 
+							'teamname' : result[i]._doc.teamname,
+							'region' : result[i]._doc.region,
+							'place' : result[i]._doc.place,
+							'move' : result[i]._doc.move,
+							'age' : result[i]._doc.age,	
+							'gender' : result[i]._doc.gender,
+							'event_date' : result[i]._doc.event_date,
+							'event_time' : result[i]._doc.event_time,
+							'event_day' : result[i]._doc.event_day,
+							'mention' : result[i]._doc.mention,				
+							'geoLng' : result[i]._doc.geoLng,
+							'geoLat' : result[i]._doc.geoLat,
+							'created_month' : result[i]._doc.created_month,
+							'created_day' : result[i]._doc.created_day
+						};
+					eventData[i] = data;
+					}
+				
+				var user_context = {
+					'email':req.user.email,
+					'teamname':req.user.teamname, 
+					'gender':req.user.gender, 
+					'age':req.user.age,
+					'region':req.user.region,
+					'move':req.user.move,
+					'nofteam':req.user.nofteam,
+					'career_year':req.user.career_year,
+					'career_count':req.user.career_count,
+					'introteam':req.user.introteam,
+					'profile_img':profile_photo,
+					'event_data':eventData
+				};
+				
+				console.dir(user_context);
+				
+							
+            	res.render('main.ejs', user_context);			
+			});			
+		}
+			
+	});
 	
 	
     // 로그인 화면
