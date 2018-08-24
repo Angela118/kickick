@@ -110,20 +110,17 @@
             </select>
         </div>
 
-        <script>
-            var j = 0;
-        </script>
-
         <% if(event_data.length == 0) { %>
         <p style="font-weight: bold">등록된 매칭이 없습니다.</p>
         <%}%>
 
-        <% var arrayLength = event_data.length;
+        <%
+        // var arrayLength = event_data.length;
         for(var i = 0; i < event_data.length; i++) {
             var curEmail = event_data[i].email;
             var curTeamname = event_data[i].teamname;
-            var curRegion = event_data[i].city[0];
-            var curCity = event_data[i].city[1];
+            var curRegion = event_data[i].region[0];
+            var curCity = event_data[i].region[1];
             var curPlace = event_data[i].place;
             var curMove = event_data[i].move;
             var curAge = event_data[i].age;
@@ -174,7 +171,6 @@
 
                 <script>
                     function clicked(email, teamname, region, city, place, move, age, gender, date, time, day, mention, createdMonth, createdDay, geoLng, geoLat, nofteam, index) {
-                        <!--document.getElementsByName('sRegion')['<%=i%>'].value = `<%= event_data[i].city[1] %>`;-->
                         document.getElementsByName('sEmail')[index].value = email;
                         document.getElementsByName('sTeamname')[index].value = teamname;
                         document.getElementsByName('sRegion')[index].value = region;
@@ -221,8 +217,8 @@
                 <button type="submit" class="btn btn-primary" onclick='clicked(
                         `<%= event_data[i].email %>`,
                         `<%= event_data[i].teamname %>`,
-                        `<%= event_data[i].city[0] %>`,
-                        `<%= event_data[i].city[1] %>`,
+                        `<%= event_data[i].region[0] %>`,
+                        `<%= event_data[i].region[1] %>`,
                         `<%= event_data[i].place %>`,
                         `<%= event_data[i].move %>`,
                         `<%= event_data[i].age %>`,

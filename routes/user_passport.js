@@ -696,7 +696,7 @@ module.exports = function(router, passport, upload) {
                         var data = {
                             'email' : result[i]._doc.email,
                             'teamname' : result[i]._doc.teamname,
-                            'city' : result[i]._doc.city,
+                            'region' : result[i]._doc.region,
                             'place' : result[i]._doc.place,
                             'move' : result[i]._doc.move,
                             'age' : result[i]._doc.age,
@@ -710,7 +710,6 @@ module.exports = function(router, passport, upload) {
                             'geoLng' : result[i]._doc.geoLng,
                             'geoLat' : result[i]._doc.geoLat,
                             'nofteam' : result[i]._doc.nofteam,
-
                         };
                     }
                     eventData[i] = data;
@@ -747,7 +746,7 @@ module.exports = function(router, passport, upload) {
         var others = {
             'sEmail': req.body.sEmail,
             'sTeamname': req.body.sTeamname,
-            'sCity': req.body.sCity,
+            'sRegion': req.body.sRegion,
             'sPlace' : req.body.sPlace,
             'sMove' : req.body.sMove,
             'sAge': req.body.sAge,
@@ -995,7 +994,7 @@ module.exports = function(router, passport, upload) {
                 'teamname':req.user.teamname,
                 'gender':req.user.gender,
                 'age':req.user.age,
-                'city':req.user.city,
+                'region':req.user.region,
                 'move':req.user.move,
                 'career_year':req.user.career_year,
                 'career_count':req.user.career_count,
@@ -1017,7 +1016,7 @@ module.exports = function(router, passport, upload) {
         var event = {
             'email': req.user.email,
             'teamname': req.user.teamname,
-            'city': req.body.city || req.query.city,
+            'region': req.body.region || req.query.region,
             'place' : req.body.place || req.query.place,
             'move' : req.body.move || req.query.move,
             'age': req.body.age || req.query.age,

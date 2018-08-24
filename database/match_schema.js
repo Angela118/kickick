@@ -17,7 +17,7 @@ Schema.createSchema = function(mongoose) {
 	var MatchSchema = mongoose.Schema({
 		email: {type: String, 'default':''},
 	    teamname: {type: String, index: 'hashed', 'default':''},
-		city: [{type: "String", 'default':''}],
+		region: [{type: "String", 'default':''}],
 		place : {type:String, 'default':''},
 		move : {type:String, 'default':''},
 		age: {type:Number, default:''},
