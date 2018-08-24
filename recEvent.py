@@ -21,7 +21,22 @@ userCollection = db.users6
 users = userCollection.find_one({'email':'id@naver.com'})
 
 predict = []
-predict = [users['age'], users['gender'], users['geoLng'], users['geoLat']];
+predict = [users['age'], users['gender'], users['nofteam'], users['geoLng'], users['geoLat']];
+
+if predict[1] == '여자':
+    predict[1] = 100
+elif predict[1] == '남':
+    predict[1] = 50
+elif predict[1] == '혼성':
+    predict[1] = 25
+
+'''
+if predict[0] == 'O':
+    predict[0] = 100
+elif predict[0] == 'X':
+    predict[0] = 50
+'''
+
 
 print(predict)
 print()
@@ -29,7 +44,7 @@ print()
 done = 5
 
 while(done):
-    #파일 불러오
+    #파일 불러오기 
     file = open('C:/Users/user/brackets_nodejs/server/recEvent.csv', 'r')
     reader = csv.reader(file)
 
@@ -37,14 +52,25 @@ while(done):
     for row_list in reader:
         data.append(row_list)
   
-    file.close()    
+    file.close()
+
+    print(data)
+    print()
 
     del data[0]
-    
+
+    for i in range(0, len(data)):
+        if data[i][3] == '여자':
+            data[i][3] = 100
+        elif data[i][3] == '남자':
+            data[i][3] = 50
+        elif data[i][3] == '혼성':
+            data[i][3] = 25
+        
     dat = data[:]
     
     
-    #for insert id
+    #data의 id값 
     idArray = []
     for i in range(0, len(data)):
         idArray.append(data[i][0])
@@ -58,6 +84,7 @@ while(done):
     predict = np.array(predict, dtype=np.float64)
     data = np.array(data, dtype=np.float64)
 
+
     #euclidean distance
     euc_dst = []
     for i in range(0, len(data)):
@@ -66,6 +93,7 @@ while(done):
     ar_euc = []
     for i in range(0, len(euc_dst)):
         ar_euc.append([i, euc_dst[i]])
+        
 
     #sorting    
     for size in reversed(range(len(ar_euc))):
@@ -78,11 +106,11 @@ while(done):
     for i in range(0, len(ar_euc)):
         result_data.append(dat[ar_euc[i][0]])
         result_data[i].insert(0, idArray[i])
-
         
-      
     print(result_data)
-    
+
+
+    #recOutput.csv에 저장 
     with open('C:/Users/user/brackets_nodejs/server/recOutput.csv','w', newline='') as output:
         writer = csv.writer(output)
         for val in result_data:
