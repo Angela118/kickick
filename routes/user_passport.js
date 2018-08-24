@@ -691,7 +691,6 @@ module.exports = function(router, passport, upload) {
             var eventData = new Array();
 
             dbm.ApplicationModel.find({email : {"$ne" : req.user.email}} ,function (err, result) {
-
                 for (var i = 0; i < result.length; i++) {
                     if (result[i]._doc.email != req.user.email) {
                         var data = {
@@ -739,6 +738,62 @@ module.exports = function(router, passport, upload) {
         }
     });
 
+    router.route('/mainsearchresult').post(function(req, res){
+        console.log('/mainsearchresult 패스 post 요청됨.');
+
+        var dbm = require('../database/database');
+        console.log('database 모듈 가져옴');
+
+        var others = {
+            'sEmail': req.body.sEmail,
+            'sTeamname': req.body.sTeamname,
+            'sCity': req.body.sCity,
+            'sPlace' : req.body.sPlace,
+            'sMove' : req.body.sMove,
+            'sAge': req.body.sAge,
+            'sGender': req.body.sGender,
+            'sEvent_date': req.body.sDate,
+            'sEvent_time': req.body.sTime,
+            'sEvent_day' : req.body.sDay,
+            'sCreatedMonth' : req.body.sCreatedMonth,
+            'sCreatedDay' : req.body.sCreatedDay,
+            'sMention': req.body.sMention,
+            'sGeoLng': req.body.sGeoLng,
+            'sGeoLat': req.body.sGeoLat,
+            'sNofteam' : req.body.sNofteam
+        }
+
+        var event = {
+            'email':req.user.email,
+            'teamname':req.user.teamname,
+            'region':req.user.region,
+            'place':req.user.place,
+            'move':req.user.move,
+            'age':req.user.age,
+            'gender':req.user.gender,
+            'career_year':req.user.career_year,
+            'career_count':req.user.career_count,
+            'introteam':req.user.introteam,
+            'nofteam':req.user.nofteam,
+            'others': others
+        };
+
+        console.dir(event);
+
+        var event_match = new dbm.MatchModel(event);
+
+        event_match.save(function (err, data) {
+            if (err) {// TODO handle the error
+                console.log("match save error");
+                console.log('err : ' + err);
+                console.log('data : ' + data);
+            }
+            console.log('New match inserted');
+            console.log('data : ' + data);
+        });
+
+        res.redirect('/mainsearchresult');
+    });
 
     //경기 스케쥴
     router.route('/teamschedule').get(function(req, res) {
@@ -797,7 +852,6 @@ module.exports = function(router, passport, upload) {
     // 상대팀 리뷰하기
     router.route('/teamreview').get(function(req, res){
         console.log('/teamreview 패스 get 요청됨.');
-        console.log('test1-------------------------------------');
 
         if(!req.user){
             console.log('사용자 인증 안된 상태임.');
@@ -830,7 +884,7 @@ module.exports = function(router, passport, upload) {
     });
 
     router.route('/teamreview').post(function(req, res){
-        console.log('/teamreview 패스 post 요청됨-----------------------------------------------------------------------.');
+        console.log('/teamreview 패스 post 요청됨');
 
         var dbm = require('../database/database');
         console.log('database 모듈 가져옴');
@@ -943,7 +997,6 @@ module.exports = function(router, passport, upload) {
                 'age':req.user.age,
                 'city':req.user.city,
                 'move':req.user.move,
-                'nofteam':req.user.nofteam,
                 'career_year':req.user.career_year,
                 'career_count':req.user.career_count,
                 'introteam':req.user.introteam,

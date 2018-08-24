@@ -110,11 +110,16 @@
             </select>
         </div>
 
+        <script>
+            var j = 0;
+        </script>
+
         <% if(event_data.length == 0) { %>
         <p style="font-weight: bold">등록된 매칭이 없습니다.</p>
         <%}%>
 
-        <% for(var i = 0; i < event_data.length; i++) {
+        <% var arrayLength = event_data.length;
+        for(var i = 0; i < event_data.length; i++) {
             var curEmail = event_data[i].email;
             var curTeamname = event_data[i].teamname;
             var curRegion = event_data[i].city[0];
@@ -144,50 +149,135 @@
                 curGender = '여'
             }
         %>
-
         <div>
             <div style="display: flex; justify-content: space-around; margin-left: 1rem; margin-right: 1rem">
+
                 <!--일정 달력-->
                 <div style="width: 8rem; height: 7rem; background-color: #f8f9fa;">
                     <div style="width: 8rem; height: 2.5rem; background-color: black;">
                         <p class="whiteW" style="text-align: center; font-size: 1.3rem; font-weight: bold; padding-top: .2rem;" ><%=matchYear%></p>
                     </div>
-                    <p style="text-align: center; font-size: 2.5rem; font-weight: bold"><%= matchMonth %>/<%= matchDay %></p>
+                    <p style="text-align: center; font-size: 2.5rem; font-weight: bold"><%= matchMonth %>/<%= matchDay%></p>
                 </div>
 
                 <!--팀 요약-->
                 <div style="">
                     <p style="font-weight: bold; margin-bottom: 0"><%=curTeamname%> 팀</p>
                     <p style="font-size: .7rem">
-                        지역 : <%=curRegion%> - <%=curCity%><br>
-                        성별 : <%=curGender%><br>
-                        나이 : <%=curAge%>대<br>
-                        장소 : <%=curPlace%><br>
-                        팀원 : <%=curNofteam%>명<br>
+                        <span>지역 : <%=curRegion%> - <%=curCity%></span><br>
+                        <span>성별 : <%=curGender%></span><br>
+                        <span>나이 : <%=curAge%>대</span><br>
+                        <span>장소 : <%=curPlace%></span><br>
+                        <span>팀원 : <%=curNofteam%>명</span><br>
                     </p>
                 </div>
-            </div>
-            <div style="text-align: center">
-                <button class="btn" >매칭 신청</button>
-            </div>
-        </div>
-        <%}%>
 
-    </div>
-</div>
+                <script>
+                    function clicked(email, teamname, region, city, place, move, age, gender, date, time, day, mention, createdMonth, createdDay, geoLng, geoLat, nofteam, index) {
+                        <!--document.getElementsByName('sRegion')['<%=i%>'].value = `<%= event_data[i].city[1] %>`;-->
+                        document.getElementsByName('sEmail')[index].value = email;
+                        document.getElementsByName('sTeamname')[index].value = teamname;
+                        document.getElementsByName('sRegion')[index].value = region;
+                        document.getElementsByName('sCity')[index].value = city;
+                        document.getElementsByName('sPlace')[index].value = place;
+                        document.getElementsByName('sMove')[index].value = move;
+                        document.getElementsByName('sAge')[index].value = age;
+                        document.getElementsByName('sGender')[index].value = gender;
+                        document.getElementsByName('sDate')[index].value = date;
+                        document.getElementsByName('sTime')[index].value = time;
+                        document.getElementsByName('sDay')[index].value = day;
+                        document.getElementsByName('sMention')[index].value = mention;
+                        document.getElementsByName('sCreatedMonth')[index].value = createdMonth;
+                        document.getElementsByName('sCreatedDay')[index].value = createdDay;
+                        document.getElementsByName('sGeoLng')[index].value = geoLng;
+                        document.getElementsByName('sGeoLat')[index].value = geoLat;
+                        document.getElementsByName('sNofteam')[index].value = nofteam;
+                        alert(teamname + '팀에게 매칭 신청하였습니다.');
+                    }
+                </script>
 
-<!--페이지 넘기는 버튼-->
-<div class="paging">
-    <ul>
-        <li><a href="#"><</a></li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">></a></li>
-    </ul>
+            </div>
+            <form action="/mainsearchresult" method="post">
+
+                <input type="hidden" name="sEmail" id="sEmail" value=''>
+                <input type="hidden" name="sTeamname" id="sTeamname" value=''>
+                <input type="hidden" name="sRegion" id="sRegion" value=''>
+                <input type="hidden" name="sCity" id="sCity" value=''>
+                <input type="hidden" name="sPlace" id="sPlace" value=''>
+                <input type="hidden" name="sMove" id="sMove" value=''>
+                <input type="hidden" name="sAge" id="sAge" value=''>
+                <input type="hidden" name="sGender" id="sGender" value=''>
+                <input type="hidden" name="sDate" id="sDate" value=''>
+                <input type="hidden" name="sTime" id="sTime" value=''>
+                <input type="hidden" name="sDay" id="sDay" value=''>
+                <input type="hidden" name="sMention" id="sMention" value=''>
+                <input type="hidden" name="sCreatedMonth" id="sCreatedMonth" value=''>
+                <input type="hidden" name="sCreatedDay" id="sCreatedDay" value=''>
+                <input type="hidden" name="sGeoLng" id="sGeoLng" value=''>
+                <input type="hidden" name="sGeoLat" id="sGeoLat" value=''>
+                <input type="hidden" name="sNofteam" id="sNofteam" value=''>
+
+                <!--<button type="button" class="btn btn-primary" onclick='clicked()'>매칭 신청</button>-->
+                <button type="submit" class="btn btn-primary" onclick='clicked(
+                        `<%= event_data[i].email %>`,
+                        `<%= event_data[i].teamname %>`,
+                        `<%= event_data[i].city[0] %>`,
+                        `<%= event_data[i].city[1] %>`,
+                        `<%= event_data[i].place %>`,
+                        `<%= event_data[i].move %>`,
+                        `<%= event_data[i].age %>`,
+                        `<%= event_data[i].gender %>`,
+                        `<%= event_data[i].event_date %>`,
+                        `<%= event_data[i].event_time %>`,
+                        `<%= event_data[i].event_day %>`,
+                        `<%= event_data[i].mention %>`,
+                        `<%= event_data[i].created_month %>`,
+                        `<%= event_data[i].created_day %>`,
+                        `<%= event_data[i].geoLng %>`,
+                        `<%= event_data[i].geoLat %>`,
+                        `<%= event_data[i].nofteam %>`,
+                        `<%= i%>`)
+                        '>매칭 신청</button>
+            </form>
+        </div> <!--매칭 신청 버튼-->
+    </div> <!--content-->
+
+    <%} %>
+
 </div>
-<br>
-<br>
-<hr>
+</div>
 </body>
 </html>
+
+
+
+
+
+<!-- The Modal -->
+<!--                <div class="modal" id="myModal">
+                    <div class="modal-dialog modal-dialog-centered modal-sm">
+                        <div class="modal-content">
+
+                            &lt;!&ndash; Modal Header &ndash;&gt;
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="text-align: center"><%=curTeamname%></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            &lt;!&ndash; Modal body &ndash;&gt;
+                            <div class="modal-body">
+                                지역 : <%=curRegion%> - <%=curCity%><br>
+                                성별 : <%=curGender%><br>
+                                나이 : <%=curAge%>대<br>
+                                장소 : <%=curPlace%><br>
+                                팀원 : <%=curNofteam%>명<br>
+                            </div>
+
+                            &lt;!&ndash; Modal footer &ndash;&gt;
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div> &lt;!&ndash;modal&ndash;&gt;-->
