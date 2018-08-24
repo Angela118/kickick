@@ -30,14 +30,46 @@ module.exports = function(router, passport, upload) {
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
             res.redirect('/login');
-        } else {			
+        } else {
+			
+			var pythonShell = require('python-shell');
+			
+			var options = {
+				pythonPath: '',
+				pythonOptions:['-u'],
+				scriptPath: ''
+			};
+			
+			
+			
+			pythonShell.run('recEvent.py', options, function(err, results){
+				if(err) throw err
+				
+				console.log('Python run');
+				console.log('%j', results)
+			});
+			
+			
+			
+					
 			var fs = require('fs');
 			var dbm = require('../database/database');
 			console.log('database 모듈 가져옴');
 			
 			const Json2csvParser = require('json2csv').Parser;
-			const fields = ['email', 'move', 'age', 'gender', 'nofteam', 'geoLng', 'geoLat'];
-			const eventData = [];			
+			const fields = ['email', 'age', 'gender', 'nofteam', 'geoLng', 'geoLat'];
+			const eventData = [];	
+			
+			var userdata = {
+				'email':req.user.email,
+				'age':req.user.age,
+				'gender':req.user.gender,
+				'nofteam':req.user.nofteam,
+				'geoLng':req.user.geoLng,
+				'geoLat':req.user.geoLat
+			};
+			var j=1;
+			eventData[0] = userdata;
 
 			dbm.ApplicationModel.find(function (err, result) {				
 			for(var i = 0 ; i < result.length ; i++) {
@@ -46,7 +78,7 @@ module.exports = function(router, passport, upload) {
 		//			'teamname' : result[i]._doc.teamname,
 		//			'region' : result[i]._doc.region,
 		//			'place' : result[i]._doc.place,
-					'move' : result[i]._doc.move,
+		//			'move' : result[i]._doc.move,
 					'age' : result[i]._doc.age,	
 					'gender' : result[i]._doc.gender,
 		//			'event_date' : result[i]._doc.event_date,
@@ -59,9 +91,9 @@ module.exports = function(router, passport, upload) {
 		//			'created_month' : result[i]._doc.created_month,
 		//			'created_day' : result[i]._doc.created_day
 				};										
-				eventData[i] = data;
-			}				
-
+				eventData[j] = data;
+				j+=1;
+			}
 			const json2csvParser = new Json2csvParser({ fields });
 			const csv = json2csvParser.parse(eventData);
 
@@ -70,15 +102,19 @@ module.exports = function(router, passport, upload) {
 				console.log('File Write.');
 			});	
 		});			
-
+			
+			
+	
+			
 			var stream = fs.createReadStream("recOutput.csv");			
 			var csvw = require('fast-csv');
-			const eventData2 = [];
+			var eventData2 = [];
 
 			csvw
 			.fromStream(stream, {headers : fields})
 			.on("data", function(data){	
-				dbm.ApplicationModel.find({email:data.email, geoLng:data.geoLng, geoLat:data.geoLat}, function (err, result) {
+				console.log(data.geoLat);
+				dbm.ApplicationModel.find({$and:[{'email':data.email}, {'geoLng':data.geoLng}, {'geoLat':data.geoLat}]}, function (err, result) {
 					for(var i = 0 ; i < result.length ; i++) {
 						var data2 = {
 							'email' : result[i]._doc.email, 
@@ -122,7 +158,7 @@ module.exports = function(router, passport, upload) {
 						'event_data':eventData2
 					};
 
-				//	console.dir(user_context);
+					console.dir(user_context);
 
 					res.render('main.ejs', user_context);				
 				});
