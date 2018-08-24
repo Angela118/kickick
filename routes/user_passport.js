@@ -36,7 +36,7 @@ module.exports = function(router, passport, upload) {
 			console.log('database 모듈 가져옴');
 			
 			const Json2csvParser = require('json2csv').Parser;
-			const fields = ['email', 'age', 'gender', 'geoLng', 'geoLat'];
+			const fields = ['email', 'move', 'age', 'gender', 'nofteam', 'geoLng', 'geoLat'];
 			const eventData = [];			
 
 			dbm.ApplicationModel.find(function (err, result) {				
@@ -44,19 +44,20 @@ module.exports = function(router, passport, upload) {
 				var data = {
 					'email' : result[i]._doc.email, 
 		//			'teamname' : result[i]._doc.teamname,
-		//			'city' : result[i]._doc.city,
-		//			'district' : result[i]._doc.district,
+		//			'region' : result[i]._doc.region,
 		//			'place' : result[i]._doc.place,
-		//			'move' : result[i]._doc.move,
+					'move' : result[i]._doc.move,
 					'age' : result[i]._doc.age,	
 					'gender' : result[i]._doc.gender,
 		//			'event_date' : result[i]._doc.event_date,
 		//			'event_time' : result[i]._doc.event_time,
-		//			'mention' : result[i]._doc.mention,
-		//			'created_month' : result[i]._doc.created_month,
-		//			'created_day' : result[i]._doc.created_day,
+		//			'event_day' : result[i]._doc.event_day,
+		//			'mention' : result[i]._doc.mention,	
+					'nofteam' : reulst[i]._doc.nofteam,
 					'geoLng' : result[i]._doc.geoLng,
-					'geoLat' : result[i]._doc.geoLat
+					'geoLat' : result[i]._doc.geoLat,
+		//			'created_month' : result[i]._doc.created_month,
+		//			'created_day' : result[i]._doc.created_day
 				};										
 				eventData[i] = data;
 			}				
@@ -90,7 +91,8 @@ module.exports = function(router, passport, upload) {
 							'event_date' : result[i]._doc.event_date,
 							'event_time' : result[i]._doc.event_time,
 							'event_day' : result[i]._doc.event_day,
-							'mention' : result[i]._doc.mention,							
+							'mention' : result[i]._doc.mention,	
+							'nofteam' : reulst[i]._doc.nofteam,
 							'geoLng' : result[i]._doc.geoLng,
 							'geoLat' : result[i]._doc.geoLat,
 							'created_month' : result[i]._doc.created_month,
@@ -173,7 +175,8 @@ module.exports = function(router, passport, upload) {
 							'event_date' : result[i]._doc.event_date,
 							'event_time' : result[i]._doc.event_time,
 							'event_day' : result[i]._doc.event_day,
-							'mention' : result[i]._doc.mention,				
+							'mention' : result[i]._doc.mention,	
+							'nofteam' : reulst[i]._doc.nofteam,
 							'geoLng' : result[i]._doc.geoLng,
 							'geoLat' : result[i]._doc.geoLat,
 							'created_month' : result[i]._doc.created_month,
@@ -230,7 +233,8 @@ module.exports = function(router, passport, upload) {
 							'event_date' : result[i]._doc.event_date,
 							'event_time' : result[i]._doc.event_time,
 							'event_day' : result[i]._doc.event_day,
-							'mention' : result[i]._doc.mention,				
+							'mention' : result[i]._doc.mention,	
+							'nofteam' : reulst[i]._doc.nofteam,
 							'geoLng' : result[i]._doc.geoLng,
 							'geoLat' : result[i]._doc.geoLat,
 							'created_month' : result[i]._doc.created_month,
