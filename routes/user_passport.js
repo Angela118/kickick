@@ -53,7 +53,7 @@ module.exports = function(router, passport, upload) {
 		//			'event_time' : result[i]._doc.event_time,
 		//			'event_day' : result[i]._doc.event_day,
 		//			'mention' : result[i]._doc.mention,	
-					'nofteam' : reulst[i]._doc.nofteam,
+					'nofteam' : result[i]._doc.nofteam,
 					'geoLng' : result[i]._doc.geoLng,
 					'geoLat' : result[i]._doc.geoLat,
 		//			'created_month' : result[i]._doc.created_month,
@@ -92,7 +92,7 @@ module.exports = function(router, passport, upload) {
 							'event_time' : result[i]._doc.event_time,
 							'event_day' : result[i]._doc.event_day,
 							'mention' : result[i]._doc.mention,	
-							'nofteam' : reulst[i]._doc.nofteam,
+							'nofteam' : result[i]._doc.nofteam,
 							'geoLng' : result[i]._doc.geoLng,
 							'geoLat' : result[i]._doc.geoLat,
 							'created_month' : result[i]._doc.created_month,
@@ -122,7 +122,7 @@ module.exports = function(router, passport, upload) {
 						'event_data':eventData2
 					};
 
-					console.dir(user_context);
+				//	console.dir(user_context);
 
 					res.render('main.ejs', user_context);				
 				});
@@ -176,7 +176,7 @@ module.exports = function(router, passport, upload) {
 							'event_time' : result[i]._doc.event_time,
 							'event_day' : result[i]._doc.event_day,
 							'mention' : result[i]._doc.mention,	
-							'nofteam' : reulst[i]._doc.nofteam,
+							'nofteam' : result[i]._doc.nofteam,
 							'geoLng' : result[i]._doc.geoLng,
 							'geoLat' : result[i]._doc.geoLat,
 							'created_month' : result[i]._doc.created_month,
@@ -234,7 +234,7 @@ module.exports = function(router, passport, upload) {
 							'event_time' : result[i]._doc.event_time,
 							'event_day' : result[i]._doc.event_day,
 							'mention' : result[i]._doc.mention,	
-							'nofteam' : reulst[i]._doc.nofteam,
+							'nofteam' : resultt[i]._doc.nofteam,
 							'geoLng' : result[i]._doc.geoLng,
 							'geoLat' : result[i]._doc.geoLat,
 							'created_month' : result[i]._doc.created_month,
@@ -456,8 +456,9 @@ module.exports = function(router, passport, upload) {
 				profile_img = req.user.profile_img;
 			if(profile_img != req.user.profile_img)
 				profile_photo = profile_img;
-
 			
+			
+						
 			var user_context = {
 				'email':req.user.email, 
 				'password':req.user.password, 
