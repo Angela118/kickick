@@ -91,9 +91,9 @@
                 <label for="user-gender">성별</label>
                 <select class="custom-select d-block w-100" name="gender" id="user-gender" required>
                     <option value="" disabled selected hidden>Choose...</option>
-                    <option value="none">혼성</option>
-                    <option>여자</option>
-          			<option>남자</option>
+                    <option value="25">혼성</option>
+                    <option value="100">여자</option>
+          			<option value="50">남자</option>
                 </select>
             </div>
 
@@ -118,13 +118,18 @@
 				<br>
 			
 			
-			<input type="text" name="region" id="sample5_address" placeholder="주소" readonly/>
-			<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+			<input type="text" name="place" id="sample5_address" placeholder="주소" readonly/>
+					<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색">
+						
+					<input name="resultLat" id="resultLat" placeholder="위도" class="form-control" readonly/ > 
+					<input name="resultLng" id="resultLng" placeholder="경도" class="form-control" readonly/ >
+					<br>
 			<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
 
 			<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 			<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df8f5565b51994aa9c71d2128dcdfec5&libraries=services"></script>
 			<script>
+				
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         			mapOption = {
 						center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
@@ -175,6 +180,16 @@
 									
 									// 해당 주소에 대한 좌표를 받아서
 									var coords = new daum.maps.LatLng(result.y, result.x);
+									
+				
+									var geoLat = result.y;
+									var geoLng = result.x;
+									
+									var resultLat = document.getElementById('resultLat');
+									resultLat.value = geoLat;
+									var resultLng = document.getElementById('resultLng');
+									resultLng.value = geoLng;
+									
 									// 지도를 보여준다.
 									mapContainer.style.display = "block";
 									map.relayout();
@@ -204,8 +219,8 @@
                 <label for="move">원정 가능 유무</label>
                 <select class="custom-select d-block w-100" name="move" id="" required>
                     <option value="" disabled selected hidden>Choose...</option>
-                    <option>O</option>
-                    <option>X</option>
+                    <option value="100">O</option>
+                    <option value="50">X</option>
                 </select>
             </div>
 

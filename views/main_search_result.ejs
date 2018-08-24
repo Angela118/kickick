@@ -122,12 +122,18 @@
             var matchDay = curDay;
 
             if(curGender == 25) {
-                curGender = '무관'
+                curGender = '무관';
             }else if(curGender == 50) {
-                curGender = '남자'
+                curGender = '남자';
             }else if(curGender == 100){
-                curGender = '여자'
+                curGender = '여자';
             }
+			
+			if(curMove == 100){
+				curMove = 'O';
+			}else if(curMove == 50){
+				curMove = 'X';
+			}
         %>
 
         <div style="margin-top:1rem;">
