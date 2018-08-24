@@ -32,22 +32,7 @@ module.exports = function(router, passport, upload) {
             res.redirect('/login');
         } else {
 			
-			var pythonShell = require('python-shell');
 			
-			var options = {
-				pythonPath: '',
-				pythonOptions:['-u'],
-				scriptPath: ''
-			};
-			
-			
-			
-			pythonShell.run('recEvent.py', options, function(err, results){
-				if(err) throw err
-				
-				console.log('Python run');
-				console.log('%j', results)
-			});
 			
 			
 			
@@ -104,68 +89,90 @@ module.exports = function(router, passport, upload) {
 		});			
 			
 			
-	
 			
-			var stream = fs.createReadStream("recOutput.csv");			
-			var csvw = require('fast-csv');
-			var eventData2 = [];
+			
+			var pythonShell = require('python-shell');
+			
+			var options = {
+				pythonPath: '',
+				pythonOptions:['-u'],
+				scriptPath: ''
+			};
+			
+			
+			
+			pythonShell.run('recEvent.py', options, function(err, results){
+				if(err) throw err
+				
+				console.log('Python run');
+				console.log('%j', results)
+			});
+			
+			
+			
+			setTimeout(function(){
+				var stream = fs.createReadStream("recOutput.csv");			
+				var csvw = require('fast-csv');
+				var eventData2 = [];
 
-			csvw
-			.fromStream(stream, {headers : fields})
-			.on("data", function(data){	
-				console.log(data.geoLat);
-				dbm.ApplicationModel.find({$and:[{'email':data.email}, {'geoLng':data.geoLng}, {'geoLat':data.geoLat}]}, function (err, result) {
-					for(var i = 0 ; i < result.length ; i++) {
-						var data2 = {
-							'email' : result[i]._doc.email, 
-							'teamname' : result[i]._doc.teamname,
-							'region' : result[i]._doc.region,
-							'place' : result[i]._doc.place,
-							'move' : result[i]._doc.move,
-							'age' : result[i]._doc.age,	
-							'gender' : result[i]._doc.gender,
-							'event_date' : result[i]._doc.event_date,
-							'event_time' : result[i]._doc.event_time,
-							'event_day' : result[i]._doc.event_day,
-							'mention' : result[i]._doc.mention,	
-							'nofteam' : result[i]._doc.nofteam,
-							'geoLng' : result[i]._doc.geoLng,
-							'geoLat' : result[i]._doc.geoLat,
-							'created_month' : result[i]._doc.created_month,
-							'created_day' : result[i]._doc.created_day
-						};										
-						eventData2[i] = data2;
-					}				
-					
-					profile_photo = req.user.profile_img;			
-					if(profile_img == null)
-						profile_img = req.user.profile_img;
-					if(profile_img != req.user.profile_img)
-						profile_photo = profile_img;
+				csvw
+				.fromStream(stream, {headers : fields})
+				.on("data", function(data){	
+					console.log(data.geoLat);
+					dbm.ApplicationModel.find({$and:[{'email':data.email}, {'geoLng':data.geoLng}, {'geoLat':data.geoLat}]}, function (err, result) {
+						for(var i = 0 ; i < result.length ; i++) {
+							var data2 = {
+								'email' : result[i]._doc.email, 
+								'teamname' : result[i]._doc.teamname,
+								'region' : result[i]._doc.region,
+								'place' : result[i]._doc.place,
+								'move' : result[i]._doc.move,
+								'age' : result[i]._doc.age,	
+								'gender' : result[i]._doc.gender,
+								'event_date' : result[i]._doc.event_date,
+								'event_time' : result[i]._doc.event_time,
+								'event_day' : result[i]._doc.event_day,
+								'mention' : result[i]._doc.mention,	
+								'nofteam' : result[i]._doc.nofteam,
+								'geoLng' : result[i]._doc.geoLng,
+								'geoLat' : result[i]._doc.geoLat,
+								'created_month' : result[i]._doc.created_month,
+								'created_day' : result[i]._doc.created_day
+							};										
+							eventData2[i] = data2;
+						}				
 
-					var user_context = {
-						'email':req.user.email,
-						'teamname':req.user.teamname, 
-						'gender':req.user.gender, 
-						'age':req.user.age,
-						'region':req.user.region,
-						'move':req.user.move,
-						'nofteam':req.user.nofteam,
-						'career_year':req.user.career_year,
-						'career_count':req.user.career_count,
-						'introteam':req.user.introteam,
-						'profile_img':profile_photo,
-						'event_data':eventData2
-					};
+						profile_photo = req.user.profile_img;			
+						if(profile_img == null)
+							profile_img = req.user.profile_img;
+						if(profile_img != req.user.profile_img)
+							profile_photo = profile_img;
 
-					console.dir(user_context);
+						var user_context = {
+							'email':req.user.email,
+							'teamname':req.user.teamname, 
+							'gender':req.user.gender, 
+							'age':req.user.age,
+							'region':req.user.region,
+							'move':req.user.move,
+							'nofteam':req.user.nofteam,
+							'career_year':req.user.career_year,
+							'career_count':req.user.career_count,
+							'introteam':req.user.introteam,
+							'profile_img':profile_photo,
+							'event_data':eventData2
+						};
 
-					res.render('main.ejs', user_context);				
-				});
-			})
-			.on("end", function(){
-				console.log("done");
-			});			
+						console.dir(user_context);
+
+						res.render('main.ejs', user_context);				
+					});
+				})
+				.on("end", function(){
+					console.log("done");
+				});		
+				
+			}, 1500);
         }
     });
 	
