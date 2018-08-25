@@ -193,24 +193,32 @@
                     }
 
                     function modal_open_clicked(email, teamname, region, city, place, move, age, gender, date, time, day, mention, createdMonth, createdDay, geoLng, geoLat, nofteam, index) {
-                        $("div[name=email]").eq(index).text(email);
-                        // document.getElementsByName('email')[index].value = email;
-                        document.getElementsByName('teamname')[index].value = teamname;
-                        document.getElementsByName('region')[index].value = region;
-                        document.getElementsByName('city')[index].value = city;
-                        document.getElementsByName('place')[index].value = place;
-                        document.getElementsByName('move')[index].value = move;
-                        document.getElementsByName('age')[index].value = age;
-                        document.getElementsByName('gender')[index].value = gender;
-                        document.getElementsByName('date')[index].value = date;
-                        document.getElementsByName('time')[index].value = time;
-                        document.getElementsByName('day')[index].value = day;
-                        document.getElementsByName('mention')[index].value = mention;
-                        document.getElementsByName('createdMonth')[index].value = createdMonth;
-                        document.getElementsByName('createdDay')[index].value = createdDay;
-                        document.getElementsByName('geoLng')[index].value = geoLng;
-                        document.getElementsByName('geoLat')[index].value = geoLat;
-                        document.getElementsByName('nofteam')[index].value = nofteam;
+
+                        if(gender == 25) {
+                            gender = '무관'
+                        }else if(gender == 50) {
+                            gender = '남'
+                        }else{
+                            gender = '여'
+                        }
+
+                        $("div[name=email]").eq(index).text('이메일 : ' + email);
+                        $("div[name=teamname]").eq(index).text('팀명: ' + teamname);
+                        $("div[name=region]").eq(index).text('지역 : ' + region);
+                        $("div[name=city]").eq(index).text('도시 : ' + city);
+                        $("div[name=place]").eq(index).text('장소 : ' + place);
+                        $("div[name=move]").eq(index).text('원정가능여부 : ' + move);
+                        $("div[name=age]").eq(index).text('연령대 : ' + age +'대');
+                        $("div[name=gender]").eq(index).text('성별 : ' + gender);
+                        $("div[name=date]").eq(index).text('날짜 : ' + date);
+                        $("div[name=time]").eq(index).text('시간 : ' + time);
+                        $("div[name=day]").eq(index).text('요일 : ' + day);
+                        $("div[name=mention]").eq(index).text('한마디 : ' + mention);
+                        $("span[name=createdMonth]").eq(index).text('등록한 날짜 : ' + createdMonth + '월 ');
+                        $("span[name=createdDay]").eq(index).text(createdDay + '일');
+                        // $("div[name=geoLng]").eq(index).text('경도 : ' + geoLng);
+                        // $("div[name=geoLat]").eq(index).text('위도 : ' + geoLat);
+                        $("div[name=nofteam]").eq(index).text('인원수 : ' + nofteam);
                         $("div[name=myModal]").eq(index).modal();
                     }
                 </script>
@@ -270,41 +278,23 @@
 
                         <!--&lt;!&ndash; Modal body &ndash;&gt;-->
                         <div class="modal-body">
-                            <div name="email" value=''></div>
-                            <input type="text" name="teamname"  value=''>
-                            <input type="text" name="region" value=''>
-                            <input type="text" name="city"  value=''>
-                            <input type="text" name="place" value=''>
-                            <input type="text" name="move"  value=''>
-                            <input type="text" name="age"  value=''>
-                            <input type="text" name="gender"  value=''>
-                            <input type="text" name="date"  value=''>
-                            <input type="text" name="time" value=''>
-                            <input type="text" name="day" value=''>
-                            <input type="text" name="mention"  value=''>
-                            <input type="text" name="createdMonth"  value=''>
-                            <input type="text" name="createdDay"  value=''>
-                            <input type="text" name="geoLng" value=''>
-                            <input type="text" name="geoLat" value=''>
-                            <input type="text" name="nofteam"  value=''>
-
-                           <!-- <input type="text" name="email" value=''>
-                            <input type="text" name="teamname"  value=''>
-                            <input type="text" name="region" value=''>
-                            <input type="text" name="city"  value=''>
-                            <input type="text" name="place" value=''>
-                            <input type="text" name="move"  value=''>
-                            <input type="text" name="age"  value=''>
-                            <input type="text" name="gender"  value=''>
-                            <input type="text" name="date"  value=''>
-                            <input type="text" name="time" value=''>
-                            <input type="text" name="day" value=''>
-                            <input type="text" name="mention"  value=''>
-                            <input type="text" name="createdMonth"  value=''>
-                            <input type="text" name="createdDay"  value=''>
-                            <input type="text" name="geoLng" value=''>
-                            <input type="text" name="geoLat" value=''>
-                            <input type="text" name="nofteam"  value=''>-->
+                            <div name="email" value='' class="modal_content"></div>
+                            <div name="teamname" value='' class="modal_content"></div>
+                            <div name="region" value='' class="modal_content"></div>
+                            <div name="city" value='' class="modal_content"></div>
+                            <div name="place" value='' class="modal_content"></div>
+                            <div name="move" value='' class="modal_content"></div>
+                            <div name="age" value='' class="modal_content"></div>
+                            <div name="gender" value='' class="modal_content"></div>
+                            <div name="date"  value='' class="modal_content"></div>
+                            <div name="time" value='' class="modal_content"></div>
+                            <div name="day" value='' class="modal_content"></div>
+                            <div name="mention" value='' class="modal_content"></div>
+                            <span name="createdMonth" value='' class="modal_content"></span>
+                            <span name="createdDay" value='' class="modal_content"></span>
+                            <div name="geoLng" value='' class="modal_content"></div>
+                            <div name="geoLat" value='' class="modal_content"></div>
+                            <div name="nofteam" value='' class="modal_content"></div>
                         </div>
 
                         <!--&lt;!&ndash; Modal footer &ndash;&gt;-->
@@ -344,13 +334,6 @@
 
 
     <%} %>
-<!--    <script>
-        $(document).ready(function(){
-            $("button[name=modal_open_button]").click(function(){
-                $("div[name=myModal]").modal();
-            });
-        });
-    </script>-->
 
 </div>
 </div>
