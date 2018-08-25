@@ -12,6 +12,7 @@
     <!-- Bootstrap core JavaScript -->
     <script src="../js/jquery.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="socket.io.js"></script>
     <title>메인페이지-검색 결과</title>
 </head>
 
@@ -190,11 +191,32 @@
                         document.getElementsByName('sNofteam')[index].value = nofteam;
                         alert(teamname + '팀에게 매칭 신청하였습니다.');
                     }
+
+                    function modal_open_clicked(email, teamname, region, city, place, move, age, gender, date, time, day, mention, createdMonth, createdDay, geoLng, geoLat, nofteam, index) {
+                        $("div[name=email]").eq(index).text(email);
+                        // document.getElementsByName('email')[index].value = email;
+                        document.getElementsByName('teamname')[index].value = teamname;
+                        document.getElementsByName('region')[index].value = region;
+                        document.getElementsByName('city')[index].value = city;
+                        document.getElementsByName('place')[index].value = place;
+                        document.getElementsByName('move')[index].value = move;
+                        document.getElementsByName('age')[index].value = age;
+                        document.getElementsByName('gender')[index].value = gender;
+                        document.getElementsByName('date')[index].value = date;
+                        document.getElementsByName('time')[index].value = time;
+                        document.getElementsByName('day')[index].value = day;
+                        document.getElementsByName('mention')[index].value = mention;
+                        document.getElementsByName('createdMonth')[index].value = createdMonth;
+                        document.getElementsByName('createdDay')[index].value = createdDay;
+                        document.getElementsByName('geoLng')[index].value = geoLng;
+                        document.getElementsByName('geoLat')[index].value = geoLat;
+                        document.getElementsByName('nofteam')[index].value = nofteam;
+                        $("div[name=myModal]").eq(index).modal();
+                    }
                 </script>
 
             </div>
             <form action="/mainsearchresult" method="post">
-
                 <input type="hidden" name="sEmail" id="sEmail" value=''>
                 <input type="hidden" name="sTeamname" id="sTeamname" value=''>
                 <input type="hidden" name="sRegion" id="sRegion" value=''>
@@ -213,8 +235,9 @@
                 <input type="hidden" name="sGeoLat" id="sGeoLat" value=''>
                 <input type="hidden" name="sNofteam" id="sNofteam" value=''>
 
+
                 <!--<button type="button" class="btn btn-primary" onclick='clicked()'>매칭 신청</button>-->
-                <button type="submit" class="btn btn-primary" onclick='clicked(
+                <button type="button" class="btn btn-primary" name="modal_open_button" onclick='modal_open_clicked(
                         `<%= event_data[i].email %>`,
                         `<%= event_data[i].teamname %>`,
                         `<%= event_data[i].region[0] %>`,
@@ -232,48 +255,105 @@
                         `<%= event_data[i].geoLng %>`,
                         `<%= event_data[i].geoLat %>`,
                         `<%= event_data[i].nofteam %>`,
-                        `<%= i%>`)
-                        '>매칭 신청</button>
+                        `<%= i%>`)'>상세 정보</button>
+
+            <!-- The Modal -->
+            <div class="modal" name="myModal">
+                <div class="modal-dialog modal-dialog-centered modal-sm">
+                    <div class="modal-content">
+
+                        <!--&lt;!&ndash; Modal Header &ndash;&gt;-->
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="text-align: center"><%=event_data[i].teamname%></h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!--&lt;!&ndash; Modal body &ndash;&gt;-->
+                        <div class="modal-body">
+                            <div name="email" value=''></div>
+                            <input type="text" name="teamname"  value=''>
+                            <input type="text" name="region" value=''>
+                            <input type="text" name="city"  value=''>
+                            <input type="text" name="place" value=''>
+                            <input type="text" name="move"  value=''>
+                            <input type="text" name="age"  value=''>
+                            <input type="text" name="gender"  value=''>
+                            <input type="text" name="date"  value=''>
+                            <input type="text" name="time" value=''>
+                            <input type="text" name="day" value=''>
+                            <input type="text" name="mention"  value=''>
+                            <input type="text" name="createdMonth"  value=''>
+                            <input type="text" name="createdDay"  value=''>
+                            <input type="text" name="geoLng" value=''>
+                            <input type="text" name="geoLat" value=''>
+                            <input type="text" name="nofteam"  value=''>
+
+                           <!-- <input type="text" name="email" value=''>
+                            <input type="text" name="teamname"  value=''>
+                            <input type="text" name="region" value=''>
+                            <input type="text" name="city"  value=''>
+                            <input type="text" name="place" value=''>
+                            <input type="text" name="move"  value=''>
+                            <input type="text" name="age"  value=''>
+                            <input type="text" name="gender"  value=''>
+                            <input type="text" name="date"  value=''>
+                            <input type="text" name="time" value=''>
+                            <input type="text" name="day" value=''>
+                            <input type="text" name="mention"  value=''>
+                            <input type="text" name="createdMonth"  value=''>
+                            <input type="text" name="createdDay"  value=''>
+                            <input type="text" name="geoLng" value=''>
+                            <input type="text" name="geoLat" value=''>
+                            <input type="text" name="nofteam"  value=''>-->
+                        </div>
+
+                        <!--&lt;!&ndash; Modal footer &ndash;&gt;-->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" >닫기</button>
+                            <button type="submit" class="btn btn-primary" onclick='clicked(
+                                    `<%= event_data[i].email %>`,
+                                    `<%= event_data[i].teamname %>`,
+                                    `<%= event_data[i].region[0] %>`,
+                                    `<%= event_data[i].region[1] %>`,
+                                    `<%= event_data[i].place %>`,
+                                    `<%= event_data[i].move %>`,
+                                    `<%= event_data[i].age %>`,
+                                    `<%= event_data[i].gender %>`,
+                                    `<%= event_data[i].event_date %>`,
+                                    `<%= event_data[i].event_time %>`,
+                                    `<%= event_data[i].event_day %>`,
+                                    `<%= event_data[i].mention %>`,
+                                    `<%= event_data[i].created_month %>`,
+                                    `<%= event_data[i].created_day %>`,
+                                    `<%= event_data[i].geoLng %>`,
+                                    `<%= event_data[i].geoLat %>`,
+                                    `<%= event_data[i].nofteam %>`,
+                                    `<%= i%>`)' >매칭 신청</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </form>
+
         </div> <!--매칭 신청 버튼-->
+
+
+
+
     </div> <!--content-->
 
+
     <%} %>
+<!--    <script>
+        $(document).ready(function(){
+            $("button[name=modal_open_button]").click(function(){
+                $("div[name=myModal]").modal();
+            });
+        });
+    </script>-->
 
 </div>
 </div>
 </body>
 </html>
 
-
-
-
-
-<!-- The Modal -->
-<!--                <div class="modal" id="myModal">
-                    <div class="modal-dialog modal-dialog-centered modal-sm">
-                        <div class="modal-content">
-
-                            &lt;!&ndash; Modal Header &ndash;&gt;
-                            <div class="modal-header">
-                                <h4 class="modal-title" style="text-align: center"><%=curTeamname%></h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-
-                            &lt;!&ndash; Modal body &ndash;&gt;
-                            <div class="modal-body">
-                                지역 : <%=curRegion%> - <%=curCity%><br>
-                                성별 : <%=curGender%><br>
-                                나이 : <%=curAge%>대<br>
-                                장소 : <%=curPlace%><br>
-                                팀원 : <%=curNofteam%>명<br>
-                            </div>
-
-                            &lt;!&ndash; Modal footer &ndash;&gt;
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div> &lt;!&ndash;modal&ndash;&gt;-->
