@@ -193,7 +193,6 @@
                     }
 
                     function modal_open_clicked(email, teamname, region, city, place, move, age, gender, date, time, day, mention, createdMonth, createdDay, geoLng, geoLat, nofteam, index) {
-
                         if(gender == 25) {
                             gender = '무관'
                         }else if(gender == 50) {
@@ -243,86 +242,87 @@
                 <input type="hidden" name="sGeoLat" id="sGeoLat" value=''>
                 <input type="hidden" name="sNofteam" id="sNofteam" value=''>
 
+                <div style="text-align: center">
+                    <!--<button type="button" class="btn btn-primary" onclick='clicked()'>매칭 신청</button>-->
+                    <button type="button" class="btn btn-primary" name="modal_open_button" onclick='modal_open_clicked(
+                            `<%= event_data[i].email %>`,
+                            `<%= event_data[i].teamname %>`,
+                            `<%= event_data[i].region[0] %>`,
+                            `<%= event_data[i].region[1] %>`,
+                            `<%= event_data[i].place %>`,
+                            `<%= event_data[i].move %>`,
+                            `<%= event_data[i].age %>`,
+                            `<%= event_data[i].gender %>`,
+                            `<%= event_data[i].event_date %>`,
+                            `<%= event_data[i].event_time %>`,
+                            `<%= event_data[i].event_day %>`,
+                            `<%= event_data[i].mention %>`,
+                            `<%= event_data[i].created_month %>`,
+                            `<%= event_data[i].created_day %>`,
+                            `<%= event_data[i].geoLng %>`,
+                            `<%= event_data[i].geoLat %>`,
+                            `<%= event_data[i].nofteam %>`,
+                            `<%= i%>`)'>상세 정보</button>
+                </div>
 
-                <!--<button type="button" class="btn btn-primary" onclick='clicked()'>매칭 신청</button>-->
-                <button type="button" class="btn btn-primary" name="modal_open_button" onclick='modal_open_clicked(
-                        `<%= event_data[i].email %>`,
-                        `<%= event_data[i].teamname %>`,
-                        `<%= event_data[i].region[0] %>`,
-                        `<%= event_data[i].region[1] %>`,
-                        `<%= event_data[i].place %>`,
-                        `<%= event_data[i].move %>`,
-                        `<%= event_data[i].age %>`,
-                        `<%= event_data[i].gender %>`,
-                        `<%= event_data[i].event_date %>`,
-                        `<%= event_data[i].event_time %>`,
-                        `<%= event_data[i].event_day %>`,
-                        `<%= event_data[i].mention %>`,
-                        `<%= event_data[i].created_month %>`,
-                        `<%= event_data[i].created_day %>`,
-                        `<%= event_data[i].geoLng %>`,
-                        `<%= event_data[i].geoLat %>`,
-                        `<%= event_data[i].nofteam %>`,
-                        `<%= i%>`)'>상세 정보</button>
+                <!-- The Modal -->
+                <div class="modal" name="myModal">
+                    <div class="modal-dialog modal-dialog-centered modal-sm">
+                        <div class="modal-content">
 
-            <!-- The Modal -->
-            <div class="modal" name="myModal">
-                <div class="modal-dialog modal-dialog-centered modal-sm">
-                    <div class="modal-content">
+                            <!--&lt;!&ndash; Modal Header &ndash;&gt;-->
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="text-align: center"><%=event_data[i].teamname%></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
 
-                        <!--&lt;!&ndash; Modal Header &ndash;&gt;-->
-                        <div class="modal-header">
-                            <h4 class="modal-title" style="text-align: center"><%=event_data[i].teamname%></h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
+                            <!--&lt;!&ndash; Modal body &ndash;&gt;-->
+                            <div class="modal-body">
+                                <div name="email" value='' class="modal_content"></div>
+                                <div name="teamname" value='' class="modal_content"></div>
+                                <div name="region" value='' class="modal_content"></div>
+                                <div name="city" value='' class="modal_content"></div>
+                                <div name="place" value='' class="modal_content"></div>
+                                <div name="move" value='' class="modal_content"></div>
+                                <div name="age" value='' class="modal_content"></div>
+                                <div name="gender" value='' class="modal_content"></div>
+                                <div name="date"  value='' class="modal_content"></div>
+                                <div name="time" value='' class="modal_content"></div>
+                                <div name="day" value='' class="modal_content"></div>
+                                <div name="mention" value='' class="modal_content"></div>
+                                <span name="createdMonth" value='' class="modal_content"></span>
+                                <span name="createdDay" value='' class="modal_content"></span>
+                                <div name="geoLng" value='' class="modal_content"></div>
+                                <div name="geoLat" value='' class="modal_content"></div>
+                                <div name="nofteam" value='' class="modal_content"></div>
+                            </div>
 
-                        <!--&lt;!&ndash; Modal body &ndash;&gt;-->
-                        <div class="modal-body">
-                            <div name="email" value='' class="modal_content"></div>
-                            <div name="teamname" value='' class="modal_content"></div>
-                            <div name="region" value='' class="modal_content"></div>
-                            <div name="city" value='' class="modal_content"></div>
-                            <div name="place" value='' class="modal_content"></div>
-                            <div name="move" value='' class="modal_content"></div>
-                            <div name="age" value='' class="modal_content"></div>
-                            <div name="gender" value='' class="modal_content"></div>
-                            <div name="date"  value='' class="modal_content"></div>
-                            <div name="time" value='' class="modal_content"></div>
-                            <div name="day" value='' class="modal_content"></div>
-                            <div name="mention" value='' class="modal_content"></div>
-                            <span name="createdMonth" value='' class="modal_content"></span>
-                            <span name="createdDay" value='' class="modal_content"></span>
-                            <div name="geoLng" value='' class="modal_content"></div>
-                            <div name="geoLat" value='' class="modal_content"></div>
-                            <div name="nofteam" value='' class="modal_content"></div>
-                        </div>
-
-                        <!--&lt;!&ndash; Modal footer &ndash;&gt;-->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal" >닫기</button>
-                            <button type="submit" class="btn btn-primary" onclick='clicked(
-                                    `<%= event_data[i].email %>`,
-                                    `<%= event_data[i].teamname %>`,
-                                    `<%= event_data[i].region[0] %>`,
-                                    `<%= event_data[i].region[1] %>`,
-                                    `<%= event_data[i].place %>`,
-                                    `<%= event_data[i].move %>`,
-                                    `<%= event_data[i].age %>`,
-                                    `<%= event_data[i].gender %>`,
-                                    `<%= event_data[i].event_date %>`,
-                                    `<%= event_data[i].event_time %>`,
-                                    `<%= event_data[i].event_day %>`,
-                                    `<%= event_data[i].mention %>`,
-                                    `<%= event_data[i].created_month %>`,
-                                    `<%= event_data[i].created_day %>`,
-                                    `<%= event_data[i].geoLng %>`,
-                                    `<%= event_data[i].geoLat %>`,
-                                    `<%= event_data[i].nofteam %>`,
-                                    `<%= i%>`)' >매칭 신청</button>
+                            <!--&lt;!&ndash; Modal footer &ndash;&gt;-->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" >닫기</button>
+                                <button type="submit" class="btn btn-primary" onclick='clicked(
+                                        `<%= event_data[i].email %>`,
+                                        `<%= event_data[i].teamname %>`,
+                                        `<%= event_data[i].region[0] %>`,
+                                        `<%= event_data[i].region[1] %>`,
+                                        `<%= event_data[i].place %>`,
+                                        `<%= event_data[i].move %>`,
+                                        `<%= event_data[i].age %>`,
+                                        `<%= event_data[i].gender %>`,
+                                        `<%= event_data[i].event_date %>`,
+                                        `<%= event_data[i].event_time %>`,
+                                        `<%= event_data[i].event_day %>`,
+                                        `<%= event_data[i].mention %>`,
+                                        `<%= event_data[i].created_month %>`,
+                                        `<%= event_data[i].created_day %>`,
+                                        `<%= event_data[i].geoLng %>`,
+                                        `<%= event_data[i].geoLat %>`,
+                                        `<%= event_data[i].nofteam %>`,
+                                        `<%= i%>`)' >매칭 신청</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </form>
 
         </div> <!--매칭 신청 버튼-->
