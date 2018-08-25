@@ -18,7 +18,7 @@ module.exports = function(router, passport, upload) {
         'age': '',
         'event_time': '',
         'event_day': ''
-      };	
+    };	
 	
 
 	
@@ -31,18 +31,12 @@ module.exports = function(router, passport, upload) {
             console.log('사용자 인증 안된 상태임.');
             res.redirect('/login');
         } else {
-			
-			
-			
-			
-			
-					
 			var fs = require('fs');
 			var dbm = require('../database/database');
 			console.log('database 모듈 가져옴');
 			
 			const Json2csvParser = require('json2csv').Parser;
-			const fields = ['email', 'age', 'gender', 'nofteam', 'geoLng', 'geoLat'];
+			const fields = ['email', 'age', 'gender', 'nofteam', 'geoLng', 'geoLat', 'teamname', 'region', 'place', 'move', 'event_date', 'event_time', 'event_day', 'event_day', 'mention', 'created_month', 'creted_day'];
 			const eventData = [];	
 			
 			var userdata = {
@@ -51,7 +45,11 @@ module.exports = function(router, passport, upload) {
 				'gender':req.user.gender,
 				'nofteam':req.user.nofteam,
 				'geoLng':req.user.geoLng,
-				'geoLat':req.user.geoLat
+				'geoLat':req.user.geoLat,
+	//			'teamname':req.user.teamname, 
+	//			'region':req.user.region, 
+	//			'place':req.user.place, 
+	//			'move':req.user.move, 
 			};
 			var j=1;
 			eventData[0] = userdata;
@@ -60,21 +58,21 @@ module.exports = function(router, passport, upload) {
 			for(var i = 0 ; i < result.length ; i++) {
 				var data = {
 					'email' : result[i]._doc.email, 
-		//			'teamname' : result[i]._doc.teamname,
-		//			'region' : result[i]._doc.region,
-		//			'place' : result[i]._doc.place,
-		//			'move' : result[i]._doc.move,
+					'teamname' : result[i]._doc.teamname,
+					'region' : result[i]._doc.region,
+					'place' : result[i]._doc.place,
+					'move' : result[i]._doc.move,
 					'age' : result[i]._doc.age,	
 					'gender' : result[i]._doc.gender,
-		//			'event_date' : result[i]._doc.event_date,
-		//			'event_time' : result[i]._doc.event_time,
-		//			'event_day' : result[i]._doc.event_day,
-		//			'mention' : result[i]._doc.mention,	
+					'event_date' : result[i]._doc.event_date,
+					'event_time' : result[i]._doc.event_time,
+					'event_day' : result[i]._doc.event_day,
+					'mention' : result[i]._doc.mention,	
 					'nofteam' : result[i]._doc.nofteam,
 					'geoLng' : result[i]._doc.geoLng,
 					'geoLat' : result[i]._doc.geoLat,
-		//			'created_month' : result[i]._doc.created_month,
-		//			'created_day' : result[i]._doc.created_day
+					'created_month' : result[i]._doc.created_month,
+					'created_day' : result[i]._doc.created_day
 				};										
 				eventData[j] = data;
 				j+=1;
@@ -111,69 +109,41 @@ module.exports = function(router, passport, upload) {
 			
 			
 			setTimeout(function(){
-				var stream = fs.createReadStream("recOutput.csv");			
-				var csvw = require('fast-csv');
-				var eventData2 = [];
+				var csvf = require('csvtojson');
+				var eventData2;
+				
+				csvf()
+				.fromFile('recOutput.csv')
+				.then(function(output){
+	
+					profile_photo = req.user.profile_img;			
+					if(profile_img == null)
+						profile_img = req.user.profile_img;
+					if(profile_img != req.user.profile_img)
+						profile_photo = profile_img;
 
-				csvw
-				.fromStream(stream, {headers : fields})
-				.on("data", function(data){	
-					console.log(data.geoLat);
-					dbm.ApplicationModel.find({$and:[{'email':data.email}, {'geoLng':data.geoLng}, {'geoLat':data.geoLat}]}, function (err, result) {
-						for(var i = 0 ; i < result.length ; i++) {
-							var data2 = {
-								'email' : result[i]._doc.email, 
-								'teamname' : result[i]._doc.teamname,
-								'region' : result[i]._doc.region,
-								'place' : result[i]._doc.place,
-								'move' : result[i]._doc.move,
-								'age' : result[i]._doc.age,	
-								'gender' : result[i]._doc.gender,
-								'event_date' : result[i]._doc.event_date,
-								'event_time' : result[i]._doc.event_time,
-								'event_day' : result[i]._doc.event_day,
-								'mention' : result[i]._doc.mention,	
-								'nofteam' : result[i]._doc.nofteam,
-								'geoLng' : result[i]._doc.geoLng,
-								'geoLat' : result[i]._doc.geoLat,
-								'created_month' : result[i]._doc.created_month,
-								'created_day' : result[i]._doc.created_day
-							};										
-							eventData2[i] = data2;
-						}				
+					var user_context = {
+						'email':req.user.email,
+						'teamname':req.user.teamname, 
+						'gender':req.user.gender, 
+						'age':req.user.age,
+						'region':req.user.region,
+						'move':req.user.move,
+						'nofteam':req.user.nofteam,
+						'career_year':req.user.career_year,
+						'career_count':req.user.career_count,
+						'introteam':req.user.introteam,
+						'profile_img':profile_photo,
+						'event_data':output
+					};
 
-						profile_photo = req.user.profile_img;			
-						if(profile_img == null)
-							profile_img = req.user.profile_img;
-						if(profile_img != req.user.profile_img)
-							profile_photo = profile_img;
+					console.dir(user_context);
 
-						var user_context = {
-							'email':req.user.email,
-							'teamname':req.user.teamname, 
-							'gender':req.user.gender, 
-							'age':req.user.age,
-							'region':req.user.region,
-							'move':req.user.move,
-							'nofteam':req.user.nofteam,
-							'career_year':req.user.career_year,
-							'career_count':req.user.career_count,
-							'introteam':req.user.introteam,
-							'profile_img':profile_photo,
-							'event_data':eventData2
-						};
-
-						console.dir(user_context);
-
-						res.render('main.ejs', user_context);				
-					});
-				})
-				.on("end", function(){
-					console.log("done");
-				});		
+					res.render('main.ejs', user_context);				
+				});
 				
 			}, 1500);
-        }
+		}        
     });
 	
 	router.route('/').post(function(req, res){
