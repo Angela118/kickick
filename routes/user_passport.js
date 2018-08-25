@@ -23,8 +23,6 @@ module.exports = function(router, passport, upload) {
             //    res.render('main.ejs', {login_success:false});
             res.redirect('/login');
         } else {
-
-
             profile_photo = req.user.profile_img;
             if(profile_img == null)
                 profile_img = req.user.profile_img;
