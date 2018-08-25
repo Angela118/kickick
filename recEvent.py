@@ -2,7 +2,7 @@ import numpy as np
 import csv
 from scipy.spatial import distance
 from numpy import array
-from pymongo import MongoClient
+#from pymongo import MongoClient
 import warnings
 import sys
 
