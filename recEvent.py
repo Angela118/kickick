@@ -1,6 +1,5 @@
 import numpy as np
 import csv
-from sklearn.cluster import KMeans
 from scipy.spatial import distance
 from numpy import array
 from pymongo import MongoClient
@@ -17,26 +16,8 @@ def swap(x, i, j):
     x[i], x[j] = x[j], x[i]
 
 
-'''
-conn = MongoClient('mongodb://localhost:27017')
-db = conn.local
-userCollection = db.users6
-users = userCollection.find_one({'email':'id@naver.com'})
-
-predict = []
-predict = [users['age'], users['gender'], users['nofteam'], users['geoLng'], users['geoLat']];
-
-if predict[1] == '여자':
-    predict[1] = 100
-elif predict[1] == '남':
-    predict[1] = 50
-elif predict[1] == '혼성':
-    predict[1] = 25
-'''
-
-
 #파일 불러오기 
-file = open('C:/Users/user/brackets_nodejs/server/recEvent.csv', 'r')
+file = open('C:/Users/user/brackets_nodejs/server/recEvent.csv', 'r', encoding='UTF8')
 reader = csv.reader(file)
 
 data=[]
@@ -47,6 +28,9 @@ file.close()
 
 print(data)
 print()
+
+header = []
+header = data[0]
 
 del data[0]
 
@@ -70,17 +54,28 @@ for i in range(1, len(data)):
     del data[i][0]
 
 
-'''    
+
+'''
 for i in range(0, len(predict)):
     predict[i] = float(predict[i])
 '''
 
-print(data)
+#print(data)
 print()
 
 #predict = np.array(predict, dtype=np.float64)
-data = np.array(data, dtype=np.float64)
+data = np.array(data)
 
+data = data[:, 0:5]
+
+print(data)
+print()
+
+
+data = data.astype('float64')
+
+print(data)
+print()
 
 #euclidean distance
 euc_dst = []
@@ -106,12 +101,17 @@ result_data = []
 for i in range(0, len(ar_euc)):
     result_data.append(dat[ar_euc[i][0]])
     result_data[i].insert(0, idArray[i])
+
+result_data.insert(0, header)
         
 print(result_data)
+print()
+
+
 
 
 #recOutput.csv에 저장 
-with open('C:/Users/user/brackets_nodejs/server/recOutput.csv','w', newline='') as output:
+with open('C:/Users/user/brackets_nodejs/server/recOutput.csv','w', encoding='UTF8', newline='') as output:
     writer = csv.writer(output)
     for val in result_data:
         writer.writerow(val)
