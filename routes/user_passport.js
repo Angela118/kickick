@@ -487,39 +487,7 @@ module.exports = function(router, passport, upload) {
     });
 
     router.route('/chatroommessage').get(function(req, res){
-        console.log('/chatrooommessage 패스 get으로 요청됨.');
-
-        if (!req.user) {
-            console.log('사용자 인증 안된 상태임.');
-            res.redirect('/');
-        }else{
-            profile_photo = req.user.profile_img;
-            if(profile_img == null)
-                profile_img = req.user.profile_img;
-            if(profile_img != req.user.profile_img)
-                profile_photo = profile_img;
-
-            var user_context = {
-                'email':req.user.email,
-                'password':req.user.password,
-                'teamname':req.user.teamname,
-                'gender':req.user.gender,
-                'age':req.user.age,
-                'region':req.user.region,
-                'move':req.user.move,
-                'nofteam':req.user.nofteam,
-                'career_year':req.user.career_year,
-                'career_count':req.user.career_count,
-                'introteam':req.user.introteam,
-                'profile_img':profile_photo
-            };
-
-            res.render('chat_room_message.ejs', user_context);
-        }
-    });
-
-    router.route('/message').get(function(req, res){
-        console.log('/message 패스 get으로 요청됨.');
+        console.log('/chatroommessage 패스 get으로 요청됨.');
 
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
@@ -584,10 +552,50 @@ module.exports = function(router, passport, upload) {
                     'event_data':eventData //메시지 보낸 상대팀 정보
                 };
                 console.dir(eventData);
-
-                res.render('message.ejs', user_context);
+                res.render('chat_room_message.ejs', user_context);
             });
         }
+    });
+
+    router.route('/chatroommessage').post(function(req, res){
+        console.log('/chatroommessage 패스 post 요청됨.');
+
+        var others = {
+            'sEmail': req.body.sEmail,
+            'sTeamname': req.body.sTeamname,
+            'sRegion': req.body.sRegion,
+            'sPlace' : req.body.sPlace,
+            'sMove' : req.body.sMove,
+            'sAge': req.body.sAge,
+            'sGender': req.body.sGender,
+            'sEvent_date': req.body.sDate,
+            'sEvent_time': req.body.sTime,
+            'sEvent_day' : req.body.sDay,
+            'sCreatedMonth' : req.body.sCreatedMonth,
+            'sCreatedDay' : req.body.sCreatedDay,
+            'sMention': req.body.sMention,
+            'sGeoLng': req.body.sGeoLng,
+            'sGeoLat': req.body.sGeoLat,
+            'sNofteam' : req.body.sNofteam
+        }
+        console.log('others.sEmail : ' + others.sEmail);
+
+
+        var user_context = {
+            'email':req.user.email,
+            'teamname':req.user.teamname,
+            'region':req.user.region,
+            'place':req.user.place,
+            'move':req.user.move,
+            'age':req.user.age,
+            'gender':req.user.gender,
+            'career_year':req.user.career_year,
+            'career_count':req.user.career_count,
+            'introteam':req.user.introteam,
+            'nofteam':req.user.nofteam,
+            'others': others
+        };
+        res.render('message.ejs', user_context);
     });
 
     router.route('/chat').get(function(req, res){
@@ -622,6 +630,14 @@ module.exports = function(router, passport, upload) {
 
             res.render('chat_.ejs', user_context);
         }
+    });
+
+    router.route('/message').post(function(req, res) {
+        console.log('/message 패스 post 요청됨');
+
+        var dbm = require('../database/database');
+        console.log('database 모듈 가져옴');
+
     });
 
     router.route('/chat').post(function(req, res){
@@ -793,7 +809,7 @@ module.exports = function(router, passport, upload) {
 
         });
 
-        res.redirect('/mainsearchresult');
+        res.redirect('/mainothers.sEmailsearchresult');
 
     });
 
