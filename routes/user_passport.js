@@ -506,34 +506,39 @@ module.exports = function(router, passport, upload) {
 
             dbm.MatchModel.find({email : {"$ne" : req.user.email}} ,function (err, result) {
                 console.log('{"$ne" : req.user.email} : ' + {"$ne" : req.user.email});
-                console.log('result.length : ' + result.length)
+                console.log('result.length : ' + result.length);
+
+                var j = 0;
 
                 for (var i = 0; i < result.length; i++) {
-                    console.log('result[i]._doc.others.sEmail : ' + result[i]._doc.others.sEmail);
+                    console.log(i + '번째 ');
+                    console.log('result[' + i + ']._doc.others.sEmail : ' + result[i]._doc.others.sEmail);
                     console.log('req.user.email : ' + req.user.email);
 
-                    if (result[i]._doc.others.sEmail == req.user.email) {
+                    if (result[i]._doc.others.sEmail === req.user.email) {
                         var data = {
-                            'email' : result[i]._doc.email,
-                            'teamname' : result[i]._doc.teamname,
-                            'region' : result[i]._doc.region,
-                            'place' : result[i]._doc.place,
-                            'move' : result[i]._doc.move,
-                            'age' : result[i]._doc.age,
-                            'gender' : result[i]._doc.gender,
-                            'event_date' : result[i]._doc.event_date,
-                            'event_time' : result[i]._doc.event_time,
-                            'event_day' : result[i]._doc.event_day,
-                            'mention' : result[i]._doc.mention,
-                            'created_month' : result[i]._doc.created_month,
-                            'created_day' : result[i]._doc.created_day,
-                            'geoLng' : result[i]._doc.geoLng,
-                            'geoLat' : result[i]._doc.geoLat,
-                            'nofteam' : result[i]._doc.nofteam,
-                            'others' : result[i]._doc.others
+                            'email': result[i]._doc.email,
+                            'teamname': result[i]._doc.teamname,
+                            'region': result[i]._doc.region,
+                            'place': result[i]._doc.place,
+                            'move': result[i]._doc.move,
+                            'age': result[i]._doc.age,
+                            'gender': result[i]._doc.gender,
+                            'event_date': result[i]._doc.event_date,
+                            'event_time': result[i]._doc.event_time,
+                            'event_day': result[i]._doc.event_day,
+                            'mention': result[i]._doc.mention,
+                            'created_month': result[i]._doc.created_month,
+                            'created_day': result[i]._doc.created_day,
+                            'geoLng': result[i]._doc.geoLng,
+                            'geoLat': result[i]._doc.geoLat,
+                            'nofteam': result[i]._doc.nofteam,
+                            'others': result[i]._doc.others
                         };
+                        eventData[j++] = data;
+                        console.log(data);
                     }
-                    eventData[i] = data;
+                    console.log('endfor');
                 }
 
                 var user_context = {
@@ -549,7 +554,8 @@ module.exports = function(router, passport, upload) {
                     'career_count': req.user.career_count,
                     'introteam': req.user.introteam,
                     'profile_img': profile_photo,
-                    'event_data':eventData //메시지 보낸 상대팀 정보
+                    'event_data':eventData
+                    // 메시지 보낸 상대팀 정보
                 };
                 console.dir(eventData);
                 res.render('chat_room_message.ejs', user_context);
@@ -557,45 +563,58 @@ module.exports = function(router, passport, upload) {
         }
     });
 
-    router.route('/chatroommessage').post(function(req, res){
+    router.route('/chatroommessage').post(function(req, res) {
         console.log('/chatroommessage 패스 post 요청됨.');
 
-        var others = {
-            'sEmail': req.body.sEmail,
-            'sTeamname': req.body.sTeamname,
-            'sRegion': req.body.sRegion,
-            'sPlace' : req.body.sPlace,
-            'sMove' : req.body.sMove,
-            'sAge': req.body.sAge,
-            'sGender': req.body.sGender,
-            'sEvent_date': req.body.sDate,
-            'sEvent_time': req.body.sTime,
-            'sEvent_day' : req.body.sDay,
-            'sCreatedMonth' : req.body.sCreatedMonth,
-            'sCreatedDay' : req.body.sCreatedDay,
-            'sMention': req.body.sMention,
-            'sGeoLng': req.body.sGeoLng,
-            'sGeoLat': req.body.sGeoLat,
-            'sNofteam' : req.body.sNofteam
-        }
-        console.log('others.sEmail : ' + others.sEmail);
+        var dbm = require('../database/database');
+        console.log('database 모듈 가져옴');
 
+        //나한테 신청한 사람 이메일
+        var otherEmail = req.body.sEmail;
 
-        var user_context = {
-            'email':req.user.email,
-            'teamname':req.user.teamname,
-            'region':req.user.region,
-            'place':req.user.place,
-            'move':req.user.move,
-            'age':req.user.age,
-            'gender':req.user.gender,
-            'career_year':req.user.career_year,
-            'career_count':req.user.career_count,
-            'introteam':req.user.introteam,
-            'nofteam':req.user.nofteam,
-            'others': others
-        };
-        res.render('message.ejs', user_context);
+        dbm.MatchModel.find({email: otherEmail}, function (err, result) {
+            for (var i = 0; i < result.length; i++) {
+                if (result[i]._doc.others.email == req.user.email) {
+                    var data = {
+                        'email': result[i]._doc.email, //나한테 신청한 사람
+                        'teamname': result[i]._doc.teamname,
+                        'region': result[i]._doc.region,
+                        'place': result[i]._doc.place,
+                        'move': result[i]._doc.move,
+                        'age': result[i]._doc.age,
+                        'gender': result[i]._doc.gender,
+                        'event_date': result[i]._doc.event_date,
+                        'event_time': result[i]._doc.event_time,
+                        'event_day': result[i]._doc.event_day,
+                        'mention': result[i]._doc.mention,
+                        'created_month': result[i]._doc.created_month,
+                        'created_day': result[i]._doc.created_day,
+                        'geoLng': result[i]._doc.geoLng,
+                        'geoLat': result[i]._doc.geoLat,
+                        'nofteam': result[i]._doc.nofteam,
+                        'others': result[i]._doc.others //내가 등록한 매칭 정보
+                    };
+                }
+                eventData[i] = data;
+            }
+
+            var user_context = {
+                'email': req.user.email,
+                'password': req.user.password,
+                'teamname': req.user.teamname,
+                'gender': req.user.gender,
+                'age': req.user.age,
+                'region': req.user.region,
+                'move': req.user.move,
+                'nofteam': req.user.nofteam,
+                'career_year': req.user.career_year,
+                'career_count': req.user.career_count,
+                'introteam': req.user.introteam,
+                'profile_img': profile_photo,
+                'event_data': eventData
+            };
+            res.render('message.ejs', user_context);
+        });
     });
 
     router.route('/chat').get(function(req, res){
@@ -809,7 +828,7 @@ module.exports = function(router, passport, upload) {
 
         });
 
-        res.redirect('/mainothers.sEmailsearchresult');
+        res.redirect('/mainsearchresult');
 
     });
 
