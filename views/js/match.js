@@ -71,7 +71,7 @@ var listText = new Array();
         
         
         function regionChange(val) {
-            var f = document.getElementsByName('city');
+            var f = document.getElementsByName('region');
             
             var val = val - 1;
             
