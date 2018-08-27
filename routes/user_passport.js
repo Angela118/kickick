@@ -524,29 +524,69 @@ module.exports = function(router, passport, upload) {
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
             res.redirect('/');
-        }else{
+        }else {
             profile_photo = req.user.profile_img;
-            if(profile_img == null)
+            if (profile_img == null)
                 profile_img = req.user.profile_img;
-            if(profile_img != req.user.profile_img)
+            if (profile_img != req.user.profile_img)
                 profile_photo = profile_img;
 
-            var user_context = {
-                'email':req.user.email,
-                'password':req.user.password,
-                'teamname':req.user.teamname,
-                'gender':req.user.gender,
-                'age':req.user.age,
-                'region':req.user.region,
-                'move':req.user.move,
-                'nofteam':req.user.nofteam,
-                'career_year':req.user.career_year,
-                'career_count':req.user.career_count,
-                'introteam':req.user.introteam,
-                'profile_img':profile_photo
-            };
+            var dbm = require('../database/database');
+            console.log('database 모듈 가져옴');
 
-            res.render('message.ejs', user_context);
+            var eventData = new Array();
+
+            dbm.MatchModel.find({email : {"$ne" : req.user.email}} ,function (err, result) {
+                console.log('{"$ne" : req.user.email} : ' + {"$ne" : req.user.email});
+                console.log('result.length : ' + result.length)
+
+                for (var i = 0; i < result.length; i++) {
+                    console.log('result[i]._doc.others.sEmail : ' + result[i]._doc.others.sEmail);
+                    console.log('req.user.email : ' + req.user.email);
+
+                    if (result[i]._doc.others.sEmail == req.user.email) {
+                        var data = {
+                            'email' : result[i]._doc.email,
+                            'teamname' : result[i]._doc.teamname,
+                            'region' : result[i]._doc.region,
+                            'place' : result[i]._doc.place,
+                            'move' : result[i]._doc.move,
+                            'age' : result[i]._doc.age,
+                            'gender' : result[i]._doc.gender,
+                            'event_date' : result[i]._doc.event_date,
+                            'event_time' : result[i]._doc.event_time,
+                            'event_day' : result[i]._doc.event_day,
+                            'mention' : result[i]._doc.mention,
+                            'created_month' : result[i]._doc.created_month,
+                            'created_day' : result[i]._doc.created_day,
+                            'geoLng' : result[i]._doc.geoLng,
+                            'geoLat' : result[i]._doc.geoLat,
+                            'nofteam' : result[i]._doc.nofteam,
+                            'others' : result[i]._doc.others
+                        };
+                    }
+                    eventData[i] = data;
+                }
+
+                var user_context = {
+                    'email': req.user.email,
+                    'password': req.user.password,
+                    'teamname': req.user.teamname,
+                    'gender': req.user.gender,
+                    'age': req.user.age,
+                    'region': req.user.region,
+                    'move': req.user.move,
+                    'nofteam': req.user.nofteam,
+                    'career_year': req.user.career_year,
+                    'career_count': req.user.career_count,
+                    'introteam': req.user.introteam,
+                    'profile_img': profile_photo,
+                    'event_data':eventData //메시지 보낸 상대팀 정보
+                };
+                console.dir(eventData);
+
+                res.render('message.ejs', user_context);
+            });
         }
     });
 

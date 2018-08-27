@@ -35,22 +35,7 @@
         <div>
             <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack()">
 
-            <p class="logo ml-sm-3">ㅇㅇㅇ으로부터 받은 메시지</p>
-        </div>
-
-        <div>
-            <img src="../img/menu.png" width="20rem" height="20rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
-        </div>
-
-        <div class="collapse navbar-collapse" id="navbarsExample01">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/chatroom">
-                        <b>매칭 중단 / 채팅방 나가기</b><br>
-                        <span style="text-decoration: line-through">경기 스케줄란에서 평가를 안 하고 중간에 나갈 시, 우리 팀이 받은 평가를 볼 수 없습니다.</span>
-                    </a>
-                </li>
-            </ul>
+            <p class="logo ml-sm-3"> <%=event_data[0].teamname%>팀 으로부터 받은 메시지</p>
         </div>
     </div>
 </nav>
@@ -61,13 +46,28 @@
 
 <div class="container">
     <div class="reco" style="margin-top: 2.3rem">
-
         <div class="mb-3">
-            <p>상대팀 정보 뜨기</p>
-            <p>message<br><br></p>
+            <p style="font-size: .9rem">'매칭 신청한 사람이 내가 아니고 매칭 신청 대상이 나인 것' 중 가장 첫번째 값임. 나중에 목록에서 클릭해서 넘어온 값으로 바꿈. </p>
+            <hr>
+            <p style="line-height: 2rem">
+                주장 이메일 : <%= event_data[0].email %><br>
+                팀명 : <%= event_data[0].teamname %> 팀<br>
+                지역 : <%= event_data[0].region[0] %><br>
+                장소 : <%= event_data[0].place %><br>
+                원정가능 여부 : <%= event_data[0].move %><br>
+                연령대 : <%= event_data[0].age %>대<br>
+                성별 : <%= event_data[0].gender %><br>
+                경기 날짜 : <%= event_data[0].others.sEvent_date %><br>
+                경기 시간 : <%= event_data[0].others.sEvent_time %><br>
+                경기 요일 : <%= event_data[0].others.sEvent_day %>요일<br>
+                한마디 : <%= event_data[0].mention %><br>
+                신청 날짜 : <%= event_data[0].others.sCreatedMonth %>월 <%= event_data[0].others.sCreatedDay %>일<br>
+                인원수 : <%= event_data[0].nofteam %>명<br>
+            </p>
+            <p><%= event_data[0].teamname %>팀이 해당 경기 날짜에 매칭 신청합니다. 수락하시겠습니까?<br><br></p>
             <div style="text-align: center">
-            <button type="submit" class="btn">매칭 거절</button>
-            <button type="submit" class="btn">매칭 수락</button>
+                <button type="submit" class="btn">매칭 거절</button>
+                <button type="submit" class="btn">매칭 수락</button>
             </div>
         </div>
     </div>
