@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/FRAME.css" rel="stylesheet">
+    <link href="../css/chat.css" rel="stylesheet">
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="jquery-3.1.1.min.js"></script>
+    <title>채팅방</title>
+</head>
+<!--메뉴 영역 시작 : 나중에 파일로 따로 빼기 -->
+<!--여기선 메뉴명 채팅방으로 되어 있음-->
+
+
+<body class="whiteB">
+
+<script type="text/javascript">
+    function goBack(){
+        window.history.back();
+    }
+</script>
+
+<nav class="navbar blueB">
+
+    <div class="top">
+        <div>
+            <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack()">
+
+            <p class="logo ml-sm-3">ㅇㅇㅇ으로부터 받은 메시지</p>
+        </div>
+
+        <div>
+            <img src="../img/menu.png" width="20rem" height="20rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarsExample01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/chatroom">
+                        <b>매칭 중단 / 채팅방 나가기</b><br>
+                        <span style="text-decoration: line-through">경기 스케줄란에서 평가를 안 하고 중간에 나갈 시, 우리 팀이 받은 평가를 볼 수 없습니다.</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="py-4 text-center"></div>
+
+<!--메뉴 영역 끝 : 나중에 파일로 따로 빼기 -->
+
+<div class="container">
+    <div class="reco" style="margin-top: 2.3rem">
+
+        <div class="mb-3">
+            <p>상대팀 정보 뜨기</p>
+            <p>message<br><br></p>
+            <div style="text-align: center">
+            <button type="submit" class="btn">매칭 거절</button>
+            <button type="submit" class="btn">매칭 수락</button>
+            </div>
+        </div>
+    </div>
+</div>
