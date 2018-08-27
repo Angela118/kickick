@@ -12,7 +12,7 @@
     <!-- Bootstrap core JavaScript -->
     <script src="../js/jquery.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
-    <script src="socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
     <title>메인페이지-검색 결과</title>
 </head>
 
@@ -171,6 +171,14 @@
                 </div>
 
                 <script>
+                    var socket;
+
+                    //jquery에서 문서가 다 로딩 되었을 때 호출되는 함수
+                    $(function(){
+                        connect();
+                        // login();
+                    });
+
                     function clicked(email, teamname, region, city, place, move, age, gender, date, time, day, mention, createdMonth, createdDay, geoLng, geoLat, nofteam, index) {
                         document.getElementsByName('sEmail')[index].value = email;
                         document.getElementsByName('sTeamname')[index].value = teamname;
@@ -189,8 +197,61 @@
                         document.getElementsByName('sGeoLng')[index].value = geoLng;
                         document.getElementsByName('sGeoLat')[index].value = geoLat;
                         document.getElementsByName('sNofteam')[index].value = nofteam;
-                        alert(teamname + '팀에게 매칭 신청하였습니다.');
+                        alert(teamname + '팀에게 매칭 신청하였습니다. 상대팀에서 수락하면 채팅방이 열리게 됩니다.');
+
+/*                        var host = '192.168.19.230';  // $('#hostInput').val();
+                        var port = 3000;  // $('#portInput').val();
+
+                        //서버에 접속
+                        connect(email);*/
                     }
+
+ /*                   function connect(recepient){
+                        var host = '192.168.19.230';  // $('#hostInput').val();
+                        var port = 3000;  // $('#portInput').val();
+
+                        //서버에 접속
+                        connectToServer(host, port, recepient);
+                    }
+
+                    function connectToServer(host, port, recepient){
+                        var url = 'http://' + host + ':' + port;
+                        var options = {
+                            forceNew:true   //연결이 끊어질 때마다 새로운 연결을 만들어라
+                        };
+
+                        socket = io.connect(url, options);   //socket객체 생성
+
+                        socket.on('connect'/!*connect 이벤트 발생*!/, function(){
+                            console.log('웹소켓 서버에 연결됨 -> ' + url);
+
+                            socket.on('message', function (message) {
+                                console.log(JSON.stringify(message));
+                                console.log('수신 메시지 : ' + message.sender + ', ' + message.recipient + ', ' + message.command + ', ' + message.type + ', ' + message.data)
+                            })
+                        });
+
+                        socket.on('disconnect'/!*disconnect 이벤트 발생*!/, function(){
+                            console.log('웹소켓 연결 종료됨.');
+                        });
+
+                        var sender = '<%= email %>';
+                        var data = sender + '팀이 매칭 신청하였습니다. 수락하시겠습니까?';
+
+                        var output = {sender : sender, recepient: recepient, command: 'messagemessage', type:'text', data: data};
+
+                        console.log('서버로 보낼 데이터 : ' + JSON.stringify(output));
+
+                        if(socket == undefined) {
+                            alert('서버 연결 x');
+                            return;
+                        }
+
+                        socket.emit('message', output);
+
+
+
+                    }*/
 
                     function modal_open_clicked(email, teamname, region, city, place, move, age, gender, date, time, day, mention, createdMonth, createdDay, geoLng, geoLat, nofteam, index) {
                         if(gender == 25) {
@@ -200,8 +261,9 @@
                         }else{
                             gender = '여'
                         }
+                        // alert(region + email + city);
 
-                        $("div[name=email]").eq(index).text('이메일 : ' + email);
+                        $("div[name=email]").eq(index).text('주장 이메일 : ' + email);
                         $("div[name=teamname]").eq(index).text('팀명: ' + teamname);
                         $("div[name=region]").eq(index).text('지역 : ' + region);
                         $("div[name=city]").eq(index).text('도시 : ' + city);
@@ -295,6 +357,7 @@
                                 <div name="geoLng" value='' class="modal_content"></div>
                                 <div name="geoLat" value='' class="modal_content"></div>
                                 <div name="nofteam" value='' class="modal_content"></div>
+                                <div>평균 평점 :  -- 별점 연동하기</div>
                             </div>
 
                             <!--&lt;!&ndash; Modal footer &ndash;&gt;-->
@@ -324,14 +387,8 @@
                     </div>
                 </div>
             </form>
-
         </div> <!--매칭 신청 버튼-->
-
-
-
-
     </div> <!--content-->
-
 
     <%} %>
 
