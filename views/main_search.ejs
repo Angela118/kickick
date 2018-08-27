@@ -93,7 +93,7 @@
   <div class="reco" style="margin-top: 1rem">
 	  <form action="/mainsearch" method="post" class="search_team">
 		  <div class="wrapper">
-			  <input type="text" class="search_team form-control" name="search_team" placeholder="매칭/가입할 팀명 검색">
+			  <input type="text" class="search_team form-control" name="search_team" placeholder="매칭/가입할 팀명 검색" value="none">
 		  </div>
 		  <!--<div class="wrapper">
         	<select class="mr-sm-2 form-control" name="city" style="width:9.5rem">
@@ -108,43 +108,43 @@
 				<option>강서구</option>
 			</select>
     	</div>-->
-                        <div class="wrapper">
-                            <select name="region" onchange="regionChange(this.selectedIndex);" class="form-control">
-                                <option value="" selected disabled hidden>지역 검색</option>
-                                <option>서울</option>
-                                <option>부산</option>
-                                <option>대구</option>
-                                <option>인천</option>
-                                <option>광주</option>
-                                <option>대전</option>
-                                <option>울산</option>
-                                <option>경기도</option>
-                                <option>강원도</option>
-                                <option>충청북도</option>
-                                <option>충청남도</option>
-                                <option>전라북도</option>
-                                <option>전라남도</option>
-                                <option>경상북도</option>
-                                <option>경상남도</option>
-                                <option>제주도</option>
-                                <option>지역무관</option>
-                            </select>
-                        </div>
-                        <select name="region" class="form-control">
-                            <option>상세 검색</option>
-                        </select>
+	<div class="wrapper">
+		<select name="region" onchange="regionChange(this.selectedIndex);" class="form-control">
+			<option value="" selected disabled hidden>지역 검색</option>
+			<option value="none">지역무관</option>
+			<option>서울</option>
+			<option>부산</option>
+			<option>대구</option>
+			<option>인천</option>
+			<option>광주</option>
+			<option>대전</option>
+			<option>울산</option>
+			<option>경기도</option>
+			<option>강원도</option>
+			<option>충청북도</option>
+			<option>충청남도</option>
+			<option>전라북도</option>
+			<option>전라남도</option>
+			<option>경상북도</option>
+			<option>경상남도</option>
+			<option>제주도</option>
+		</select>
+	</div>
+	<select name="region" class="form-control">
+		<option>상세 검색</option>
+	</select>
 
     <div class="wrapper">
         <select name="gender" class="form-control">
-          <option value="none"> 성별 무관 </option>
-          <option>여자</option>
-          <option>남자</option>
+          <option value="0"> 성별 무관 </option>
+          <option value="100">여자</option>
+          <option value="50">남자</option>
         </select>
     </div>
 
     <div class="wrapper">
         <select name="age" class="form-control">
-          <option value="none"> 나이 무관 </option>
+          <option value="0"> 나이 무관 </option>
           	<option value="10">10대</option>
 			<option value="20">20대</option>
 			<option value="30">30대</option>
@@ -173,12 +173,12 @@
             });
         </script>
     </div>
--->
+
     <div class="wrapper">
       <input class="form-control" id="theTime" name="event_time" type="time" value="00:00:00">
       <!--모바일에서 터치해서 바꾸는 것 안 나오면 다른 방법 찾기..-->
 		
-		<script>
+<!--		<script>
 			var time = new Date();
 			var now = ("0" + time.getHours()).slice(-2) + ":" + 
 						("0" + time.getMinutes()).slice(-2);
@@ -188,6 +188,41 @@
 		</script>
 		
     </div>
+	  
+-->
+		  
+	<div class="wrapper">
+      <select name="event_time" class="form-control">
+        <option value="none">시간무관</option>
+        <option>00</option>
+        <option>01</option>
+        <option>02</option>
+        <option>03</option>
+        <option>04</option>
+        <option>05</option>
+        <option>06</option>
+		<option>07</option>
+        <option>08</option>
+        <option>09</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+        <option>13</option>  
+		<option>14</option>
+        <option>15</option>
+        <option>16</option>
+        <option>17</option>
+        <option>18</option>
+        <option>19</option>
+        <option>20</option>
+		<option>21</option>
+        <option>22</option>
+        <option>23</option>
+        <option>24</option>
+      </select>
+    </div>
+		  
+		  
 
     <div class="wrapper">
       <select name="event_day" class="form-control">
