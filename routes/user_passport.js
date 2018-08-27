@@ -10,8 +10,6 @@ module.exports = function(router, passport, upload) {
     var profile_img;
     var profile_photo;
 
-
-
     // 홈 화면
     router.route('/').get(function(req, res) {
         console.log('/main 패스 요청됨.');
@@ -564,6 +562,7 @@ module.exports = function(router, passport, upload) {
     });
 
     router.route('/chatroommessage').post(function(req, res) {
+        // ------------------------------- data 삽입위치 수정
         console.log('/chatroommessage 패스 post 요청됨.');
 
         var dbm = require('../database/database');
@@ -571,6 +570,7 @@ module.exports = function(router, passport, upload) {
 
         //나한테 신청한 사람 이메일
         var otherEmail = req.body.sEmail;
+        var j = 0;
 
         dbm.MatchModel.find({email: otherEmail}, function (err, result) {
             for (var i = 0; i < result.length; i++) {
@@ -594,8 +594,8 @@ module.exports = function(router, passport, upload) {
                         'nofteam': result[i]._doc.nofteam,
                         'others': result[i]._doc.others //내가 등록한 매칭 정보
                     };
+                    eventData[j++] = data;
                 }
-                eventData[i] = data;
             }
 
             var user_context = {
@@ -835,6 +835,7 @@ module.exports = function(router, passport, upload) {
 
     // 검색 결과
     router.route('/mainsearchresult').get(function(req, res){
+        // ------------------------------- data 삽입위치 수정
         console.log('/mainsearchresult 패스 get 요청됨.');
 
         if(!req.user){
@@ -852,6 +853,7 @@ module.exports = function(router, passport, upload) {
             console.log('database 모듈 가져옴');
 
             var eventData = new Array();
+            var j = 0;
 
             dbm.ApplicationModel.find({email : {"$ne" : req.user.email}} ,function (err, result) {
                 for (var i = 0; i < result.length; i++) {
@@ -874,8 +876,8 @@ module.exports = function(router, passport, upload) {
                             'geoLat' : result[i]._doc.geoLat,
                             'nofteam' : result[i]._doc.nofteam,
                         };
+                        eventData[j++] = data;
                     }
-                    eventData[i] = data;
                 }
 
                 var user_context = {
@@ -958,6 +960,7 @@ module.exports = function(router, passport, upload) {
     });
 
     //경기 스케쥴
+    // ------------------------------- data 삽입위치 수정
     router.route('/teamschedule').get(function(req, res) {
         console.log('/teamschedule 패스 get 요청됨.');
 
@@ -975,6 +978,7 @@ module.exports = function(router, passport, upload) {
             console.log('database 모듈 가져옴');
 
             var eventData = new Array();
+            var j = 0;
 
             dbm.AppointmentModel.find({email : req.user.email} ,function (err, result) {
                 for (var i = 0; i < result.length; i++) {
@@ -986,8 +990,8 @@ module.exports = function(router, passport, upload) {
                             'event_place': result[i]._doc.event_place,
                             'event_nofteam': result[i]._doc.event_nofteam
                         };
+                        eventData[j++] = data;
                     }
-                    eventData[i] = data;
                 }
 
                 var user_context = {
@@ -1076,6 +1080,7 @@ module.exports = function(router, passport, upload) {
     });
 
 //팀에서 받은 리뷰
+    // ------------------------------- data 삽입위치 수정
     router.route('/teamreceivedreview').get(function(req, res) {
         console.log('/teamreceivedreview 패스 get 요청됨');
 
@@ -1093,6 +1098,7 @@ module.exports = function(router, passport, upload) {
             console.log('database 모듈 가져옴');
 
             var eventData = new Array();
+            var j = 0;
 
             dbm.ReviewModel.find({email : req.user.email} ,function (err, result) {
                 for (var i = 0; i < result.length; i++) {
@@ -1105,8 +1111,8 @@ module.exports = function(router, passport, upload) {
                             'rating': result[i]._doc.rating,
                             'review_comment': result[i]._doc.review_comment
                         };
+                        eventData[j++] = data;
                     }
-                    eventData[i] = data;
                 }
 
 
@@ -1214,6 +1220,7 @@ module.exports = function(router, passport, upload) {
 
 
     // 내가 등록한 매칭
+    // ------------------------------- data 삽입위치 수정
     router.route('/mymatch').get(function(req, res){
         console.log('/mymatch 패스 get 요청됨.');
 
@@ -1232,6 +1239,7 @@ module.exports = function(router, passport, upload) {
 
 
             var eventData = new Array();
+            var j = 0;
 
 
             dbm.ApplicationModel.find({email:req.user.email}, function (err, result) {
@@ -1252,8 +1260,8 @@ module.exports = function(router, passport, upload) {
                             'geoLng' : result[i]._doc.geoLng,
                             'geoLat' : result[i]._doc.geoLat
                         };
+                        eventData[j++] = data;
                     }
-                    eventData[i] = data;
                 }
 
                 var user_context = {
