@@ -5,7 +5,7 @@ Schema.createSchema = function(mongoose) {
    // 스키마 정의
    var AppointmentSchema = mongoose.Schema({
       email: {type: String, 'default':''},
-       teamname: {type: String, index: 'hashed', 'default':''},
+      teamname: {type: String, index: 'hashed', 'default':''},
       event_date: {type: String, 'default': ''},
       event_time: {type: String, 'default': ''},
       event_place: {type: String, 'default':''},
