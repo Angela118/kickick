@@ -11,15 +11,14 @@ module.exports = function(router, passport, upload) {
 	var profile_photo;
 	var flag=1;
 	
-	var event2 = {
+	var event_search = {
         'teamname':'',
-        'city': '',
+        'region': '',
         'gender': '',
         'age': '',
         'event_time': '',
         'event_day': ''
     };	
-	
 
 	
 	//홈 화면, 추천
@@ -247,7 +246,7 @@ module.exports = function(router, passport, upload) {
 							'event_time' : result[i]._doc.event_time,
 							'event_day' : result[i]._doc.event_day,
 							'mention' : result[i]._doc.mention,	
-							'nofteam' : resultt[i]._doc.nofteam,
+							'nofteam' : result[i]._doc.nofteam,
 							'geoLng' : result[i]._doc.geoLng,
 							'geoLat' : result[i]._doc.geoLat,
 							'created_month' : result[i]._doc.created_month,
@@ -593,8 +592,7 @@ module.exports = function(router, passport, upload) {
 		}
 		
 			
-		
-	//	var db = req.app.get('database');
+
 		dbm.db.collection("users6").updateOne({email: user_context.email},  {$set: {
 			'teamname':user_context.teamname, 
 			'gender':user_context.gender, 
@@ -867,120 +865,121 @@ module.exports = function(router, passport, upload) {
 			};
 			
 			console.log('/mainsearch 사용자 인증 된 상태임.');
-        	res.render('main_search_.ejs', user_context);
+        	res.render('main_search.ejs', user_context);
 		}
     });
 	
 	
 	router.route('/mainsearch').post(function(req, res){
 		console.log('/mainsearch 패스 post 요청됨.');
-		
-		
-	/*	
-		var city =  req.body.city || req.query.city;
-		var district =  req.body.district || req.query.district;
-		var gender =  req.body.gender || req.query.gender;
-		var age =  req.body.age || req.query.age;
-		var event_date =  req.body.event_date || req.query.event_date;
-		var event_time =  req.body.event_time || req.query.event_time;
-		var event_day =  req.body.event_day || req.query.event_day;
-	*/	
-		
-		var event = {
+
+
+//		var dbm = require('../database/database');
+//		console.log('database 모듈 가져옴');
+
+		event_search = {
 			'teamname':req.body.search_team || req.query.search_team,
-			'city': req.body.city || req.query.city,
-			'district': req.body.district || req.query.district,
+			'region': req.body.region || req.query.region,
 			'gender': req.body.gender || req.query.gender,
 			'age': req.body.age || req.query.age,
-	//		'event_date': req.body.event_date || req.query.event_date,
+	//     'event_date': req.body.event_date || req.query.event_date,
 			'event_time': req.body.event_time || req.query.event_time,
-			'event_day': req.body.event_day || req.query.event_day,
-		}
-		
-		console.dir(event);
-		
-		
-			
-		
-		res.redirect('/mainsearchresult');
-		
-	});
+			'event_day': req.body.event_day || req.query.event_day
+		};
 	
 		
-	router.route('/mainsearch').post(function(req, res){
-      console.log('/mainsearch 패스 post 요청됨.');
-      
-      var dbm = require('../database/database');
-      console.log('database 모듈 가져옴');
-      
-      event2 = {
-         'teamname':req.body.search_team || req.query.search_team,
-         'city': req.body.city || req.query.city,
-         'gender': req.body.gender || req.query.gender,
-         'age': req.body.age || req.query.age,
-   //      'event_date': req.body.event_date || req.query.event_date,
-         'event_time': req.body.event_time || req.query.event_time,
-         'event_day': req.body.event_day || req.query.event_day
-      }
-      
-      console.dir(event2);      
-      
-      res.redirect('/mainsearchresult');
+ 
+/*		
+		if(event_search.gender == 0)
+			event_search.teamname = 'none';
+		if(event_search.age == 0)
+			event_search.age = 'none';
+*/
+
+		res.redirect('/mainsearchresult');
       
    });
    
       
       
    router.route('/mainsearchresult').get(function(req, res){
-      console.log('/mainsearchresult 패스 get 요청됨.');
-      
-      
-      if(!req.user){
-         console.log('사용자 인증 안된 상태임.');
-         res.redirect('/login');
-      }
-      else{
-         
-         profile_photo = req.user.profile_img;         
-         if(profile_img == null)
-            profile_img = req.user.profile_img;
-         if(profile_img != req.user.profile_img)
-            profile_photo = profile_img;
-            
-            
-            var dbm = require('../database/database');
-            console.log('database 모듈 가져옴');
+	   
+		console.log('/mainsearchresult 패스 get 요청됨.');
 
-            var eventData = new Array();
 
-            dbm.ApplicationModel.find({email : {"$ne" : req.user.email}}, function (err, result) {
+		if(!req.user){
+			console.log('사용자 인증 안된 상태임.');
+			res.redirect('/login');
+		}
+		else{
+			profile_photo = req.user.profile_img;         
+			if(profile_img == null)
+				profile_img = req.user.profile_img;
+			if(profile_img != req.user.profile_img)
+				profile_photo = profile_img;
 
-                for (var i = 0; i < result.length; i++) {
-                    if (result[i]._doc.email != req.user.email) {
-                        var data = {
-                            'email' : result[i]._doc.email,
-                            'teamname' : result[i]._doc.teamname,
-                            'city' : result[i]._doc.city,
-                            'place' : result[i]._doc.place,
-                            'move' : result[i]._doc.move,
-                            'age' : result[i]._doc.age,
-                            'gender' : result[i]._doc.gender,
-                            'event_date' : result[i]._doc.event_date,
-                            'event_time' : result[i]._doc.event_time,
-                            'event_day' : result[i]._doc.event_day,
-                            'mention' : result[i]._doc.mention,
-                            'created_month' : result[i]._doc.created_month,
-                            'created_day' : result[i]._doc.created_day,
-                            'geoLng' : result[i]._doc.geoLng,
-                            'geoLat' : result[i]._doc.geoLat,
-                            'nofteam' : result[i]._doc.nofteam
-                        };
-                    }
-                    eventData[i] = data;
-				}
+
+			var dbm = require('../database/database');
+			console.log('database 모듈 가져옴');
+
+			var eventData = new Array();
+			
+				
+			
+			if(event_search.teamname == 'none')
+				delete event_search.teamname;
+			if(event_search.region[0] == 'none')
+				delete event_search.region;
+			if(event_search.gender == 0)
+				delete event_search.gender;
+			if(event_search.age == 0)
+				delete event_search.age;
+			if(event_search.event_time == 'none')
+				delete event_search.event_time;
+			if(event_search.event_day == 'none')
+				delete event_search.event_day;
+			
+			
+
+			var search = [];
+			search.push()
+			
+			for(var key in event_search) {
+				var testobj = new Object();
+				var testkey = event_search;
+				console.log(key)
+				testobj[key] = event_search[key];
+				search.push(testobj);
+			}
+			
+			console.dir(search);
+
+			dbm.ApplicationModel.find({$and: search}, function (err, result) {
+				for (var i = 0; i < result.length; i++) {
+					var data = {
+						'email' : result[i]._doc.email,
+						'teamname' : result[i]._doc.teamname,
+						'city' : result[i]._doc.city,
+						'place' : result[i]._doc.place,
+						'move' : result[i]._doc.move,
+						'age' : result[i]._doc.age,
+						'gender' : result[i]._doc.gender,
+						'event_date' : result[i]._doc.event_date,
+						'event_time' : result[i]._doc.event_time,
+						'event_day' : result[i]._doc.event_day,
+						'mention' : result[i]._doc.mention,
+						'created_month' : result[i]._doc.created_month,
+						'created_day' : result[i]._doc.created_day,
+						'geoLng' : result[i]._doc.geoLng,
+						'geoLat' : result[i]._doc.geoLat,
+						'nofteam' : result[i]._doc.nofteam
+					};
+					eventData[i] = data;
+				}			
+				
 				var user_context = {
-            		'email':req.user.email, 
-            		'password':req.user.password, 
+					'email':req.user.email, 
+					'password':req.user.password, 
 					'teamname':req.user.teamname, 
 					'gender':req.user.gender, 
 					'age':req.user.age,
@@ -994,8 +993,10 @@ module.exports = function(router, passport, upload) {
 					'event_data':eventData
 				};
 				
-           		res.render('main_search_result.ejs', user_context);                
-    		});
+				console.dir(eventData);
+
+				res.render('main_search_result.ejs', user_context);                
+			});
         }
     });
 
