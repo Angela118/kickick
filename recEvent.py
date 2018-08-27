@@ -1,7 +1,7 @@
 import numpy as np
 import csv
-from scipy.spatial import distance
 from numpy import array
+from scipy.spatial import distance
 #from pymongo import MongoClient
 import warnings
 import sys
