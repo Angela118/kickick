@@ -17,8 +17,9 @@
     <script src="jquery-3.1.1.min.js"></script>
     <title>채팅방</title>
 </head>
-<!--메뉴 영역 시작 : 나중에 파일로 따로 빼기 -->
+<!--메뉴 영역 시작 -->
 <!--여기선 메뉴명 채팅방으로 되어 있음-->
+
 
 
 <body class="whiteB">
@@ -29,41 +30,47 @@
     }
 </script>
 
+<% var index = sSameEmailIndex; %>
+
 <nav class="navbar blueB">
 
     <div class="top">
         <div>
             <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack()">
 
-            <p class="logo ml-sm-3"> <%=others.sTeamname%> 팀으로부터 받은 메시지</p>
+            <p class="logo ml-sm-3"> <%= event_data[index].teamname %>팀으로부터 받은 메시지</p>
         </div>
     </div>
 </nav>
 
 <div class="py-4 text-center"></div>
 
-<!--메뉴 영역 끝 : 나중에 파일로 따로 빼기 -->
+<!--메뉴 영역 끝  -->
 
 <div class="container">
     <div class="reco" style="margin-top: 2.3rem">
         <div class="mb-3">
             <p style="line-height: 2rem">
-                주장 이메일 : <%= others.sEmail %><br>
-                팀명 : <%= others.sTeamname %> 팀<br>
-                지역 : <%= others.sRegion %><br>
-                장소 : <%= others.sPlace %><br>
-                원정가능 여부 : <%= others.sMove %><br>
-                연령대 : <%= others.sAge %>대<br>
-                성별 : <%= others.sGender %><br>
-                경기 날짜 :<br>
-                경기 시간 :<br>
-                경기 요일 : 요일<br>
-                한마디 : <%= others.sMention %><br>
-                신청 날짜 : <%= others.sCreatedMonth %>월 <%= others.sCreatedDay %>일<br>
-                인원수 : <%= others.sNofteam %>명<br>
-                별점 : 넣어야 됨<br>
+
+                <% var region = (event_data[index].others.sRegion).substring(0,3); %>
+
+                주장 이메일 : <%= event_data[index].email %><br>
+                팀명 : <%= event_data[index].teamname %> 팀<br>
+                팀 지역 : <%= event_data[index].region%><br>
+                내가 등록했던 지역 : <%= region %><br>
+                내가 등록했던 장소 : <%= event_data[index].others.sPlace %><br>
+                원정가능 여부 : <%= event_data[index].move %><br>
+                연령대 : <%= event_data[index].age %>대<br>
+                성별 : <%= event_data[index].gender %><br>
+                경기 날짜 : <%= event_data[index].others.sEvent_date %><br>
+                경기 시간 : <%= event_data[index].others.sEvent_time %><br>
+                경기 요일 : <%= event_data[index].others.sEvent_day %>요일<br>
+                한마디 : <%= event_data[index].mention %><br>
+                신청 날짜 : <%= event_data[index].others.sCreatedMonth %>월 <%= event_data[index].others.sCreatedDay %>일<br>
+                팀 인원수 : <%= event_data[index].nofteam %>명<br>
+                상대팀 별점 : ***넣어야 됨<br>
             </p>
-            <p>해당 경기 날짜에 매칭 신청합니다. 수락하시겠습니까?<br><br></p>
+            <p><b>해당 경기 날짜에 매칭 신청합니다. 수락하시겠습니까?</b><br><br></p>
 
             <form action="/message" method="post">
 

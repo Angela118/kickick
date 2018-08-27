@@ -501,20 +501,20 @@ module.exports = function(router, passport, upload) {
             console.log('database 모듈 가져옴');
 
             var eventData = new Array();
+            var j = 0;
 
+            // 내가 올린 매칭을 상대방이 신청할 경우 찾기
+
+            // 내가 아닌 사람이 올린 매칭 찾기
             dbm.MatchModel.find({email : {"$ne" : req.user.email}} ,function (err, result) {
-                console.log('{"$ne" : req.user.email} : ' + {"$ne" : req.user.email});
-                console.log('result.length : ' + result.length);
-
-                var j = 0;
-
                 for (var i = 0; i < result.length; i++) {
-                    console.log(i + '번째 ');
-                    console.log('result[' + i + ']._doc.others.sEmail : ' + result[i]._doc.others.sEmail);
-                    console.log('req.user.email : ' + req.user.email);
 
+                    // 그 중 내가 올렸던 매칭(others의 sEmail이 나인 것) 찾기
                     if (result[i]._doc.others.sEmail === req.user.email) {
+
+                        // data는 내가 올린 글에 매칭 신청한 상대방 정보
                         var data = {
+                            'sameEmailIndex' : 0,
                             'email': result[i]._doc.email,
                             'teamname': result[i]._doc.teamname,
                             'region': result[i]._doc.region,
@@ -531,12 +531,21 @@ module.exports = function(router, passport, upload) {
                             'geoLng': result[i]._doc.geoLng,
                             'geoLat': result[i]._doc.geoLat,
                             'nofteam': result[i]._doc.nofteam,
+                            // others는 내가 올린 매칭 등록 정보
                             'others': result[i]._doc.others
                         };
                         eventData[j++] = data;
                         console.log(data);
                     }
-                    console.log('endfor');
+                }
+
+                // 같은 매칭 신청자 & 매칭 등록자 조합이 또 존재하는 경우 index++
+                for (var a = 0; a < eventData.length; a++) {
+                    for (var b = a + 1; b <eventData.length; b++ ){
+                        if(eventData[a].email == eventData[b].email) {
+                            eventData[b].sameEmailIndex++;
+                        }
+                    }
                 }
 
                 var user_context = {
@@ -552,8 +561,7 @@ module.exports = function(router, passport, upload) {
                     'career_count': req.user.career_count,
                     'introteam': req.user.introteam,
                     'profile_img': profile_photo,
-                    'event_data':eventData
-                    // 메시지 보낸 상대팀 정보
+                    'event_data':eventData // 메시지 보낸 상대팀 정보
                 };
                 console.dir(eventData);
                 res.render('chat_room_message.ejs', user_context);
@@ -561,6 +569,7 @@ module.exports = function(router, passport, upload) {
         }
     });
 
+    // message get 역할 함
     router.route('/chatroommessage').post(function(req, res) {
         // ------------------------------- data 삽입위치 수정
         console.log('/chatroommessage 패스 post 요청됨.');
@@ -570,13 +579,30 @@ module.exports = function(router, passport, upload) {
 
         //나한테 신청한 사람 이메일
         var otherEmail = req.body.sEmail;
+        console.log('otherEmail : ' + req.body.sEmail);
+
+        // 등록한 사람 나 : & 신청한 사람 : 그사람 중복되는 경우 index
+        var sSameEmailIndex = req.body.sSameEmailIndex;
+        console.log('sSameEmailIndex : ' + req.body.sSameEmailIndex);
+
         var j = 0;
 
+        var eventData = new Array();
+
+        // 나한테 신청한 사람 이메일 받아온거로 matches에서 email 찾아서
         dbm.MatchModel.find({email: otherEmail}, function (err, result) {
+            console.log('result.length : ' + result.length);
+
             for (var i = 0; i < result.length; i++) {
-                if (result[i]._doc.others.email == req.user.email) {
+                console.log('result[' + i + '].doc_others.email : ' + result[i]._doc.others.sEmail);
+                console.log('req.user.email : ' + req.user.email);
+
+                // 그 사람이 올린 것 중 신청자가 나일 경우
+                if (result[i]._doc.others.sEmail === req.user.email) {
+
+                    // 나한테 신청한 사람 정보
                     var data = {
-                        'email': result[i]._doc.email, //나한테 신청한 사람
+                        'email': result[i]._doc.email,
                         'teamname': result[i]._doc.teamname,
                         'region': result[i]._doc.region,
                         'place': result[i]._doc.place,
@@ -611,9 +637,14 @@ module.exports = function(router, passport, upload) {
                 'career_count': req.user.career_count,
                 'introteam': req.user.introteam,
                 'profile_img': profile_photo,
-                'event_data': eventData
+                'event_data': eventData,
+                'sSameEmailIndex' : sSameEmailIndex // email 중복시 index
             };
+            console.log(eventData);
+
+            console.log('chatmessagepostend----------------------');
             res.render('message.ejs', user_context);
+            console.log('render 함');
         });
     });
 

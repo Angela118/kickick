@@ -123,76 +123,26 @@
         %>
 
         <script>
-            function clicked(email, teamname, region, city, place, move, age, gender, date, time, day, mention, createdMonth, createdDay, geoLng, geoLat, nofteam, index) {
-                alert('돼라');
+            function clicked(email, sameEmailIndex, index) {
                 document.getElementsByName('sEmail')[index].value = email;
-                document.getElementsByName('sTeamname')[index].value = teamname;
-                document.getElementsByName('sRegion')[index].value = region;
-                document.getElementsByName('sCity')[index].value = city;
-                document.getElementsByName('sPlace')[index].value = place;
-                document.getElementsByName('sMove')[index].value = move;
-                document.getElementsByName('sAge')[index].value = age;
-                document.getElementsByName('sGender')[index].value = gender;
-                document.getElementsByName('sDate')[index].value = date;
-                document.getElementsByName('sTime')[index].value = time;
-                document.getElementsByName('sDay')[index].value = day;
-                document.getElementsByName('sMention')[index].value = mention;
-                document.getElementsByName('sCreatedMonth')[index].value = createdMonth;
-                document.getElementsByName('sCreatedDay')[index].value = createdDay;
-                document.getElementsByName('sGeoLng')[index].value = geoLng;
-                document.getElementsByName('sGeoLat')[index].value = geoLat;
-                document.getElementsByName('sNofteam')[index].value = nofteam;
+                document.getElementsByName('sSameEmailIndex')[index].value = sameEmailIndex;
 
-
-                alert(teamname + '팀 클릭클릭');
+                // alert(email + '주장팀 클릭클릭 sameEmailIndex : ' + sameEmailIndex);
 
                 document.getElementsByName('formPost')[index].submit();
             }
         </script>
 
-
         <form action="/chatroommessage" name="formPost" method="post">
             <input type="hidden" name="sEmail" id="sEmail" value=''>
-            <input type="hidden" name="sTeamname" id="sTeamname" value=''>
-            <input type="hidden" name="sRegion" id="sRegion" value=''>
-            <input type="hidden" name="sCity" id="sCity" value=''>
-            <input type="hidden" name="sPlace" id="sPlace" value=''>
-            <input type="hidden" name="sMove" id="sMove" value=''>
-            <input type="hidden" name="sAge" id="sAge" value=''>
-            <input type="hidden" name="sGender" id="sGender" value=''>
-            <input type="hidden" name="sDate" id="sDate" value=''>
-            <input type="hidden" name="sTime" id="sTime" value=''>
-            <input type="hidden" name="sDay" id="sDay" value=''>
-            <input type="hidden" name="sMention" id="sMention" value=''>
-            <input type="hidden" name="sCreatedMonth" id="sCreatedMonth" value=''>
-            <input type="hidden" name="sCreatedDay" id="sCreatedDay" value=''>
-            <input type="hidden" name="sGeoLng" id="sGeoLng" value=''>
-            <input type="hidden" name="sGeoLat" id="sGeoLat" value=''>
-            <input type="hidden" name="sNofteam" id="sNofteam" value=''>
+            <input type="hidden" name="sSameEmailIndex" id="sSameEmailIndex" value=''>
 
-            <div class="message" onclick="clicked( `<%= event_data[i].email %>`,
-                    `<%= event_data[i].teamname %>`,
-                    `<%= event_data[i].region[0] %>`,
-                    `<%= event_data[i].region[1] %>`,
-                    `<%= event_data[i].place %>`,
-                    `<%= event_data[i].move %>`,
-                    `<%= event_data[i].age %>`,
-                    `<%= event_data[i].gender %>`,
-                    `<%= event_data[i].event_date %>`,
-                    `<%= event_data[i].event_time %>`,
-                    `<%= event_data[i].event_day %>`,
-                    `<%= event_data[i].mention %>`,
-                    `<%= event_data[i].created_month %>`,
-                    `<%= event_data[i].created_day %>`,
-                    `<%= event_data[i].geoLng %>`,
-                    `<%= event_data[i].geoLat %>`,
-                    `<%= event_data[i].nofteam %>`,
-                    `<%= i%>`)">
+            <div class="message" onclick="clicked( `<%= event_data[i].email %>`,`<%=event_data[i].sameEmailIndex%>`, `<%= i%>`)">
                 <div class="chat_room_name mb-2">
-                    <span style="font-weight:bold"><%=curTeamname%> 팀</span>
+                    <span style="font-weight:bold"> <%=curTeamname%> 팀</span>
                     <span class="chat_room_date"> </span>
                 </div>
-                <div class="chat_room_content">매칭 신청합니다. </div>
+                <div class="chat_room_content">매칭 신청합니다.</div>
             </div>
         </form>
 
