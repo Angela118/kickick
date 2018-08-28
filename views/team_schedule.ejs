@@ -263,7 +263,10 @@
 
 
         <div class="main">
-            <% for(var i = 0; i < event_data.length; i++) {
+            <%
+            var count = 0; // script에서 쓸 화면에 뜨는 기준 index
+
+            for(var i = 0; i < event_data.length; i++) {
                 // 남이 매칭 신청한 경우 기준 변수
                 var curDate = event_data[i].event_date;
                 var curTime = event_data[i].event_time;
@@ -271,22 +274,23 @@
                 var curTeamname = event_data[i].teamname; // 상대팀 정보
                 var curNofteam = event_data[i].event_nofteam; // 상대팀 정보
                 var curScore = event_data[i].score; // 상대팀의 이 경기 score
-                var curReview = event_data[i].review; // 상대팀이 이 경기에서 받은 리부
+                var curReview = event_data[i].review; // 상대팀이 이 경기에서 받은 리뷰
                 var score = event_data[i].sScore; // 내 이 경기 스코어
                 var review = event_data[i].sReview; // 내가 이 경기에서 받은 리뷰
                 var matchMonth = curDate.substring(5,7);
-                var matchDay = curDate.substring(8,10)%>
+                var matchDay = curDate.substring(8,10);
+            %>
 
             <%if(event_data[i].match_success == 1){
 
                 // 내가 매칭 신청한 경우 변수 반대로 넣음
                 if(curTeamname == teamname) {
-                    curTeamname = event_data[i].otherTeam;
-                    curNofteam = event_data[i].other_nofteam;
-                    curScore = event_data[i].sScore;
-                    curReview = event_data[i].sReview;
-                    score = event_data[i].score;
-                    review = event_data[i].review;
+                    curTeamname = event_data[i].otherTeam; // 내가 신청한 상대팀
+                    curNofteam = event_data[i].other_nofteam; // 상대팀 인원수
+                    curScore = event_data[i].sScore; // 상대팀 score
+                    curReview = event_data[i].sReview; // 상대팀 review
+                    score = event_data[i].score; // 내 score
+                    review = event_data[i].review; // 내 review
                 }
             %>
             <div class="date">
@@ -329,21 +333,44 @@
 </span>
                         </p>
 
-                        <div class="schedule-detail-content">
-                            <div class="score_input_form">
-                                <span class="bold" style="margin-top: .3rem">스코어 입력 | &nbsp</span>
-                                <div class="score_input">
-                                    <div class="form-group"  style="display: flex; align-items: center">
-                                        <%= teamname %>팀 : &nbsp
-                                        <input type="text" class="form-control" style="height:1.8rem">
-                                    </div>
-                                    <div class="form-group"  style="display: flex; align-items: center">
-                                        <%= curTeamname %>팀 : &nbsp
-                                        <input type="text" class="form-control" style="height:1.8rem">&nbsp <button class="btn btn-sm" style="color:black">제출</button>
+                        <script>
+
+                            function clicked(callTeamName, receiveTeamName, event_date, event_time, count) {
+                                alert('callTeamName : ' + callTeamName + ', receiveTeamName : ' + receiveTeamName + ', event_date : ' + event_date + ', event_time : ' + event_time + ', count : ' + count);
+
+                                document.getElementsByName('callTeamName')[count].value = callTeamName;
+                                document.getElementsByName('receiveTeamName')[count].value = receiveTeamName;
+                                document.getElementsByName('event_date')[count].value = event_date;
+                                document.getElementsByName('event_time')[count].value = event_time;
+
+                                document.getElementsByName('formPost')[index].submit();
+                            }
+                        </script>
+
+                        <form action="/teamschedule" name="formPost" method="post">
+                            <input type="hidden" name="callTeamName" id="callTeamName" value=''>
+                            <input type="hidden" name="receiveTeamName" id="receiveTeamName" value=''>
+                            <input type="hidden" name="event_date" id="event_date" value=''>
+                            <input type="hidden" name="event_time" id="event_time" value=''>
+
+                            <div class="schedule-detail-content" >
+                                <div class="score_input_form">
+                                    <span class="bold" style="margin-top: .3rem">스코어 입력 | &nbsp</span>
+                                    <div class="score_input">
+                                        <div class="form-group"  style="display: flex; align-items: center">
+                                            <%= teamname %>팀 : &nbsp
+                                            <input type="text" class="form-control" style="height:1.8rem" placeholder=<%=score%> name="firstScore" value=''>
+                                        </div>
+                                        <div class="form-group"  style="display: flex; align-items: center">
+                                            <%= curTeamname %>팀 : &nbsp
+                                            <input type="text" class="form-control" style="height:1.8rem" placeholder=<%=curScore%> name="secondScore" value=''>&nbsp
+
+                                            <button class="btn btn-sm" style="color:black" onclick="clicked( `<%=event_data[i].teamname%>`, `<%=event_data[i].otherTeam%>`, `<%=event_data[i].event_date%>`,`<%=event_data[i].event_time%>`, `<%=count%>`)">제출</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
 
                         <div>
                             <a href="/teamreview"><button class="btn btn-block blueB">상대팀 평가/채팅방 삭제하기</button></a>
@@ -353,7 +380,9 @@
             </div>
 
             <!--내가 신청한 상대팀 승인 대기-->
-            <%} else if((event_data[i].match_success == 0) && (event_data[i].teamname == teamname)){%>
+            <%
+                count++;
+            } else if((event_data[i].match_success == 0) && (event_data[i].teamname == teamname)){%>
             <div>
                 <div class="date">
                     <h3 style="font-weight: bold"><%= matchMonth%>. <%= matchDay%></h3>
@@ -362,7 +391,7 @@
                     <div class="events-detail">
                         <div>
                             <!--// 내가 신청한 팀으로 해야 함-->
-                    <span class="event-name"><%=event_data[i].otherTeam%> 팀에게 매칭 신청 중...
+                            <span class="event-name"><%=event_data[i].otherTeam%> 팀에게 매칭 신청 중...
 <p style="font-size: smaller; margin-top: .4rem">승낙하면 현재 란이 매칭 스케줄란으로 바뀝니다.
 거절시, 또는 경기 전날까지 승인이 안될 시에 현재 란이 삭제됩니다.</p>
                         </span>
@@ -375,7 +404,9 @@
             <%} else{
 
             }
-            }%>
+
+            }
+            %>
 
         </div>
 
