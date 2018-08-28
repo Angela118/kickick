@@ -1023,7 +1023,9 @@ module.exports = function(router, passport, upload) {
             'sGeoLat': req.body.sGeoLat,
             'sNofteam': req.body.sNofteam,
             'sScore': 0,
-            'sReview' : 0
+            'sReceivedReview' : 0,
+            'sReceivedReviewComment' : '',
+            'sReviewDate' : ''
         }
 
         var event = {
@@ -1086,6 +1088,7 @@ module.exports = function(router, passport, upload) {
                 for (var i = 0; i < result.length; i++) {
                     if (result[i]._doc.others.sEmail === req.user.email) {
                         var data = {
+                            'email': result[i]._doc.email, //상대팀
                             'teamname': result[i]._doc.teamname, //상대팀
                             // others내엔 경기정보
                             'event_date': result[i]._doc.others.sEvent_date,
@@ -1108,7 +1111,9 @@ module.exports = function(router, passport, upload) {
                     for (var i = 0; i < result.length; i++) {
                         if (result[i]._doc.email === req.user.email) {
                             var data = {
+                                'email': result[i]._doc.email,//나
                                 'teamname': result[i]._doc.teamname, //나
+                                'otherEmail': result[i]._doc.others.sEmail, // 상대팀
                                 'otherTeam' : result[i]._doc.others.sTeamname, // 상대팀
                                 // others내엔 경기정보
                                 'event_date': result[i]._doc.others.sEvent_date,
@@ -1150,11 +1155,12 @@ module.exports = function(router, passport, upload) {
         } // 인증 else문 end
     });
 
+    // -------------------search할 때 email로 수정
     router.route('/teamschedule').post(function(req, res) {
         console.log('/teamschedule 패스 post 요청됨.');
 
-        var scoreCallTeamName = req.body.callTeamName;
-        var scoreReceiveTeamName = req.body.receiveTeamName;
+        var scoreCallTeamEmail = req.body.callTeamEmail;
+        var scoreReceiveTeamEmail = req.body.receiveTeamEmail;
         var scoreEventDate = req.body.event_date;
         var scoreEventTime = req.body.event_time;
         // 신청이 온 경우 firstScore : 내 점수 / 내가 신청한 경우 firstScore : 남 점수
@@ -1162,17 +1168,17 @@ module.exports = function(router, passport, upload) {
         var secondScore = req.body.secondScore;
 
         console.log('if문 전 ====================');
-        console.log('scoreCallTeamName : ' + scoreCallTeamName);
-        console.log('scoreReceiveTeamName : ' + scoreReceiveTeamName);
+        console.log('scoreCallTeamEmail : ' + scoreCallTeamEmail);
+        console.log('scoreReceiveTeamEmail : ' + scoreReceiveTeamEmail);
         console.log('scoreEventDate : ' + scoreEventDate);
         console.log('scoreEventTime : ' + scoreEventTime);
         console.log('firstScore : ' + firstScore);
         console.log('secondScore : ' + secondScore);
 
-        // 내게 신청한 매칭일 경우 scoreReceiveTeamName 비어있음
+        // 내게 신청한 매칭일 경우 scoreReceiveTeamEmail 비어있음
         // 나로 변경
-        if(!scoreReceiveTeamName){
-            scoreReceiveTeamName = req.user.teamname;
+        if(!scoreReceiveTeamEmail){
+            scoreReceiveTeamEmail = req.user.email;
 
             var k;
             k = firstScore;
@@ -1181,8 +1187,8 @@ module.exports = function(router, passport, upload) {
         }
 
         console.log('if문 후 ====================')
-        console.log('scoreCallTeamName : ' + scoreCallTeamName);
-        console.log('scoreReceiveTeamName : ' + scoreReceiveTeamName);
+        console.log('scoreCallTeamEmail : ' + scoreCallTeamEmail);
+        console.log('scoreReceiveTeamEmail : ' + scoreReceiveTeamEmail);
         console.log('scoreEventDate : ' + scoreEventDate);
         console.log('scoreEventTime : ' + scoreEventTime);
         console.log('firstScore : ' + firstScore);
@@ -1193,7 +1199,7 @@ module.exports = function(router, passport, upload) {
         console.log('database 모듈 가져옴');
 
         dbm.MatchModel.update(
-            {teamname: scoreCallTeamName, "others.sEvent_date": scoreEventDate, "others.sEvent_time": scoreEventTime},
+            {email: scoreCallTeamEmail, "others.sEvent_date": scoreEventDate, "others.sEvent_time": scoreEventTime},
             {$set: {score: firstScore, "others.sScore": secondScore}}, function (err, result) {
                 if (err) {
                     console.log(err.message);
@@ -1220,6 +1226,23 @@ module.exports = function(router, passport, upload) {
             if(profile_img != req.user.profile_img)
                 profile_photo = profile_img;
 
+            var reviewerTeamName = req.user.teamname;
+            var reviewedTeamName = req.query.reviewedTeamName;
+            var eventDate = req.query.eventDate;
+            var eventTime = req.query.eventTime;
+
+            console.log('reviewerTeamName : ' + reviewerTeamName);
+            console.log('reviewedTeamName : ' + reviewedTeamName);
+            console.log('eventDate : ' + eventDate);
+            console.log('eventTime : ' + eventTime);
+
+            var eventData = {
+                'reviewerTeamName' : reviewerTeamName,
+                'reviewedTeamName' : reviewedTeamName,
+                'eventDate' : eventDate,
+                'eventTime' : eventTime
+            }
+
             var user_context = {
                 'email':req.user.email,
                 'password':req.user.password,
@@ -1232,7 +1255,8 @@ module.exports = function(router, passport, upload) {
                 'career_year':req.user.career_year,
                 'career_count':req.user.career_count,
                 'introteam':req.user.introteam,
-                'profile_img':profile_photo
+                'profile_img':profile_photo,
+                'event_data':eventData
             };
 
             res.render('team_review.ejs', user_context);
@@ -1245,26 +1269,38 @@ module.exports = function(router, passport, upload) {
         var dbm = require('../database/database');
         console.log('database 모듈 가져옴');
 
-        var event = {
-            'email': req.user.email,
-            'event_date': req.body.event_date || req.query.event_date,
-            'reviewer_teamname': req.user.teamname,
-            //reviewed_teamname에 평가받는 상대팀 이름으로 바꿔야 함
-            'reviewed_teamname': req.user.teamname,
-            'rating': req.body.rating || req.query.rating,
-            'review_comment': req.body.review_comment || req.query.review_comment,
-        };
+        var email = req.user.email;
+        var reviewDate = req.body.reviewDate; // 리뷰 등록 날짜
+        var reviewedTeamName= req.body.reviewedTeamName;
+        var rating = req.body.rating;
+        var review_comment = req.body.review_comment;
+        var eventDate = req.body.eventDate; // 경기 날짜
+        var eventTime = req.body.eventTime; // 경기 시간
 
-        console.dir(event);
+        var dbm = require('../database/database');
+        console.log('database 모듈 가져옴');
 
-        var event_review = new dbm.ReviewModel(event);
+        // 내가 신청했을 때
+        dbm.MatchModel.update(
+            {email: email, "others.sEvent_date": eventDate, "others.sEvent_time": eventTime},
+            {$set: {"others.sReceivedReview": rating, "others.sReceivedReviewComment": review_comment}}, function (err, result) {
+                if (err) {
+                    console.log(err.message);
+                } else {
+                    console.dir(result);
+                }
+            });
 
-        event_review.save(function (err, data) {
-            if (err) {// TODO handle the error
-                console.log("application save error");
-            }
-            console.log('New application inserted');
-        });
+        // 내가 신청받았을 때
+        dbm.MatchModel.update(
+            {"others.sEmail": email, "others.sEvent_date": eventDate, "others.sEvent_time": eventTime},
+            {$set: {received_review: rating, received_review_comment: review_comment}}, function (err, result) {
+                if (err) {
+                    console.log(err.message);
+                } else {
+                    console.dir(result);
+                }
+            });
 
         res.redirect('/teamschedule');
     });
