@@ -1105,10 +1105,10 @@ module.exports = function(router, passport, upload) {
                             'event_place': result[i]._doc.others.sPlace,
                             'event_nofteam': result[i]._doc.nofteam, // 상대팀
                             'match_success': result[i]._doc.match_success,
-                            'score': result[i]._doc.score,
-                            'review': result[i]._doc.review,
-                            'sScore' : result[i]._doc.others.sScore,
-                            'sReview': result[i]._doc.others.sReview
+                            'score': result[i]._doc.score, // 상대팀의 이 경기 score
+                            'review': result[i]._doc.review, // 상대팀이 이 경기에서 받은 review
+                            'sScore' : result[i]._doc.others.sScore, // 내 이 경기 스코어
+                            'sReview': result[i]._doc.others.sReview // 내가 이 경기에서 받은 리뷰
                         };
                         eventData[j++] = data;
                     }
@@ -1126,7 +1126,12 @@ module.exports = function(router, passport, upload) {
                                 'event_date': result[i]._doc.others.sEvent_date,
                                 'event_time': result[i]._doc.others.sEvent_time,
                                 'event_place': result[i]._doc.others.sPlace,
+                                'other_nofteam': result[i]._doc.others.sNofteam, // 상대팀
                                 'match_success': result[i]._doc.match_success,
+                                'score': result[i]._doc.score, // 이 경기 내 score
+                                'review': result[i]._doc.review, // 내가 이 경기에서 받은 리뷰
+                                'sScore' : result[i]._doc.others.sScore, // 상대팀의 이 경기 score
+                                'sReview': result[i]._doc.others.sReview // 상대팀의 이 경기에서 받은 평점
                             };
                             // eventData2[j++] = data;
                             eventData[j++] = data;
