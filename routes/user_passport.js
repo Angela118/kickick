@@ -778,77 +778,88 @@ module.exports = function(router, passport, upload) {
     router.route('/message').post(function(req, res) {
         console.log('/message 패스 post 요청됨');
 
-        // 매칭 여부 (1: 승인 / 2: 거절 / 0: 대기);
-        var match = req.body.match;
-        console.log('match : ' + match);
+        if (!req.user) {
+            console.log('사용자 인증 안된 상태임.');
+            res.redirect('/');
+        } else {
+            profile_photo = req.user.profile_img;
+            if (profile_img == null)
+                profile_img = req.user.profile_img;
+            if (profile_img != req.user.profile_img)
+                profile_photo = profile_img;
 
-        // 매칭 신청한 애
-        var otherEmail = req.body.sEmail;
-        console.log('otherEmail : ' + otherEmail);
+            // 매칭 여부 (1: 승인 / 2: 거절 / 0: 대기);
+            var match = req.body.match;
+            console.log('match : ' + match);
 
-        // 걔 동일 이메일 인덱스 있는지 확인
-        var sSameEmailIndex = req.body.sSameEmailIndex;
-        console.log('sSameEmailIndex : ' + sSameEmailIndex);
+            // 매칭 신청한 애
+            var otherEmail = req.body.sEmail;
+            console.log('otherEmail : ' + otherEmail);
 
-        var dbm = require('../database/database');
-        console.log('database 모듈 가져옴');
+            // 걔 동일 이메일 인덱스 있는지 확인
+            var sSameEmailIndex = req.body.sSameEmailIndex;
+            console.log('sSameEmailIndex : ' + sSameEmailIndex);
 
-        var eventData = new Array();
-        var j = 0;
+            var dbm = require('../database/database');
+            console.log('database 모듈 가져옴');
 
-        // 나한테 신청한 사람 이메일 받아온거로 matches에서 email 찾아서
-        dbm.MatchModel.find({email: otherEmail}, function (err, result) {
-            console.log('result.length : ' + result.length);
+            var eventData = new Array();
+            var j = 0;
 
-            for (var i = 0; i < result.length; i++) {
-                console.log('result[' + i + '].doc_others.email : ' + result[i]._doc.others.sEmail);
-                console.log('req.user.email : ' + req.user.email);
+            // 나한테 신청한 사람 이메일 받아온거로 matches에서 email 찾아서
+            dbm.MatchModel.find({email: otherEmail}, function (err, result) {
+                console.log('result.length : ' + result.length);
 
-                // 그 사람이 올린 것 중 신청자가 나일 경우
-                if (result[i]._doc.others.sEmail === req.user.email) {
+                for (var i = 0; i < result.length; i++) {
+                    console.log('result[' + i + '].doc_others.email : ' + result[i]._doc.others.sEmail);
+                    console.log('req.user.email : ' + req.user.email);
 
-                    // 나한테 신청한 사람 정보
-                    var data = {
-                        'email': result[i]._doc.email,
-                        'teamname': result[i]._doc.teamname,
-                        'others': result[i]._doc.others //내가 등록한 매칭 정보
-                    };
-                    console.log(i + '번째 data.others : ');
-                    console.dir(data.others);
-                    console.log('j : ' + j);
-                    eventData[j++] = data;
-                    console.log('eventData: ');
-                    console.log(eventData);
-                }
-            }
+                    // 그 사람이 올린 것 중 신청자가 나일 경우
+                    if (result[i]._doc.others.sEmail === req.user.email) {
 
-            console.log('00000000000000000000000000000000000000000000');
-            console.log('eventData : ');
-            console.log(eventData);
-
-            var teamname = eventData[sSameEmailIndex].teamname;
-            console.log('teamname : ' + teamname);
-
-            var findEventDate = eventData[sSameEmailIndex].others.sEvent_date;
-            console.log('findEventDate : ' + findEventDate);
-
-            var findEventTime = eventData[sSameEmailIndex].others.sEvent_time;
-
-            console.log('findEventTime ; ' + findEventTime);
-
-            dbm.MatchModel.update(
-                {email: otherEmail, "others.sEvent_date": findEventDate, "others.sEvent_time": findEventTime},
-                {$set: {match_success: match}}, function (err, result) {
-                    if(err) {
-                        console.log(err.message);
-                    }else{
-                        console.dir(result);
+                        // 나한테 신청한 사람 정보
+                        var data = {
+                            'email': result[i]._doc.email,
+                            'teamname': result[i]._doc.teamname,
+                            'others': result[i]._doc.others //내가 등록한 매칭 정보
+                        };
+                        console.log(i + '번째 data.others : ');
+                        console.dir(data.others);
+                        console.log('j : ' + j);
+                        eventData[j++] = data;
+                        console.log('eventData: ');
+                        console.log(eventData);
                     }
-                });
+                }
 
-        });
+                console.log('00000000000000000000000000000000000000000000');
+                console.log('eventData : ');
+                console.log(eventData);
 
-        res.redirect('/chatroommessage');
+                var teamname = eventData[sSameEmailIndex].teamname;
+                console.log('teamname : ' + teamname);
+
+                var findEventDate = eventData[sSameEmailIndex].others.sEvent_date;
+                console.log('findEventDate : ' + findEventDate);
+
+                var findEventTime = eventData[sSameEmailIndex].others.sEvent_time;
+
+                console.log('findEventTime ; ' + findEventTime);
+
+                dbm.MatchModel.update(
+                    {email: otherEmail, "others.sEvent_date": findEventDate, "others.sEvent_time": findEventTime},
+                    {$set: {match_success: match}}, function (err, result) {
+                        if (err) {
+                            console.log(err.message);
+                        } else {
+                            console.dir(result);
+                        }
+                    });
+
+            });
+            // 로그인 정보 넣느라 위치바꿨음
+            res.redirect('/chatroommessage');
+        }
     });
 
 
@@ -1022,7 +1033,9 @@ module.exports = function(router, passport, upload) {
             'sMention': req.body.sMention,
             'sGeoLng': req.body.sGeoLng,
             'sGeoLat': req.body.sGeoLat,
-            'sNofteam' : req.body.sNofteam
+            'sNofteam': req.body.sNofteam,
+            'sScore': 0,
+            'sReview' : 0
         }
 
         var event = {
@@ -1075,42 +1088,73 @@ module.exports = function(router, passport, upload) {
             var dbm = require('../database/database');
             console.log('database 모듈 가져옴');
 
-            var eventData = new Array();
+            var eventData = new Array(); // 나한테 신청한
+            // var eventData2 = new Array(); // 내가 신청한
             var j = 0;
 
-            dbm.AppointmentModel.find({email : req.user.email} ,function (err, result) {
+
+            // 나한테 매칭 신청한 팀 찾기
+            dbm.MatchModel.find({email : {"$ne" : req.user.email}} ,function (err, result) {
                 for (var i = 0; i < result.length; i++) {
-                    if (result[i]._doc.email == req.user.email) {
+                    if (result[i]._doc.others.sEmail === req.user.email) {
                         var data = {
-                            'teamname': result[i]._doc.teamname,
-                            'event_date': result[i]._doc.event_date,
-                            'event_time': result[i]._doc.event_time,
-                            'event_place': result[i]._doc.event_place,
-                            'event_nofteam': result[i]._doc.event_nofteam
+                            'teamname': result[i]._doc.teamname, //상대팀
+                            // others내엔 경기정보
+                            'event_date': result[i]._doc.others.sEvent_date,
+                            'event_time': result[i]._doc.others.sEvent_time,
+                            'event_place': result[i]._doc.others.sPlace,
+                            'event_nofteam': result[i]._doc.nofteam, // 상대팀
+                            'match_success': result[i]._doc.match_success,
+                            'score': result[i]._doc.score,
+                            'review': result[i]._doc.review,
+                            'sScore' : result[i]._doc.others.sScore,
+                            'sReview': result[i]._doc.others.sReview
                         };
                         eventData[j++] = data;
                     }
                 }
 
-                var user_context = {
-                    'email': req.user.email,
-                    'password': req.user.password,
-                    'teamname': req.user.teamname,
-                    'gender': req.user.gender,
-                    'age': req.user.age,
-                    'region': req.user.region,
-                    'move': req.user.move,
-                    'nofteam': req.user.nofteam,
-                    'career_year': req.user.career_year,
-                    'career_count': req.user.career_count,
-                    'introteam': req.user.introteam,
-                    'profile_img': profile_photo,
-                    'event_data':eventData
-                };
-                console.dir(eventData);
-                res.render('team_schedule.ejs', user_context);
-            });
-        }
+                // j = 0;
+                // 내가 매칭 신청한 팀 찾기
+                dbm.MatchModel.find({email : req.user.email} ,function (err, result) {
+                    for (var i = 0; i < result.length; i++) {
+                        if (result[i]._doc.email === req.user.email) {
+                            var data = {
+                                'teamname': result[i]._doc.teamname, //나
+                                'otherTeam' : result[i]._doc.others.sTeamname, // 상대팀
+                                // others내엔 경기정보
+                                'event_date': result[i]._doc.others.sEvent_date,
+                                'event_time': result[i]._doc.others.sEvent_time,
+                                'event_place': result[i]._doc.others.sPlace,
+                                'match_success': result[i]._doc.match_success,
+                            };
+                            // eventData2[j++] = data;
+                            eventData[j++] = data;
+                        }
+                    }
+
+                    var user_context = {
+                        'email': req.user.email,
+                        'password': req.user.password,
+                        'teamname': req.user.teamname,
+                        'gender': req.user.gender,
+                        'age': req.user.age,
+                        'region': req.user.region,
+                        'move': req.user.move,
+                        'nofteam': req.user.nofteam,
+                        'career_year': req.user.career_year,
+                        'career_count': req.user.career_count,
+                        'introteam': req.user.introteam,
+                        'profile_img': profile_photo,
+                        'event_data':eventData,
+                        // 'event_data_toMe': eventData2
+                    }; // user_context
+                    console.dir(eventData);
+                    res.render('team_schedule.ejs', user_context);
+
+                }); // dbm event_data2 end
+            }); // dbm event_data end
+        } // 인증 else문 end
     });
 
 // 상대팀 리뷰하기

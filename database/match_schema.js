@@ -30,7 +30,9 @@ Schema.createSchema = function(mongoose) {
         created_time: {type: String, 'default': timeString},
         nofteam : {type:String, 'default':''},
         others : {type:Object, 'default':''},
-		match_success: {type:Number, default:0}
+		match_success: {type:Number, default:0},
+		score: {type:Number, default:0},
+		review: {type:Number, default:0}
 	});
 
 
