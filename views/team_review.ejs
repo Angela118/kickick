@@ -36,7 +36,10 @@
 <div class="container">
     <form action="/teamreview" method="post">
 
-        <input type="hidden" name="event_date" id="theDate" required>
+        <input type="hidden" name="reviewDate" id="theDate" value="">
+        <input type="hidden" name="reviewedTeamEmail" value='<%=event_data.reviewedTeamEmail%>'>
+        <input type="hidden" name="eventDate" value='<%=event_data.eventDate%>'>
+        <input type="hidden" name="eventTime" value='<%=event_data.eventTime%>'>
 
         <script>
             $(document).ready(function() {
@@ -65,8 +68,7 @@
 
         <div style="display: flex; justify-content: space-around">
             <button class="btn" type="submit" style="width: 40%">평가 제출</button>
-            <!--팀 스케줄 또는 뒤로가기로 연결-->
-            <button class="btn" type="button" onclick="location.href='team_schedule.html'" style="width: 40%" >창 닫기</button>
+            <button class="btn" type="button" onclick="location.href='/teamschedule'" style="width: 40%" >창 닫기</button>
         </div>
     </form>
 

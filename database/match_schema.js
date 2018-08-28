@@ -10,7 +10,7 @@ Schema.createSchema = function(mongoose) {
 	// Get the month, day, and year.
 	var monthString = (newDate.getMonth() + 1);
 	var dayString = newDate.getDate();
-	var timeString = newDate.getTime();
+	var secondString = newDate.getSeconds();
 //	dateString += newDate.getFullYear();
 
 	
@@ -27,18 +27,16 @@ Schema.createSchema = function(mongoose) {
 		career_year: {type:Number, default:''},
 		created_month: {type: String, 'default': monthString},
 		created_day: {type: String, 'default': dayString},
-        created_time: {type: String, 'default': timeString},
+        created_time: {type: String, 'default': secondString},
         nofteam : {type:String, 'default':''},
         others : {type:Object, 'default':''},
 		match_success: {type:Number, default:0},
 		score: {type:Number, default:0},
-		review: {type:Number, default:0}
+		received_review: {type:Number, default:0},
+        received_review_comment: {type:String, default:''},
+		review_date: {type:String, default:''}
 	});
 
-
-	// 스키마에 static 메소드 추가
-	// 모든 커피숍 조회
-	// 모델 객체에서 사용할 수 있는 메소드 정의
 	MatchSchema.static('findByEmail', function(email, callback) {
 		return this.find({email:email}, callback);
 	});

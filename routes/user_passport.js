@@ -1099,7 +1099,9 @@ module.exports = function(router, passport, upload) {
                             'score': result[i]._doc.score, // 상대팀의 이 경기 score
                             'review': result[i]._doc.review, // 상대팀이 이 경기에서 받은 review
                             'sScore' : result[i]._doc.others.sScore, // 내 이 경기 스코어
-                            'sReview': result[i]._doc.others.sReview // 내가 이 경기에서 받은 리뷰
+                            'sReceivedReview': result[i]._doc.others.sReceivedReview, // 내가 이 경기에서 받은 리뷰
+                            'sReceivedReviewComment': result[i]._doc.others.sReceivedReviewComment,
+                            'sReviewDate' : result[i]._doc.others.sReviewDate
                         };
                         eventData[j++] = data;
                     }
@@ -1124,7 +1126,9 @@ module.exports = function(router, passport, upload) {
                                 'score': result[i]._doc.score, // 이 경기 내 score
                                 'review': result[i]._doc.review, // 내가 이 경기에서 받은 리뷰
                                 'sScore' : result[i]._doc.others.sScore, // 상대팀의 이 경기 score
-                                'sReview': result[i]._doc.others.sReview // 상대팀의 이 경기에서 받은 평점
+                                'sReceivedReview': result[i]._doc.others.sReceivedReview, // 상대팀의 이 경기에서 받은 리뷰
+                                'sReceivedReviewComment': result[i]._doc.others.sReceivedReviewComment, // 상대팀의 이 경기에서 받은 리뷰 코멘트
+                                'sReviewDate' : result[i]._doc.others.sReviewDate // 상대팀의 이 경기에서 받은 평점 기록된 날짜
                             };
                             // eventData2[j++] = data;
                             eventData[j++] = data;
@@ -1226,19 +1230,19 @@ module.exports = function(router, passport, upload) {
             if(profile_img != req.user.profile_img)
                 profile_photo = profile_img;
 
-            var reviewerTeamName = req.user.teamname;
-            var reviewedTeamName = req.query.reviewedTeamName;
+            var reviewerTeamEmail = req.user.email;
+            var reviewedTeamEmail = req.query.reviewedTeamEmail;
             var eventDate = req.query.eventDate;
             var eventTime = req.query.eventTime;
 
-            console.log('reviewerTeamName : ' + reviewerTeamName);
-            console.log('reviewedTeamName : ' + reviewedTeamName);
+            console.log('reviewerTeamEmail : ' + reviewerTeamEmail);
+            console.log('reviewedTeamEmail : ' + reviewedTeamEmail);
             console.log('eventDate : ' + eventDate);
             console.log('eventTime : ' + eventTime);
 
             var eventData = {
-                'reviewerTeamName' : reviewerTeamName,
-                'reviewedTeamName' : reviewedTeamName,
+                'reviewerTeamEmail' : reviewerTeamEmail,
+                'reviewedTeamEmail' : reviewedTeamEmail,
                 'eventDate' : eventDate,
                 'eventTime' : eventTime
             }
@@ -1271,33 +1275,43 @@ module.exports = function(router, passport, upload) {
 
         var email = req.user.email;
         var reviewDate = req.body.reviewDate; // 리뷰 등록 날짜
-        var reviewedTeamName= req.body.reviewedTeamName;
+        var reviewedTeamEmail= req.body.reviewedTeamEmail;
         var rating = req.body.rating;
         var review_comment = req.body.review_comment;
         var eventDate = req.body.eventDate; // 경기 날짜
         var eventTime = req.body.eventTime; // 경기 시간
+
+        console.log('email : ' + email);
+        console.log('reviewDate : ' + reviewDate);
+        console.log('reviewedTeamEmail : ' + reviewedTeamEmail);
+        console.log('rating : ' + rating);
+        console.log('review_comment : ' + review_comment);
+        console.log('eventDate : ' + eventDate);
+        console.log('eventTime : ' + eventTime);
 
         var dbm = require('../database/database');
         console.log('database 모듈 가져옴');
 
         // 내가 신청했을 때
         dbm.MatchModel.update(
-            {email: email, "others.sEvent_date": eventDate, "others.sEvent_time": eventTime},
-            {$set: {"others.sReceivedReview": rating, "others.sReceivedReviewComment": review_comment}}, function (err, result) {
+            {email: email, "others.sEmail":reviewedTeamEmail, "others.sEvent_date": eventDate, "others.sEvent_time": eventTime},
+            {$set: {"others.sReceivedReview": rating, "others.sReceivedReviewComment": review_comment, "others.sReviewDate": reviewDate}}, function (err, result) {
                 if (err) {
                     console.log(err.message);
                 } else {
+                    console.log('내가 신청했을 때 updated');
                     console.dir(result);
                 }
             });
 
         // 내가 신청받았을 때
         dbm.MatchModel.update(
-            {"others.sEmail": email, "others.sEvent_date": eventDate, "others.sEvent_time": eventTime},
-            {$set: {received_review: rating, received_review_comment: review_comment}}, function (err, result) {
+            {email: reviewedTeamEmail, "others.sEmail": email, "others.sEvent_date": eventDate, "others.sEvent_time": eventTime},
+            {$set: {received_review: rating, received_review_comment: review_comment, review_date: reviewDate}}, function (err, result) {
                 if (err) {
                     console.log(err.message);
                 } else {
+                    console.log('내가 신청받았을 때 updated');
                     console.dir(result);
                 }
             });
