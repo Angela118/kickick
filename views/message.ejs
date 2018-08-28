@@ -47,6 +47,18 @@
 
 <!--메뉴 영역 끝  -->
 
+<script>
+    function clicked(email, sameEmailIndex, match) {
+        document.getElementById('sEmail').value = email;
+        document.getElementById('sSameEmailIndex').value = sameEmailIndex;
+        document.getElementById('match').value = match;
+
+        alert('email : ' + email + '/ sameEmailIndex : ' + sameEmailIndex + '/ match : ' + match);
+
+        document.getElementById('formPost').submit();
+    }
+</script>
+
 <div class="container">
     <div class="reco" style="margin-top: 2.3rem">
         <div class="mb-3">
@@ -72,12 +84,15 @@
             </p>
             <p><b>해당 경기 날짜에 매칭 신청합니다. 수락하시겠습니까?</b><br><br></p>
 
-            <form action="/message" method="post">
+            <form action="/message" method="post" id="formPost">
+                <input type="hidden" name="sEmail" id="sEmail" value=''>
+                <input type="hidden" name="sSameEmailIndex" id="sSameEmailIndex" value=''>
+                <input type="hidden" name="match" id="match" value=''>
 
-            <div style="text-align: center">
-                <button type="submit" class="btn">매칭 거절</button>
-                <button type="submit" class="btn">매칭 수락</button>
-            </div>
+                <div style="text-align: center">
+                    <button type="button" class="btn" onclick="clicked( `<%= event_data[index].email %>`,`<%=index%>`, 2)">매칭 거절</button>
+                    <button type="button" class="btn" onclick="clicked( `<%= event_data[index].email %>`,`<%=index%>`, 1)">매칭 수락</button>
+                </div>
 
             </form>
         </div>

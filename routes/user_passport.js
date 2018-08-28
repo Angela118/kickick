@@ -484,6 +484,134 @@ module.exports = function(router, passport, upload) {
         }
     });
 
+    router.route('/chat').get(function(req, res){
+        console.log('/chat 패스 get으로 요청됨.');
+
+        if (!req.user) {
+            console.log('사용자 인증 안된 상태임.');
+            res.redirect('/');
+        }else{
+
+            profile_photo = req.user.profile_img;
+            if(profile_img == null)
+                profile_img = req.user.profile_img;
+            if(profile_img != req.user.profile_img)
+                profile_photo = profile_img;
+
+
+            var user_context = {
+                'email':req.user.email,
+                'password':req.user.password,
+                'teamname':req.user.teamname,
+                'gender':req.user.gender,
+                'age':req.user.age,
+                'region':req.user.region,
+                'move':req.user.move,
+                'nofteam':req.user.nofteam,
+                'career_year':req.user.career_year,
+                'career_count':req.user.career_count,
+                'introteam':req.user.introteam,
+                'profile_img':profile_photo
+            };
+
+            res.render('chat_.ejs', user_context);
+        }
+    });
+
+
+    router.route('/chat').post(function(req, res){
+        console.log('/chat appointment 패스 post 요청됨.');
+
+        var dbm = require('../database/database');
+        console.log('database 모듈 가져옴');
+
+        var event = {
+            'email':req.user.email,
+            'teamname':req.user.teamname,
+            'event_date': '',
+            'event_time': '',
+            'event_place': ''
+        };
+
+        event.event_date = req.body.event_date || req.query.event_date;
+        event.event_time = req.body.event_time || req.query.event_time;
+        event.event_place = req.body.event_place || req.query.event_place;
+        event.event_nofteam = req.body.event_nofteam || req.query.event_nofteam;
+
+        console.dir(event);
+
+        var event_appointment = new dbm.AppointmentModel(event);
+
+        event_appointment.save(function (err, data) {
+            if (err) {// TODO handle the error
+                console.log("appointment save error");
+            }
+            console.log('New appointment inserted');
+        });
+
+
+    });
+
+    router.route('/chatappointment').get(function(req, res){
+        console.log('/chatappointment 패스 get으로 요청됨.');
+
+        if (!req.user) {
+            console.log('사용자 인증 안된 상태임.');
+            res.redirect('/');
+        }else{
+            var user_context = {
+                'email':req.user.email,
+                'password':req.user.password,
+                'teamname':req.user.teamname,
+                'gender':req.user.gender,
+                'age':req.user.age,
+                'region':req.user.region,
+                'move':req.user.move,
+                'nofteam':req.user.nofteam,
+                'career_year':req.user.career_year,
+                'career_count':req.user.career_count,
+                'introteam':req.user.introteam
+            };
+
+
+            res.render('chat_appointment.ejs', user_context);
+        }
+    });
+
+    router.route('/chatappointment').post(function(req, res) {
+        console.log('/chatappointment 패스 post 요청됨');
+
+        var dbm = require('../database/database');
+        console.log('database 모듈 가져옴');
+
+
+        var event = {
+            'email':req.user.email,
+            'teamname':req.user.teamname,
+            'event_date': req.user.event_date,
+            'event_time': req.user.event_time,
+            'event_place': req.user.event_place,
+            'event_nofteam': req.user.event_nofteam
+        };
+
+        event.event_date = req.body.event_date || req.query.event_date;
+        event.event_time = req.body.event_time || req.query.event_time;
+        event.event_place = req.body.event_place || req.query.event_place;
+        event.event_nofteam = req.body.event_nofteam || req.query.event_nofteam;
+
+        console.dir(event);
+
+        var event_appointment = new dbm.AppointmentModel(event);
+
+        event_appointment.save(function (err, data) {
+            if (err) {// TODO handle the error
+                console.log("appointment save error");
+            }
+            console.log('New appointment inserted');
+        });
+        res.redirect('/chat');
+    });
+
     router.route('/chatroommessage').get(function(req, res){
         console.log('/chatroommessage 패스 get으로 요청됨.');
 
@@ -586,7 +714,6 @@ module.exports = function(router, passport, upload) {
         console.log('sSameEmailIndex : ' + req.body.sSameEmailIndex);
 
         var j = 0;
-
         var eventData = new Array();
 
         // 나한테 신청한 사람 이메일 받아온거로 matches에서 email 찾아서
@@ -648,145 +775,62 @@ module.exports = function(router, passport, upload) {
         });
     });
 
-    router.route('/chat').get(function(req, res){
-        console.log('/chat 패스 get으로 요청됨.');
-
-        if (!req.user) {
-            console.log('사용자 인증 안된 상태임.');
-            res.redirect('/');
-        }else{
-
-            profile_photo = req.user.profile_img;
-            if(profile_img == null)
-                profile_img = req.user.profile_img;
-            if(profile_img != req.user.profile_img)
-                profile_photo = profile_img;
-
-
-            var user_context = {
-                'email':req.user.email,
-                'password':req.user.password,
-                'teamname':req.user.teamname,
-                'gender':req.user.gender,
-                'age':req.user.age,
-                'region':req.user.region,
-                'move':req.user.move,
-                'nofteam':req.user.nofteam,
-                'career_year':req.user.career_year,
-                'career_count':req.user.career_count,
-                'introteam':req.user.introteam,
-                'profile_img':profile_photo
-            };
-
-            res.render('chat_.ejs', user_context);
-        }
-    });
-
     router.route('/message').post(function(req, res) {
         console.log('/message 패스 post 요청됨');
 
+        // 매칭 여부 (1: 승인 / 2: 거절 / 0: 대기);
+        var match = req.body.match;
+        console.log('match : ' + match);
+
+        // 매칭 신청한 애
+        var otherEmail = req.body.sEmail;
+        console.log('otherEmail : ' + otherEmail);
+
+        // 걔 동일 이메일 인덱스 있는지 확인
+        var sSameEmailIndex = req.body.sSameEmailIndex;
+        console.log('sSameEmailIndex : ' + sSameEmailIndex);
+
         var dbm = require('../database/database');
         console.log('database 모듈 가져옴');
 
-    });
+/*        dbm.MatchModel.find({email: otherEmail}, function (err, result) {
+            for (var i = 0; i < result.length; i++) {
+                console.log('message post db find i : ' + i);
+                console.log('result[i]._doc.others.sEmail : ' + result[i]._doc.others.sEmail);
+                console.log('req.user.email : ' + req.user.email);
 
-    router.route('/chat').post(function(req, res){
-        console.log('/chat appointment 패스 post 요청됨.');
+                // 그 사람이 올린 것 중 신청자가 나일 경우
+                if (result[i]._doc.others.sEmail === req.user.email) {
 
-        var dbm = require('../database/database');
-        console.log('database 모듈 가져옴');
-
-        var event = {
-            'email':req.user.email,
-            'teamname':req.user.teamname,
-            'event_date': '',
-            'event_time': '',
-            'event_place': ''
-        };
-
-        event.event_date = req.body.event_date || req.query.event_date;
-        event.event_time = req.body.event_time || req.query.event_time;
-        event.event_place = req.body.event_place || req.query.event_place;
-        event.event_nofteam = req.body.event_nofteam || req.query.event_nofteam;
-
-        console.dir(event);
-
-        var event_appointment = new dbm.AppointmentModel(event);
-
-        event_appointment.save(function (err, data) {
-            if (err) {// TODO handle the error
-                console.log("appointment save error");
+                    // 같은 매칭 등록 & 매칭 신청한 아이디 (a & b) 조합이 여러개일 경우
+                    if(sSameEmailIndex > 0) {
+                        console.log('sSameEmailIndex : ' + sSameEmailIndex);
+                        sSameEmailIndex--;
+                        console.log('--뒤 sSameEmailIndex : ' + sSameEmailIndex);
+                        continue;
+                    }
+                    console.log('otherEmail : ' + otherEmail);
+                    dbm.MatchModel.update({email: otherEmail}, {$set: {match_success: match}});
+                    console.log('updated');
+                }
             }
-            console.log('New appointment inserted');
-        });
+        });*/
 
-
-    });
-
-    router.route('/chatappointment').get(function(req, res){
-        console.log('/chatappointment 패스 get으로 요청됨.');
-
-        if (!req.user) {
-            console.log('사용자 인증 안된 상태임.');
-            res.redirect('/');
-        }else{
-            var user_context = {
-                'email':req.user.email,
-                'password':req.user.password,
-                'teamname':req.user.teamname,
-                'gender':req.user.gender,
-                'age':req.user.age,
-                'region':req.user.region,
-                'move':req.user.move,
-                'nofteam':req.user.nofteam,
-                'career_year':req.user.career_year,
-                'career_count':req.user.career_count,
-                'introteam':req.user.introteam
-            };
-
-
-            res.render('chat_appointment.ejs', user_context);
-        }
-    });
-
-    router.route('/chatappointment').post(function(req, res) {
-        console.log('/chatappointment 패스 post 요청됨');
-
-        var dbm = require('../database/database');
-        console.log('database 모듈 가져옴');
-
-
-        var event = {
-            'email':req.user.email,
-            'teamname':req.user.teamname,
-            'event_date': req.user.event_date,
-            'event_time': req.user.event_time,
-            'event_place': req.user.event_place,
-            'event_nofteam': req.user.event_nofteam
-        };
-
-
-        event.event_date = req.body.event_date || req.query.event_date;
-        event.event_time = req.body.event_time || req.query.event_time;
-        event.event_place = req.body.event_place || req.query.event_place;
-        event.event_nofteam = req.body.event_nofteam || req.query.event_nofteam;
-
-        console.dir(event);
-
-        var event_appointment = new dbm.AppointmentModel(event);
-
-        event_appointment.save(function (err, data) {
-            if (err) {// TODO handle the error
-                console.log("appointment save error");
-            }
-            console.log('New appointment inserted');
-        });
-        res.redirect('/chat');
+        dbm.MatchModel.update(
+            {email: otherEmail},
+            {$set: {match_success: match}}, function (err, result) {
+                if(err) {
+                    console.log(err.message);
+                }else{
+                    console.dir(result);
+                }
+            });
+        res.redirect('/chatroommessage');
     });
 
 
 
-    // ===== 메뉴
+// ===== 메뉴
 
 
     router.route('/mainsearch').get(function(req, res){
@@ -864,7 +908,7 @@ module.exports = function(router, passport, upload) {
     });
 
 
-    // 검색 결과
+// 검색 결과
     router.route('/mainsearchresult').get(function(req, res){
         // ------------------------------- data 삽입위치 수정
         console.log('/mainsearchresult 패스 get 요청됨.');
@@ -990,8 +1034,8 @@ module.exports = function(router, passport, upload) {
         res.redirect('/mainsearchresult');
     });
 
-    //경기 스케쥴
-    // ------------------------------- data 삽입위치 수정
+//경기 스케쥴
+// ------------------------------- data 삽입위치 수정
     router.route('/teamschedule').get(function(req, res) {
         console.log('/teamschedule 패스 get 요청됨.');
 
@@ -1046,7 +1090,7 @@ module.exports = function(router, passport, upload) {
         }
     });
 
-    // 상대팀 리뷰하기
+// 상대팀 리뷰하기
     router.route('/teamreview').get(function(req, res){
         console.log('/teamreview 패스 get 요청됨.');
 
@@ -1111,7 +1155,7 @@ module.exports = function(router, passport, upload) {
     });
 
 //팀에서 받은 리뷰
-    // ------------------------------- data 삽입위치 수정
+// ------------------------------- data 삽입위치 수정
     router.route('/teamreceivedreview').get(function(req, res) {
         console.log('/teamreceivedreview 패스 get 요청됨');
 
@@ -1250,8 +1294,8 @@ module.exports = function(router, passport, upload) {
 
 
 
-    // 내가 등록한 매칭
-    // ------------------------------- data 삽입위치 수정
+// 내가 등록한 매칭
+// ------------------------------- data 삽입위치 수정
     router.route('/mymatch').get(function(req, res){
         console.log('/mymatch 패스 get 요청됨.');
 
