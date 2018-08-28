@@ -10,6 +10,7 @@ Schema.createSchema = function(mongoose) {
 	// Get the month, day, and year.
 	var monthString = (newDate.getMonth() + 1);
 	var dayString = newDate.getDate();
+	var timeString = newDate.getTime();
 //	dateString += newDate.getFullYear();
 
 	
@@ -26,8 +27,10 @@ Schema.createSchema = function(mongoose) {
 		career_year: {type:Number, default:''},
 		created_month: {type: String, 'default': monthString},
 		created_day: {type: String, 'default': dayString},
+        created_time: {type: String, 'default': timeString},
         nofteam : {type:String, 'default':''},
-        others : {type:Object, 'default':''}
+        others : {type:Object, 'default':''},
+		match_success: {type:Number, default:0}
 	});
 
 

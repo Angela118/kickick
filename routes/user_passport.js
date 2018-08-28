@@ -793,38 +793,61 @@ module.exports = function(router, passport, upload) {
         var dbm = require('../database/database');
         console.log('database 모듈 가져옴');
 
-/*        dbm.MatchModel.find({email: otherEmail}, function (err, result) {
+        var eventData = new Array();
+        var j = 0;
+
+        // 나한테 신청한 사람 이메일 받아온거로 matches에서 email 찾아서
+        dbm.MatchModel.find({email: otherEmail}, function (err, result) {
+            console.log('result.length : ' + result.length);
+
             for (var i = 0; i < result.length; i++) {
-                console.log('message post db find i : ' + i);
-                console.log('result[i]._doc.others.sEmail : ' + result[i]._doc.others.sEmail);
+                console.log('result[' + i + '].doc_others.email : ' + result[i]._doc.others.sEmail);
                 console.log('req.user.email : ' + req.user.email);
 
                 // 그 사람이 올린 것 중 신청자가 나일 경우
                 if (result[i]._doc.others.sEmail === req.user.email) {
 
-                    // 같은 매칭 등록 & 매칭 신청한 아이디 (a & b) 조합이 여러개일 경우
-                    if(sSameEmailIndex > 0) {
-                        console.log('sSameEmailIndex : ' + sSameEmailIndex);
-                        sSameEmailIndex--;
-                        console.log('--뒤 sSameEmailIndex : ' + sSameEmailIndex);
-                        continue;
-                    }
-                    console.log('otherEmail : ' + otherEmail);
-                    dbm.MatchModel.update({email: otherEmail}, {$set: {match_success: match}});
-                    console.log('updated');
+                    // 나한테 신청한 사람 정보
+                    var data = {
+                        'email': result[i]._doc.email,
+                        'teamname': result[i]._doc.teamname,
+                        'others': result[i]._doc.others //내가 등록한 매칭 정보
+                    };
+                    console.log(i + '번째 data.others : ');
+                    console.dir(data.others);
+                    console.log('j : ' + j);
+                    eventData[j++] = data;
+                    console.log('eventData: ');
+                    console.log(eventData);
                 }
             }
-        });*/
 
-        dbm.MatchModel.update(
-            {email: otherEmail},
-            {$set: {match_success: match}}, function (err, result) {
-                if(err) {
-                    console.log(err.message);
-                }else{
-                    console.dir(result);
-                }
-            });
+            console.log('00000000000000000000000000000000000000000000');
+            console.log('eventData : ');
+            console.log(eventData);
+
+            var teamname = eventData[sSameEmailIndex].teamname;
+            console.log('teamname : ' + teamname);
+
+            var findEventDate = eventData[sSameEmailIndex].others.sEvent_date;
+            console.log('findEventDate : ' + findEventDate);
+
+            var findEventTime = eventData[sSameEmailIndex].others.sEvent_time;
+
+            console.log('findEventTime ; ' + findEventTime);
+
+            dbm.MatchModel.update(
+                {email: otherEmail, "others.sEvent_date": findEventDate, "others.sEvent_time": findEventTime},
+                {$set: {match_success: match}}, function (err, result) {
+                    if(err) {
+                        console.log(err.message);
+                    }else{
+                        console.dir(result);
+                    }
+                });
+
+        });
+
         res.redirect('/chatroommessage');
     });
 
