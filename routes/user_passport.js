@@ -7,9 +7,14 @@
 
 module.exports = function(router, passport, upload) {
     console.log('user_passport 호출됨.');
+	
+	var dbm = require('../database/database');
+		console.log('database 모듈 가져옴');
+	
 	var profile_img;
 	var profile_photo;
-	var flag=1;
+	var flag=1,
+		flag2=1;
 	
 	var event_search = {
         'teamname':'',
@@ -31,8 +36,6 @@ module.exports = function(router, passport, upload) {
             res.redirect('/login');
         } else {
 			var fs = require('fs');
-			var dbm = require('../database/database');
-			console.log('database 모듈 가져옴');
 			
 			const Json2csvParser = require('json2csv').Parser;
 			const fields = ['email', 'age', 'gender', 'nofteam', 'geoLng', 'geoLat', 'teamname', 'region', 'place', 'move', 'event_date', 'event_time', 'event_day', 'event_day', 'mention', 'created_month', 'creted_day'];
@@ -299,7 +302,7 @@ module.exports = function(router, passport, upload) {
     // 회원가입 화면
     router.route('/teamsignup').get(function(req, res) {
         console.log('/teamsignup 패스 get 요청됨.');
-		flag=0;
+		flag=0, flag2=0;
         res.render('team_signup.ejs', {message: req.flash('signupMessage')});
     });
 	
@@ -346,7 +349,7 @@ module.exports = function(router, passport, upload) {
 				'teamname':req.user.teamname, 
 				'gender':req.user.gender, 
 				'age':req.user.age,
-				'region':req.user.region,
+		//		'region':req.user.region,
 				'move':req.user.move,
 				'nofteam':req.user.nofteam,
 				'career_year':req.user.career_year,
@@ -361,10 +364,8 @@ module.exports = function(router, passport, upload) {
 	});
 	
 	
-	router.route('/uploadimg').post(upload.array('photo'), function(req, res){
-		
-		try{
-			
+	router.route('/uploadimg').post(upload.array('photo'), function(req, res){		
+		try{			
 			var files = req.files;
 			console.log(req.files);
 
@@ -393,12 +394,11 @@ module.exports = function(router, passport, upload) {
 		
 			if(filename)
 				profile_img = filename;
+			else
+				profile_img = req.user.profile_img;
+
+			/*
 			
-			
-			var dbm = require('../database/database');
-			console.log('database 모듈 가져옴');
-		
-		
 			var user_context = {
 				'email':req.user.email, 
 				'teamname':req.user.teamname, 
@@ -412,42 +412,27 @@ module.exports = function(router, passport, upload) {
 				'introteam':req.user.introteam,
 				'profile_img':profile_img
 			};			
-			
-			
-		
-			
-			console.dir(user_context);
-			
+			*/
 
-		dbm.db.collection("users6").updateOne({email: req.user.email},  {$set: {
-			'email':user_context.email, 
-			'teamname':user_context.teamname, 
-			'gender':user_context.gender, 
-			'age':user_context.age,
-			'region':user_context.region,
-			'move':user_context.move,
-			'nofteam':user_context.nofteam,
-			'career_year':user_context.career_year,
-			'career_count':user_context.career_count,
-			'introteam':user_context.introteam,
-			'profile_img':user_context.profile_img
-		 }}, function(err, res) {
-    		if (err) throw err;
-    		console.log("======== set profile image =======");
-			console.dir(req.user);
-  		});
+			dbm.db.collection("users6").updateOne({email: req.user.email},  {$set: {'profile_img':profile_img}}, function(err, res) {
+				if (err) throw err;
+				console.log("======== set profile image =======");
+				console.dir(req.user.profile_img);
+			});
 
 
 		}catch(err){
 			console.dir(err.stack);
 		}
 		
-		
-
-		
-		res.redirect('/');
-		
-		
+		if(flag2 == 0){
+			flag2=1;
+			res.redirect('/login');
+		}		
+		else{
+			flag2=1;
+			res.redirect('/');
+		}
 	});
 
 
@@ -535,11 +520,6 @@ module.exports = function(router, passport, upload) {
     router.route('/teamprofileedit').post(function(req, res) {
         console.log('/teamprofileedit 패스 post 요청됨.');
 		
-		var dbm = require('../database/database');
-		console.log('database 모듈 가져옴');
-		
-		
-		
 		profile_photo = req.user.profile_img;			
 		if(profile_img == null)
 			profile_img = req.user.profile_img;
@@ -549,11 +529,12 @@ module.exports = function(router, passport, upload) {
 
 		var user_context = {
 			'email':req.user.email, 
-			'password':req.user.password, 
 			'teamname':req.user.teamname, 
 			'gender':req.user.gender, 
 			'age':req.user.age,
 			'region':req.user.region,
+			'geoLat':req.user.geoLat,
+			'geoLng':req.user.geoLng,
 			'move':req.user.move,
 			'nofteam':req.user.nofteam,
 			'career_year':req.user.career_year,
@@ -574,6 +555,8 @@ module.exports = function(router, passport, upload) {
 		}
 		if(req.body.region || req.query.region){
 			user_context.region = req.body.region || req.query.region;
+			user_context.geoLat = req.body.resultLat || req.query.resultLat;
+			user_context.geoLng = req.body.resultLng || req.query.resultLng;
 		}
 		if(req.body.move || req.query.move){
 			user_context.move = req.body.move || req.query.move;
@@ -591,19 +574,10 @@ module.exports = function(router, passport, upload) {
 			user_context.introteam = req.body.introteam || req.query.introteam;
 		}
 		
-			
+		console.log('=== Profile edit ===')
+		console.dir(user_context);
 
-		dbm.db.collection("users6").updateOne({email: user_context.email},  {$set: {
-			'teamname':user_context.teamname, 
-			'gender':user_context.gender, 
-			'age':user_context.age,
-			'region':user_context.region,
-			'move':user_context.move,
-			'nofteam':user_context.nofteam,
-			'career_year':user_context.career_year,
-			'career_count':user_context.career_count,
-			'introteam':user_context.introteam
-		 }}, function(err, res) {
+		dbm.db.collection("users6").updateOne({email: user_context.email},  {$set: user_context}, function(err, res) {
     		if (err) throw err;
     		console.log("1 document updated");
   		});
@@ -792,10 +766,6 @@ module.exports = function(router, passport, upload) {
 	
 	router.route('/chatappointment').post(function(req, res) {
        console.log('/chatappointment 패스 post 요청됨');
-       
-       var dbm = require('../database/database');
-       console.log('database 모듈 가져옴');
-      
       
       var event = {
          'email':req.user.email,
@@ -826,8 +796,7 @@ module.exports = function(router, passport, upload) {
       res.redirect('/chat');
    })
     
-	
-    
+
     
     // ===== 메뉴
 	
@@ -873,10 +842,6 @@ module.exports = function(router, passport, upload) {
 	router.route('/mainsearch').post(function(req, res){
 		console.log('/mainsearch 패스 post 요청됨.');
 
-
-//		var dbm = require('../database/database');
-//		console.log('database 모듈 가져옴');
-
 		event_search = {
 			'teamname':req.body.search_team || req.query.search_team,
 			'region': req.body.region || req.query.region,
@@ -886,15 +851,6 @@ module.exports = function(router, passport, upload) {
 			'event_time': req.body.event_time || req.query.event_time,
 			'event_day': req.body.event_day || req.query.event_day
 		};
-	
-		
- 
-/*		
-		if(event_search.gender == 0)
-			event_search.teamname = 'none';
-		if(event_search.age == 0)
-			event_search.age = 'none';
-*/
 
 		res.redirect('/mainsearchresult');
       
@@ -919,11 +875,7 @@ module.exports = function(router, passport, upload) {
 				profile_photo = profile_img;
 
 
-			var dbm = require('../database/database');
-			console.log('database 모듈 가져옴');
-
-			var eventData = new Array();
-			
+			var eventData = new Array();			
 				
 			
 			if(event_search.teamname == 'none')
@@ -1015,8 +967,6 @@ module.exports = function(router, passport, upload) {
             if (profile_img != req.user.profile_img)
                 profile_photo = profile_img;
 
-            var dbm = require('../database/database');
-            console.log('database 모듈 가져옴');
 
             var eventData = new Array();
 
@@ -1062,7 +1012,7 @@ module.exports = function(router, passport, upload) {
     
     //팀 리뷰
     router.route('/teamreceivedreview').get(function(req, res){
-        console.log('/teamreceivedreview 패스 get 요청됨')
+        console.log('/teamreceivedreview 패스 get 요청됨');
         
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
@@ -1135,9 +1085,6 @@ module.exports = function(router, passport, upload) {
 	router.route('/matchapplication').post(function(req, res){
         console.log('/match_application 패스 post 요청됨.');
 
-        var dbm = require('../database/database');
-        console.log('database 모듈 가져옴');
-
         var event = {
             'email': req.user.email,
             'teamname': req.user.teamname,
@@ -1186,11 +1133,6 @@ module.exports = function(router, passport, upload) {
 				profile_img = req.user.profile_img;
 			if(profile_img != req.user.profile_img)
 				profile_photo = profile_img;
-			
-			
-			
-			var dbm = require('../database/database');
-			console.log('database 모듈 가져옴');
 			
 			
 			var eventData = new Array();			
@@ -1255,12 +1197,7 @@ module.exports = function(router, passport, upload) {
 				profile_img = req.user.profile_img;
 			if(profile_img != req.user.profile_img)
 				profile_photo = profile_img;
-			
-			
-			
-			var dbm = require('../database/database');
-			console.log('database 모듈 가져옴');
-			
+		
 			
 			var eventData = new Array();			
 
@@ -1408,13 +1345,61 @@ module.exports = function(router, passport, upload) {
         	res.render('contact.ejs', user_context);
 		}
 	});
-    
 	
+	
+	//map
+	/*
+	router.route('/map').get(function(req, res){
+		console.log('/map 패스 get 요청됨.');
+
+        res.render('map.ejs');
+	});
+	
+	router.route('/map').post(function(req, res){
+		console.log('/map 패스 post 요청됨.');
+		
+		var map_geolat = req.body.resultLat || req.query.resultLat;
+		var map_geolng = req.body.resultLng || req.query.resultLng;
+		var map_region = req.body.region || req.query.region;
+		
+		
+		
+		var user_context = {
+			'email':req.user.email, 
+			'teamname':req.user.teamname, 
+			'gender':req.user.gender, 
+			'age':req.user.age,
+			'region':map_region,
+			'geoLat':map_geolat,
+			'geoLng':map_geolng,
+			'move':req.user.move,
+			'nofteam':req.user.nofteam,
+			'career_year':req.user.career_year,
+			'career_count':req.user.career_count,
+			'introteam':req.user.introteam,
+			'profile_img':profile_img
+		};
+		
+		console.log(user_context.region);
+		
+		dbm.db.collection("users6").updateOne({email: req.user.email},  {$set: user_context}, function(err, res) {
+    		if (err) throw err;
+    		console.log("=== set region ===");
+			
+			console.log(map_geolat);
+			console.log(map_geolng);
+			console.log(map_region);
+  		});
+		
+		res.redirect('/uploadimg');
+	});
+    
+	*/
     
     // 로그아웃
     router.route('/logout').get(function(req, res) {
         console.log('/logout 패스 get 요청됨.');
-		profile_img =null;
+		profile_img=null;
 		profile_photo=null;
         req.logout();
         res.redirect('/login');
