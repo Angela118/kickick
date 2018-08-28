@@ -413,7 +413,7 @@
             <!--내가 신청한 상대팀 승인 대기-->
             <%
                 count++;
-            } else if((event_data[i].match_success == 0) && (event_data[i].teamname == teamname)){%>
+            } else if((event_data[i].match_success == 0) && (event_data[i].email == email)){%>
             <div>
                 <div class="date">
                     <h3 style="font-weight: bold"><%= matchMonth%>. <%= matchDay%></h3>
