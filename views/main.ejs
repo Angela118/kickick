@@ -107,7 +107,8 @@
 		<% for(var i=0; i<event_data.length; i++){
 			var curEmail = event_data[i].email;
             var curTeamname = event_data[i].teamname;
-            var curPlace = event_data[i].place;
+            var curRegion = event_data[i].region;
+			var curAdd = event_data[i].add;
             var curMove = event_data[i].move;
             var curAge = event_data[i].age;
             var curGender = event_data[i].gender;
@@ -151,7 +152,7 @@
                     <p class="list_item_team_detail">
                         성별 : <%= curGender %><br>
                         나이 : <%= curAge %>대<br>
-                        장소 : <%= curPlace %><br>
+                        장소 : <%= curRegion %><br>
 						팀원 : <%= curNofteam %>명<br>
                         한마디 : <%= curMention %><br>
                     </p>

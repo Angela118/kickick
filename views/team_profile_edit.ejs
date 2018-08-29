@@ -93,13 +93,13 @@
              <div class="mb-3">
                 <label for="region">주 경기 장소</label>	
 				<br>
-                 <input placeholder="<%= region %>" id="keyword" size="15"> 
+                 <input placeholder="숙명여자대학교" id="keyword" size="15"> 
                  <input type="button" onclick="searchPlaces()" value="검색하기">				
 
 				<input type="hidden" name="resultLat" id="resultLat" placeholder="위도" class="form-control" readonly/ > 
 				<input type="hidden" name="resultLng" id="resultLng" placeholder="경도" class="form-control" readonly/ >
 				<input name="region" id="region" class="form-control" size="15" readonly/>
-				
+				<input name="add" id="add" class="form-control" readonly/>
 	
 				<div id="map" style="width:100%;height:350px;"></div>
 
@@ -121,7 +121,7 @@
 				var ps = new daum.maps.services.Places(); 
 
 
-				ps.keywordSearch('<%= region %>', placesSearchCB); 
+				ps.keywordSearch('숙명여자대학교', placesSearchCB); 
 
 				// 키워드로 장소를 검색합니다
 				//searchPlaces();
@@ -139,6 +139,8 @@
 					// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
 					ps.keywordSearch( keyword, placesSearchCB); 
 				}
+					
+			
 
 				// 키워드 검색 완료 시 호출되는 콜백함수 입니다
 				function placesSearchCB (data, status, pagination) {
@@ -157,7 +159,17 @@
 						map.setBounds(bounds);
 					} 
 				}
-
+					
+					
+				// 주소-좌표 변환 객체를 생성합니다
+				var geocoder = new daum.maps.services.Geocoder();
+				
+				function searchDetailAddrFromCoords(coords, callback) {
+					// 좌표로 법정동 상세 주소 정보를 요청합니다
+					geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+				}	
+					
+					
 				// 지도에 마커를 표시하는 함수입니다
 				function displayMarker(place) {
 
@@ -169,7 +181,78 @@
 
 					var geoLat = place.y;
 					var geoLng = place.x;
+					
+					
+					
+					
+					// 마커에 클릭이벤트를 등록합니다
+					daum.maps.event.addListener(marker, 'click', function() {
+						
+						displayPlaceInfo(place);
+						
+						
+						var region = document.getElementById('region');
+						region.value = place.place_name;
+						
+						var resultLat = document.getElementById('resultLat');
+						resultLat.value = geoLat;
+						
+						var resultLng = document.getElementById('resultLng');
+						resultLng.value = geoLng;
+						
+						var add = document.getElementById('add');
+						add.value = place.road_address_name;
 
+					});
+					
+					
+					// 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
+					function displayPlaceInfo (place) {
+						var content = '<div class="placeinfo">' +
+										'   <a class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' + place.place_name + '</a>';   
+
+						if (place.road_address_name) {
+							content += '    <span title="' + place.road_address_name + '">' + place.road_address_name + '</span>' +
+										'  <span class="jibun" title="' + place.address_name + '">(지번 : ' + place.address_name + ')</span>';
+						}  else {
+							content += '    <span title="' + place.address_name + '">' + place.address_name + '</span>';
+						}                
+
+						content += '    <span class="tel">' + place.phone + '</span>' + 
+									'</div>' + 
+									'<div class="after"></div>';
+
+						// 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
+						infowindow.setContent(content);
+						infowindow.open(map, marker); 
+					}
+					
+
+					/*
+					
+					// 지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록합니다
+					daum.maps.event.addListener(marker, 'click', function() {
+						searchDetailAddrFromCoords((geoLng, geoLat), function(result, status) {
+							if (status === daum.maps.services.Status.OK) {
+								var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+									detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+
+								var content = '<div class="bAddr">' +
+												'<span class="title">'+ place.place_name+''</span>' + 
+												detailAddr + 
+											'</div>';
+
+							
+
+								// 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
+								infowindow.setContent(content);
+								infowindow.open(map, marker);
+							}   
+						});
+					});	
+					
+					
+					
 					// 마커에 클릭이벤트를 등록합니다
 					daum.maps.event.addListener(marker, 'click', function() {
 						// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
@@ -184,6 +267,11 @@
 						resultLng.value = geoLng;
 
 					});
+					
+					
+					*/
+					
+					
 				}
 				</script>
 				</div>

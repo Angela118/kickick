@@ -90,8 +90,8 @@
       var curCreatedMonth = event_data[i].created_month;
       var curCreatedDay = event_data[i].created_day;
       var curTeamname = event_data[i].teamname;
-      var curRegion = event_data[i].region[0] + event_data[i].region[1];
-      var curPlace = event_data[i].place;
+      var curAdd = event_data[i].add[0] +' '+ event_data[i].add[1];
+      var curRegion = event_data[i].region;
       var curMove = event_data[i].move;
       var curAge = event_data[i].age;
       var curDate = event_data[i].event_date;
@@ -107,11 +107,11 @@
           <div class = "schedule-detail">
             <p class="schedule-detail-content">
               <span class="bold">지역 | </span>
-              <span><%= curRegion %></span>
+              <span><%= curAdd %></span>
             </p>
             <p class="schedule-detail-content">
               <span class="bold">장소 | </span>
-              <span><%= curPlace %></span>
+              <span><%= curRegion %></span>
             </p>
             <p class="schedule-detail-content">
               <span class="bold">원정가능 유무 | </span>
