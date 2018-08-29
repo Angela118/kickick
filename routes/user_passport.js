@@ -18,7 +18,7 @@ module.exports = function(router, passport, upload) {
 	
 	var event_search = {
         'teamname':'',
-        'region': '',
+        'add': '',
         'gender': '',
         'age': '',
         'event_time': '',
@@ -38,7 +38,7 @@ module.exports = function(router, passport, upload) {
 			var fs = require('fs');
 			
 			const Json2csvParser = require('json2csv').Parser;
-			const fields = ['email', 'age', 'gender', 'nofteam', 'geoLng', 'geoLat', 'teamname', 'region', 'place', 'move', 'event_date', 'event_time', 'event_day', 'event_day', 'mention', 'created_month', 'creted_day'];
+			const fields = ['email', 'age', 'gender', 'nofteam', 'geoLng', 'geoLat',/**/ 'teamname', 'region', 'add', 'move', 'event_date', 'event_time', 'event_day', 'event_day', 'mention', 'created_month', 'creted_day'];
 			const eventData = [];	
 			
 			var userdata = {
@@ -50,6 +50,7 @@ module.exports = function(router, passport, upload) {
 				'geoLat':req.user.geoLat,
 	//			'teamname':req.user.teamname, 
 	//			'region':req.user.region, 
+	//			'add':req.user.add,
 	//			'place':req.user.place, 
 	//			'move':req.user.move, 
 			};
@@ -62,7 +63,7 @@ module.exports = function(router, passport, upload) {
 					'email' : result[i]._doc.email, 
 					'teamname' : result[i]._doc.teamname,
 					'region' : result[i]._doc.region,
-					'place' : result[i]._doc.place,
+					'add' : result[i]._doc.add,
 					'move' : result[i]._doc.move,
 					'age' : result[i]._doc.age,	
 					'gender' : result[i]._doc.gender,
@@ -112,7 +113,6 @@ module.exports = function(router, passport, upload) {
 			
 			setTimeout(function(){
 				var csvf = require('csvtojson');
-				var eventData2;
 				
 				csvf()
 				.fromFile('recOutput.csv')
@@ -125,11 +125,13 @@ module.exports = function(router, passport, upload) {
 						profile_photo = profile_img;
 
 					var user_context = {
-						'email':req.user.email,
+						'email':req.user.email, 
+						'password':req.user.password, 
 						'teamname':req.user.teamname, 
 						'gender':req.user.gender, 
 						'age':req.user.age,
 						'region':req.user.region,
+						'add':req.user.add,
 						'move':req.user.move,
 						'nofteam':req.user.nofteam,
 						'career_year':req.user.career_year,
@@ -147,7 +149,10 @@ module.exports = function(router, passport, upload) {
 			}, 1500);
 		}        
     });
+
 	
+	
+	/*
 	router.route('/').post(function(req, res){
 		var kofsort = req.body.sort || req.query.sort;
 		console.log(kofsort);
@@ -281,7 +286,7 @@ module.exports = function(router, passport, upload) {
 		}
 			
 	});
-	
+	*/
 	
     // 로그인 화면
     router.route('/login').get(function(req, res) {
@@ -349,7 +354,8 @@ module.exports = function(router, passport, upload) {
 				'teamname':req.user.teamname, 
 				'gender':req.user.gender, 
 				'age':req.user.age,
-		//		'region':req.user.region,
+	//			'region':req.user.region,
+	//			'add':req.user.add,
 				'move':req.user.move,
 				'nofteam':req.user.nofteam,
 				'career_year':req.user.career_year,
@@ -398,19 +404,20 @@ module.exports = function(router, passport, upload) {
 				profile_img = req.user.profile_img;
 
 			/*
-			
 			var user_context = {
 				'email':req.user.email, 
+				'password':req.user.password, 
 				'teamname':req.user.teamname, 
 				'gender':req.user.gender, 
 				'age':req.user.age,
 				'region':req.user.region,
+				'add':req.user.add,
 				'move':req.user.move,
 				'nofteam':req.user.nofteam,
 				'career_year':req.user.career_year,
 				'career_count':req.user.career_count,
 				'introteam':req.user.introteam,
-				'profile_img':profile_img
+				'profile_img':profile_photo
 			};			
 			*/
 
@@ -463,6 +470,7 @@ module.exports = function(router, passport, upload) {
 				'gender':req.user.gender, 
 				'age':req.user.age,
 				'region':req.user.region,
+				'add':req.user.add,
 				'move':req.user.move,
 				'nofteam':req.user.nofteam,
 				'career_year':req.user.career_year,
@@ -503,6 +511,7 @@ module.exports = function(router, passport, upload) {
 				'gender':req.user.gender, 
 				'age':req.user.age,
 				'region':req.user.region,
+				'add':req.user.add,
 				'move':req.user.move,
 				'nofteam':req.user.nofteam,
 				'career_year':req.user.career_year,
@@ -533,6 +542,7 @@ module.exports = function(router, passport, upload) {
 			'gender':req.user.gender, 
 			'age':req.user.age,
 			'region':req.user.region,
+			'add':req.user.add,
 			'geoLat':req.user.geoLat,
 			'geoLng':req.user.geoLng,
 			'move':req.user.move,
@@ -554,6 +564,10 @@ module.exports = function(router, passport, upload) {
 			user_context.age = req.body.age || req.query.age;
 		}
 		if(req.body.region || req.query.region){
+			user_context.add = req.body.add || req.query.add;
+			var addr = [];
+			addr= user_context.add.split(' ');
+			user_context.add = [addr[0], addr[1]];
 			user_context.region = req.body.region || req.query.region;
 			user_context.geoLat = req.body.resultLat || req.query.resultLat;
 			user_context.geoLng = req.body.resultLng || req.query.resultLng;
@@ -639,6 +653,7 @@ module.exports = function(router, passport, upload) {
 				'gender':req.user.gender, 
 				'age':req.user.age,
 				'region':req.user.region,
+				'add':req.user.add,
 				'move':req.user.move,
 				'nofteam':req.user.nofteam,
 				'career_year':req.user.career_year,
@@ -675,6 +690,7 @@ module.exports = function(router, passport, upload) {
 				'gender':req.user.gender, 
 				'age':req.user.age,
 				'region':req.user.region,
+				'add':req.user.add,
 				'move':req.user.move,
 				'nofteam':req.user.nofteam,
 				'career_year':req.user.career_year,
@@ -751,13 +767,14 @@ module.exports = function(router, passport, upload) {
 				'gender':req.user.gender, 
 				'age':req.user.age,
 				'region':req.user.region,
+				'add':req.user.add,
 				'move':req.user.move,
 				'nofteam':req.user.nofteam,
 				'career_year':req.user.career_year,
 				'career_count':req.user.career_count,
 				'introteam':req.user.introteam,
 				'profile_img':profile_photo
-			};	      
+			};      
          
          
             res.render('chat_appointment.ejs', user_context);
@@ -767,24 +784,26 @@ module.exports = function(router, passport, upload) {
 	router.route('/chatappointment').post(function(req, res) {
        console.log('/chatappointment 패스 post 요청됨');
       
-      var event = {
-         'email':req.user.email,
-         'teamname':req.user.teamname,
-         'event_date': req.user.event_date,
-         'event_time': req.user.event_time,
-         'event_place': req.user.event_place,
-         'event_nofteam': req.user.event_nofteam
-      };
+		var event = {
+			'email':req.user.email,
+			'teamname':req.user.teamname,
+			'event_date': req.user.event_date,
+			'event_time': req.user.event_time,
+			'event_region': req.user.event_region,
+			'event_add': req.user.event_add,
+			'event_nofteam': req.user.event_nofteam
+		};
             
       
-      event.event_date = req.body.event_date || req.query.event_date;
-      event.event_time = req.body.event_time || req.query.event_time;
-      event.event_place = req.body.event_place || req.query.event_place;
-      event.event_nofteam = req.body.event_nofteam || req.query.event_nofteam;
+		event.event_date = req.body.event_date || req.query.event_date;
+		event.event_time = req.body.event_time || req.query.event_time;
+		event.event_region = req.body.region || req.query.region;
+		event.event_add = req.body.add || req.query.add;
+		event.event_nofteam = req.body.event_nofteam || req.query.event_nofteam;
+
+		console.dir(event);
       
-      console.dir(event);
-      
-      var event_appointment = new dbm.AppointmentModel(event);
+		var event_appointment = new dbm.AppointmentModel(event);
  
         event_appointment.save(function (err, data) {
           if (err) {// TODO handle the error
@@ -825,6 +844,7 @@ module.exports = function(router, passport, upload) {
 				'gender':req.user.gender, 
 				'age':req.user.age,
 				'region':req.user.region,
+				'add':req.user.add,
 				'move':req.user.move,
 				'nofteam':req.user.nofteam,
 				'career_year':req.user.career_year,
@@ -844,7 +864,7 @@ module.exports = function(router, passport, upload) {
 
 		event_search = {
 			'teamname':req.body.search_team || req.query.search_team,
-			'region': req.body.region || req.query.region,
+			'add': req.body.add || req.query.add,
 			'gender': req.body.gender || req.query.gender,
 			'age': req.body.age || req.query.age,
 	//     'event_date': req.body.event_date || req.query.event_date,
@@ -880,8 +900,8 @@ module.exports = function(router, passport, upload) {
 			
 			if(event_search.teamname == 'none')
 				delete event_search.teamname;
-			if(event_search.region[0] == 'none')
-				delete event_search.region;
+			if(event_search.add[0] == 'none')
+				delete event_search.add;
 			if(event_search.gender == 0)
 				delete event_search.gender;
 			if(event_search.age == 0)
@@ -911,8 +931,8 @@ module.exports = function(router, passport, upload) {
 					var data = {
 						'email' : result[i]._doc.email,
 						'teamname' : result[i]._doc.teamname,
-						'city' : result[i]._doc.city,
-						'place' : result[i]._doc.place,
+						'add' : result[i]._doc.add,
+						'region' : result[i]._doc.region,
 						'move' : result[i]._doc.move,
 						'age' : result[i]._doc.age,
 						'gender' : result[i]._doc.gender,
@@ -935,7 +955,8 @@ module.exports = function(router, passport, upload) {
 					'teamname':req.user.teamname, 
 					'gender':req.user.gender, 
 					'age':req.user.age,
-					'city':req.user.city,
+					'region':req.user.region,
+					'add':req.user.add,
 					'move':req.user.move,
 					'nofteam':req.user.nofteam,
 					'career_year':req.user.career_year,
@@ -978,7 +999,7 @@ module.exports = function(router, passport, upload) {
                             'teamname': result[i]._doc.teamname,
                             'event_date': result[i]._doc.event_date,
                             'event_time': result[i]._doc.event_time,
-                            'event_place': result[i]._doc.event_place,
+                            'event_region': result[i]._doc.event_region,
                             'event_nofteam': result[i]._doc.event_nofteam
                         };
 
@@ -988,20 +1009,21 @@ module.exports = function(router, passport, upload) {
 
 
                 var user_context = {
-                    'email': req.user.email,
-                    'password': req.user.password,
-                    'teamname': req.user.teamname,
-                    'gender': req.user.gender,
-                    'age': req.user.age,
-                    'region': req.user.region,
-                    'move': req.user.move,
-                    'nofteam': req.user.nofteam,
-                    'career_year': req.user.career_year,
-                    'career_count': req.user.career_count,
-                    'introteam': req.user.introteam,
-                    'profile_img': profile_photo,
-                    'event_data':eventData
-                };
+					'email':req.user.email, 
+					'password':req.user.password, 
+					'teamname':req.user.teamname, 
+					'gender':req.user.gender, 
+					'age':req.user.age,
+					'region':req.user.region,
+					'add':req.user.add,
+					'move':req.user.move,
+					'nofteam':req.user.nofteam,
+					'career_year':req.user.career_year,
+					'career_count':req.user.career_count,
+					'introteam':req.user.introteam,
+					'profile_img':profile_photo,
+					'event_data':eventData
+				};
 
                 res.render('team_schedule.ejs', user_context);
 
@@ -1033,6 +1055,7 @@ module.exports = function(router, passport, upload) {
 				'gender':req.user.gender, 
 				'age':req.user.age,
 				'region':req.user.region,
+				'add':req.user.add,
 				'move':req.user.move,
 				'nofteam':req.user.nofteam,
 				'career_year':req.user.career_year,
@@ -1088,7 +1111,8 @@ module.exports = function(router, passport, upload) {
         var event = {
             'email': req.user.email,
             'teamname': req.user.teamname,
-            'region': req.body.city || req.query.city,
+            'region': req.body.region || req.query.region,
+			'add':req.body.add ||req.query.add,
             'place' : req.body.place || req.query.place,
             'move' : req.body.move || req.query.move,
             'age': req.body.age || req.query.age,
@@ -1101,6 +1125,10 @@ module.exports = function(router, passport, upload) {
             'geoLat': req.body.resultLat || req.query.resultLat,
             'nofteam' : req.user.nofteam || req.user.nofteam
         };
+		
+		var addr = [];
+		addr= event.add.split(' ');
+		event.add = [addr[0], addr[1]];
 
         console.dir(event);
 
@@ -1145,7 +1173,7 @@ module.exports = function(router, passport, upload) {
 							'email' : result[i]._doc.email, 
 							'teamname' : result[i]._doc.teamname,
 							'region' : result[i]._doc.region,
-							'place' : result[i]._doc.place,
+							'add' : result[i]._doc.add,
 							'move' : result[i]._doc.move,
 							'age' : result[i]._doc.age,	
 							'event_date' : result[i]._doc.event_date,
@@ -1161,11 +1189,13 @@ module.exports = function(router, passport, upload) {
 				}
 										
 				var user_context = {
-					'email':req.user.email,
+					'email':req.user.email, 
+					'password':req.user.password, 
 					'teamname':req.user.teamname, 
 					'gender':req.user.gender, 
 					'age':req.user.age,
 					'region':req.user.region,
+					'add':req.user.add,
 					'move':req.user.move,
 					'nofteam':req.user.nofteam,
 					'career_year':req.user.career_year,
@@ -1208,9 +1238,8 @@ module.exports = function(router, passport, upload) {
 						var data = {
 							'email' : result[i]._doc.email, 
 							'teamname' : result[i]._doc.teamname,
-							'city' : result[i]._doc.city,
-							'district' : result[i]._doc.district,
-							'place' : result[i]._doc.place,
+							'add' : result[i]._doc.add,
+							'region' : result[i]._doc.region,
 							'move' : result[i]._doc.move,
 							'age' : result[i]._doc.age,	
 							'event_date' : result[i]._doc.event_date,
@@ -1225,11 +1254,13 @@ module.exports = function(router, passport, upload) {
 				
 				
 				var user_context = {
-					'email':req.user.email,
+					'email':req.user.email, 
+					'password':req.user.password, 
 					'teamname':req.user.teamname, 
 					'gender':req.user.gender, 
 					'age':req.user.age,
 					'region':req.user.region,
+					'add':req.user.add,
 					'move':req.user.move,
 					'nofteam':req.user.nofteam,
 					'career_year':req.user.career_year,
@@ -1334,6 +1365,7 @@ module.exports = function(router, passport, upload) {
 				'gender':req.user.gender, 
 				'age':req.user.age,
 				'region':req.user.region,
+				'add':req.user.add,
 				'move':req.user.move,
 				'nofteam':req.user.nofteam,
 				'career_year':req.user.career_year,
