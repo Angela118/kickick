@@ -87,19 +87,19 @@
     <div class="reco" style="margin-top: 2.3rem">
         <div class="team_score">
             <div class="team_inform" style="">
-                <div class="img_div" style="width: 5rem; margin-bottom: 1rem"><img class="profile_img" src="../profile_img/<%= profile_img %>"/></div>
+                <div class="img_div" style="width: 5rem; margin-bottom: 1rem"><img class="profile_img" src="../img/soccer-ball.png" width="3rem" height="3rem"/></div>
                 <h6 style="font-weight: bold"><%= teamname %> 팀</h6>
             </div>
 
             <div class = average-score>
                 <span style="font-size:3rem; font-weight:bold">
-                    <%
-                    var average = 0;
-                    for(var i = 0; i < event_data.length; i++) {
-                        average += event_data[i].rating;
-                    }
+                    <% var average = 0; %>
 
-                    if(average === 0) {
+                    <% for(var i = 0; i < event_data.length; i++) {
+                        average = average + parseInt(event_data[i].rating);
+                    }%>
+
+                    <%if(average === 0) {
                         var result = 0;
                         result.toFixed(2);
                     }else {
@@ -111,14 +111,14 @@
 
                 <div class="stars mb-3">
                     <% for(var i = 0; i < Math.round(result)-1; i++) {%>
-                        <img src="../img/star.png" width="20" height="20">
-                        <% if(i == Math.round(result)-2){%>
-                            <%if ((result % 1) < 0.5) { %>
-                                <img src="../img/star.png" width="20" height="20">
-                            <%} else {%>
-                                <img src="../img/star-half.png" width="20" height="20">
-                            <%}%>
-                        <%}%>
+                    <img src="../img/star.png" width="20" height="20">
+                    <% if(i == Math.round(result)-2){%>
+                    <%if ((result % 1) < 0.5) { %>
+                    <img src="../img/star.png" width="20" height="20">
+                    <%} else {%>
+                    <img src="../img/star-half.png" width="20" height="20">
+                    <%}%>
+                    <%}%>
                     <%}%>
                     <%for(var i = 1; i < 5 - Math.round(result - 1); i++) {%>
                     <img src="../img/star-empty.png" width="20" height="20">
@@ -128,9 +128,16 @@
             </div>
         </div>
 
+        <% if(event_data.length == 0) { %>
+        <div class="review">
+            <hr class="mb-4">
+            <p>받은 리뷰가 없습니다.</p>
+        </div>
+        <%}%>
+
         <% for(var i = 0; i < event_data.length; i++) {
-            var reviewer_teamname = event_data[i].reviewer_teamname;
-            var event_date = event_data[i].event_date;
+            var reviewer_teamname = event_data[i].otherTeam;
+            var event_date = event_data[i].review_date;
             var rating = event_data[i].rating;
             var review_comment = event_data[i].review_comment;
             var random = Math.floor(Math.random() * 100000) + 100000;
@@ -146,10 +153,10 @@
 
                     <div class="stars">
                         <% for(var j = 0; j < rating; j++) {%>
-                            <img src="../img/star.png" width="10" height="10">
+                        <img src="../img/star.png" width="10" height="10">
                         <%}%>
                         <% for(var j = 1; j <  6 - rating; j++){ %>
-                            <img src="../img/star-empty.png" width="10" height="10">
+                        <img src="../img/star-empty.png" width="10" height="10">
                         <%}%>
                     </div>
 

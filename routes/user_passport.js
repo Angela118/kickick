@@ -1082,7 +1082,6 @@ module.exports = function(router, passport, upload) {
             // var eventData2 = new Array(); // 내가 신청한
             var j = 0;
 
-
             // 나한테 매칭 신청한 팀 찾기
             dbm.MatchModel.find({email : {"$ne" : req.user.email}} ,function (err, result) {
                 for (var i = 0; i < result.length; i++) {
@@ -1340,42 +1339,56 @@ module.exports = function(router, passport, upload) {
             var eventData = new Array();
             var j = 0;
 
-            dbm.ReviewModel.find({email : req.user.email} ,function (err, result) {
+            // 나한테 매칭 신청한 팀에서 내가 받은 리뷰 찾기
+            dbm.MatchModel.find({email : {"$ne" : req.user.email}} ,function (err, result) {
                 for (var i = 0; i < result.length; i++) {
-                    if (result[i]._doc.email == req.user.email) {
-
+                    if ((result[i]._doc.others.sEmail === req.user.email) &&
+                        (result[i]._doc.others.sReviewDate)) {
                         var data = {
-                            'reviewed_teamname': result[i]._doc.reviewed_teamname,
-                            'reviewer_teamname': result[i]._doc.reviewer_teamname,
-                            'event_date': result[i]._doc.event_date,
-                            'rating': result[i]._doc.rating,
-                            'review_comment': result[i]._doc.review_comment
+                            'otherEmail': result[i]._doc.email, // 상대팀 정보
+                            'otherTeam' : result[i]._doc.teamname, // 상대팀 정보
+                            'review_date': result[i]._doc.others.sReviewDate, // 내가 리뷰 받은 날짜
+                            'rating': result[i]._doc.others.sReceivedReview, // 내가 받은 리뷰
+                            'review_comment': result[i]._doc.others.sReceivedReviewComment // 내가 받은 리뷰 코멘트
                         };
                         eventData[j++] = data;
                     }
                 }
 
+                // 내가 매칭 신청한 팀에서 내가 받은 리뷰 찾기
+                dbm.MatchModel.find({email : req.user.email} ,function (err, result) {
+                    for (var i = 0; i < result.length; i++) {
+                        if ((result[i]._doc.email === req.user.email) &&
+                        (result[i]._doc.review_date)) {
+                            var data = {
+                                'otherEmail': result[i]._doc.others.sEmail, // 상대팀 정보
+                                'otherTeam' : result[i]._doc.others.sTeamname, // 상대팀 정보
+                                'review_date': result[i]._doc.review_date,
+                                'rating': result[i]._doc.received_review,
+                                'review_comment': result[i]._doc.received_review_comment
+                            };
+                            eventData[j++] = data;
+                        }
+                    }
 
-                var user_context = {
-                    'email': req.user.email,
-                    'password': req.user.password,
-                    'teamname': req.user.teamname,
-                    'gender': req.user.gender,
-                    'age': req.user.age,
-                    'region': req.user.region,
-                    'move': req.user.move,
-                    'nofteam': req.user.nofteam,
-                    'career_year': req.user.career_year,
-                    'career_count': req.user.career_count,
-                    'introteam': req.user.introteam,
-                    'profile_img': profile_photo,
-                    'event_data': eventData
-                };
-
-                console.dir(eventData);
-
-                res.render('team_received_review.ejs', user_context);
-
+                    var user_context = {
+                        'email': req.user.email,
+                        'password': req.user.password,
+                        'teamname': req.user.teamname,
+                        'gender': req.user.gender,
+                        'age': req.user.age,
+                        'region': req.user.region,
+                        'move': req.user.move,
+                        'nofteam': req.user.nofteam,
+                        'career_year': req.user.career_year,
+                        'career_count': req.user.career_count,
+                        'introteam': req.user.introteam,
+                        'profile_img': profile_photo,
+                        'event_data': eventData
+                    };
+                    console.dir(eventData);
+                    res.render('team_received_review.ejs', user_context);
+                });
             });
         }
     });

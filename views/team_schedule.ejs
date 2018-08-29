@@ -353,6 +353,7 @@
                             }
 
                             function reviewClicked(callTeamEmail, receiveTeamEmail, eventDate, eventTime, count) {
+                                alert('callTeamEmail : ' + callTeamEmail + ', receiveTeamEmail : ' + receiveTeamEmail + ', event_date : ' + eventDate + ', eventTime : ' + eventTime + ', count : ' + count);
                                 var reviewedTeamEmail;
 
                                 if(callTeamEmail === '<%=email%>') {
@@ -402,7 +403,7 @@
                             <input type="hidden" name="eventTime" id="eventTime" value=''>
 
                             <div>
-                                <button type="button" class="btn btn-block blueB" onclick="reviewClicked( `<%=event_data[i].teamname%>`, `<%=event_data[i].otherTeam%>`, `<%=event_data[i].event_date%>`,`<%=event_data[i].event_time%>`, `<%=count%>`)">상대팀 평가/채팅방 삭제하기</button>
+                                <button type="button" class="btn btn-block blueB" onclick="reviewClicked( `<%=event_data[i].email%>`, `<%=event_data[i].otherEmail%>`, `<%=event_data[i].event_date%>`,`<%=event_data[i].event_time%>`, `<%=count%>`)">상대팀 평가/채팅방 삭제하기</button>
                             </div>
                         </form>
 
