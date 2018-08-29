@@ -801,7 +801,11 @@ module.exports = function(router, passport, upload) {
 		event.event_add = req.body.add || req.query.add;
 		event.event_nofteam = req.body.event_nofteam || req.query.event_nofteam;
 
-		console.dir(event);
+		var addr = [];
+		addr= event.event_add.split(' ');
+		event.event_add = [addr[0], addr[1]];
+
+        console.dir(event);
       
 		var event_appointment = new dbm.AppointmentModel(event);
  
