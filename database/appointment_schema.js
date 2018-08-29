@@ -3,14 +3,15 @@ var Schema = {};
 Schema.createSchema = function(mongoose) {
    
    // 스키마 정의
-   var AppointmentSchema = mongoose.Schema({
-      email: {type: String, 'default':''},
-      teamname: {type: String, index: 'hashed', 'default':''},
-      event_date: {type: String, 'default': ''},
-      event_time: {type: String, 'default': ''},
-      event_place: {type: String, 'default':''},
-       event_nofteam: {type:Number, 'default':''},
-	   geoLng:{type:Number, 'default':''},
+   var AppointmentSchema = mongoose.Schema({		//9개
+		email: {type: String, 'default':''},
+		teamname: {type: String, index: 'hashed', 'default':''},
+		event_date: {type: String, 'default': ''},
+		event_time: {type: String, 'default': ''},
+		event_region: {type: String, 'default':''},
+		event_add:{type:String, 'default':''},
+		event_nofteam: {type:Number, 'default':''},
+		geoLng:{type:Number, 'default':''},											
 		geoLat:{type:Number, 'default':''}
    });
    
