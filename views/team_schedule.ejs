@@ -268,6 +268,7 @@
             <%}%>
             <%
             var count = 0; // script에서 쓸 화면에 뜨는 기준 index
+            var noscheduleCount = 0;
 
             for(var i = 0; i < event_data.length; i++) {
                 // 남이 매칭 신청한 경우 기준 변수
@@ -284,7 +285,6 @@
                 var review = event_data[i].sReceivedReview; // 내가 이 경기에서 받은 리뷰
                 var matchMonth = curDate.substring(5,7);
                 var matchDay = curDate.substring(8,10);
-                var noscheduleCount = 0;
 
                 if((event_data[i].match_success == 0) && (curEmail != email)) {
                     noscheduleCount++;
@@ -328,7 +328,8 @@
                 <div class="score_content">
                     <div class="match-teams mb-3">
                         <div class="match-team">
-                            <img src="../img/team_100.png" width="70rem" class="team-img">
+                            <div class="img_div" style="margin-left: 0rem; margin-right: 0; margin-bottom: 0.3rem"><img class="profile_img" src="../profile_img/<%= profile_img %>" id="profile_pic"/></div>
+
                             <button class="btn btn-sm" style="color:black"><%= teamname %>팀</button>
                         </div>
 
@@ -339,7 +340,7 @@
                         </div>
 
                         <div class="match-team">
-                            <img src="../img/soccer-ball.png" width="70rem" class="team-img">
+                            <div class="img_div" style="margin-left: 0rem; margin-right: 0; margin-bottom: 0.3rem"><img class="profile_img" src="../profile_img/<%= profile_img %>" id="profile_pic"/></div>
                             <button class="btn btn-sm" style="color:black"> <%=curTeamname%>팀</button>
                         </div>
                     </div>
