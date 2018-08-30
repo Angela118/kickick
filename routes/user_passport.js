@@ -1403,8 +1403,7 @@ module.exports = function(router, passport, upload) {
                             'sScore' : result[i]._doc.others.sScore, // 내 이 경기 스코어
                             'sReceivedReview': result[i]._doc.others.sReceivedReview, // 내가 이 경기에서 받은 리뷰
                             'sReceivedReviewComment': result[i]._doc.others.sReceivedReviewComment,
-                            'sReviewDate' : result[i]._doc.others.sReviewDate,
-                            'otherProfile': ''
+                            'sReviewDate' : result[i]._doc.others.sReviewDate
                         };
                         eventData[j++] = data;
                     }
@@ -1431,8 +1430,7 @@ module.exports = function(router, passport, upload) {
                                 'sScore' : result[i]._doc.others.sScore, // 상대팀의 이 경기 score
                                 'sReceivedReview': result[i]._doc.others.sReceivedReview, // 상대팀의 이 경기에서 받은 리뷰
                                 'sReceivedReviewComment': result[i]._doc.others.sReceivedReviewComment, // 상대팀의 이 경기에서 받은 리뷰 코멘트
-                                'sReviewDate' : result[i]._doc.others.sReviewDate, // 상대팀의 이 경기에서 받은 평점 기록된 날짜
-                                'otherProfile': ''
+                                'sReviewDate' : result[i]._doc.others.sReviewDate // 상대팀의 이 경기에서 받은 평점 기록된 날짜
                             };
                             eventData[j++] = data;
                         }
@@ -1454,71 +1452,13 @@ module.exports = function(router, passport, upload) {
                         'profile_img': profile_photo,
                         'event_data':eventData
                     }; // user_context
+                    console.dir(eventData);
                     res.render('team_schedule.ejs', user_context);
 
                 }); // dbm event_data2 end
             }); // dbm event_data end
         } // 인증 else문 end
     });
-
-    // 상대팀 프로필 가져오기 보류
-
-    /*    // 상대팀 프로필사진 가져오기
-        var otherEmailforProfile = result[i]._doc.others.sEmail;
-        var otherProfileImg;
-        console.log('otherEmailforProfile : ' + result[i]._doc.email);
-
-        dbm.UserModel.find({email : otherEmailforProfile} ,function (err, result) {
-            for (var i = 0; i < result.length; i++) {
-                console.log('i : ' + i);
-                otherProfileImg = result[i]._doc.profile_img;
-                console.log('otherProfile : ' + otherProfileImg);
-                data['otherProfile'] = otherProfileImg;
-            }
-        });*/
-    /*    // 상대팀 프로필사진 가져오기
-        var otherEmailforProfile = result[i]._doc.email;
-        var otherProfileImg;
-        console.log('otherEmailforProfile : ' + otherEmailforProfile);
-
-        dbm.UserModel.find({email : otherEmailforProfile} ,function (err, result) {
-            for (var i = 0; i < result.length; i++) {
-                console.log('i : ' + i);
-                otherProfileImg = result[i]._doc.profile_img;
-                console.log('otherProfile : ' + otherProfileImg);
-                data['otherProfile'] = otherProfileImg;
-            }
-        });*/
-    /*                    console.log('1')
-                        console.dir(eventData);
-
-                        var otherEmailforProfile = null;
-                        var otherProfileImg = null;
-
-                        for (var i = 0; i < eventData.length; i++) {
-                            if (eventData[i].otherEmail) {
-                                otherEmailforProfile = eventData[i].otherEmail;
-                                console.log('ifotherEmailforProfile : ' + otherEmailforProfile);
-
-                            } else {
-                                otherEmailforProfile = eventData[i].email;
-                                console.log('elseotherEmailforProfile : ' + otherEmailforProfile);
-                            }
-                            console.log('find');
-
-                            otherProfileImg = function () {
-                                dbm.UserModel.find({email: otherEmailforProfile}, function (err, result) {
-                                    otherProfileImg = result[0]._doc.profile_img;
-                                    console.log('otherProfile : ' + otherProfileImg);
-                                    eventData[i]['otherProfile'] = otherProfileImg;
-
-                                    console.log('2')
-                                    console.dir(eventData);
-
-                                    callback();
-                                });
-                            };
-                            }*/
 
 // -------------------search할 때 email로 수정
     router.route('/teamschedule').post(function(req, res) {

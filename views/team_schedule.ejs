@@ -265,10 +265,9 @@
 
             <% if(event_data.length == 0) { %>
             <p style="font-weight: bold">스케줄이 없습니다.</p>
-            <%}%>
-            <%
+            <%}
+
             var count = 0; // script에서 쓸 화면에 뜨는 기준 index
-            var noscheduleCount = 0;
 
             for(var i = 0; i < event_data.length; i++) {
                 // 남이 매칭 신청한 경우 기준 변수
@@ -279,7 +278,7 @@
                 var curRegion = event_data[i].event_region;
                 var curTeamname = event_data[i].teamname; // 상대팀 정보
                 var curNofteam = event_data[i].event_nofteam; // 상대팀 정보
-                var curProfileImg = event_data[i].otherProfile; // 상대팀 프로필 (경로지정 해줘야함)
+                var curProfileImg = event_data[i].otherProfile; // 상대팀 프로필 (경로지정 해줘야함) // 다시 해야함
                 var curScore = event_data[i].score; // 상대팀의 이 경기 score
                 var curReview = event_data[i].review; // 상대팀이 이 경기에서 받은 리뷰
                 var score = event_data[i].sScore; // 내 이 경기 스코어
@@ -287,19 +286,12 @@
                 var matchMonth = curDate.substring(5,7);
                 var matchDay = curDate.substring(8,10);
 
-                if((event_data[i].match_success == 0) && (curEmail != email)) {
-                    noscheduleCount++;
-                }
 
-                // 남이 나한테 신청하고 내가 승인 안 한 경우만 있을 때
-                if(i == (event_data.length - 1)) {
-                    if (noscheduleCount == (i+1)){ %>
-                        <p style="font-weight: bold">스케줄이 없습니다.</p>
-                    <% }
-                }
-            %>
+                if(i == (event_data.length - 1) && (count == 0)) { %>
+                    <p style="font-weight: bold">스케줄이 없습니다.</p>
+                <% }
 
-            <%if(event_data[i].match_success == 1){
+            if(event_data[i].match_success == 1){
 
                 // 내가 매칭 신청한 경우 변수 반대로 넣음
                 if(curEmail == email) {
@@ -447,7 +439,9 @@
                 </div>
             </div>
 
-            <%} else{
+            <%
+
+            } else{
 
             }
 
