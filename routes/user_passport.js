@@ -7,7 +7,8 @@
 
 module.exports = function(router, passport, upload) {
     console.log('user_passport 호출됨.');
-	
+			
+	var an = 0;
 	var dbm = require('../database/database');
 		console.log('database 모듈 가져옴');
 	
@@ -24,6 +25,13 @@ module.exports = function(router, passport, upload) {
         'event_time': '',
         'event_day': ''
     };	
+	
+	var selectone = {
+			user:'',
+			date:'',
+			time:'',
+			region:''
+		}
 
 	
 	//홈 화면, 추천
@@ -38,7 +46,7 @@ module.exports = function(router, passport, upload) {
 			var fs = require('fs');
 			
 			const Json2csvParser = require('json2csv').Parser;
-			const fields = ['email', 'age', 'gender', 'nofteam', 'geoLng', 'geoLat',/**/ 'teamname', 'region', 'add', 'move', 'event_date', 'event_time', 'event_day', 'event_day', 'mention', 'created_month', 'creted_day'];
+			const fields = ['email', 'age', 'gender', 'nofteam', 'geoLng', 'geoLat',/**/ 'teamname', 'region', 'add', 'move', 'event_date', 'event_time', 'event_day', 'event_day', 'mention', 'created_month', 'creted_day', 'application_number'];
 			const eventData = [];	
 			
 			var userdata = {
@@ -57,40 +65,38 @@ module.exports = function(router, passport, upload) {
 			var j=1;
 			eventData[0] = userdata;
 
-			dbm.ApplicationModel.find(function (err, result) {				
-			for(var i = 0 ; i < result.length ; i++) {
-				var data = {
-					'email' : result[i]._doc.email, 
-					'teamname' : result[i]._doc.teamname,
-					'region' : result[i]._doc.region,
-					'add' : result[i]._doc.add,
-					'move' : result[i]._doc.move,
-					'age' : result[i]._doc.age,	
-					'gender' : result[i]._doc.gender,
-					'event_date' : result[i]._doc.event_date,
-					'event_time' : result[i]._doc.event_time,
-					'event_day' : result[i]._doc.event_day,
-					'mention' : result[i]._doc.mention,	
-					'nofteam' : result[i]._doc.nofteam,
-					'geoLng' : result[i]._doc.geoLng,
-					'geoLat' : result[i]._doc.geoLat,
-					'created_month' : result[i]._doc.created_month,
-					'created_day' : result[i]._doc.created_day
-				};										
-				eventData[j] = data;
-				j+=1;
-			}
-			const json2csvParser = new Json2csvParser({ fields });
-			const csv = json2csvParser.parse(eventData);
+			dbm.ApplicationModel.find({email:{$ne:req.user.email}}, function (err, result) {				
+				for(var i = 0 ; i < result.length ; i++) {
+					var data = {
+						'email' : result[i]._doc.email, 
+						'teamname' : result[i]._doc.teamname,
+						'region' : result[i]._doc.region,
+						'add' : result[i]._doc.add,
+						'move' : result[i]._doc.move,
+						'age' : result[i]._doc.age,	
+						'gender' : result[i]._doc.gender,
+						'event_date' : result[i]._doc.event_date,
+						'event_time' : result[i]._doc.event_time,
+						'event_day' : result[i]._doc.event_day,
+						'mention' : result[i]._doc.mention,	
+						'nofteam' : result[i]._doc.nofteam,
+						'geoLng' : result[i]._doc.geoLng,
+						'geoLat' : result[i]._doc.geoLat,
+						'created_month' : result[i]._doc.created_month,
+						'created_day' : result[i]._doc.created_day,
+						application_number : result[i]._doc.application_number
+					};										
+					eventData[j] = data;
+					j+=1;
+				}
+				const json2csvParser = new Json2csvParser({ fields });
+				const csv = json2csvParser.parse(eventData);
 
-			fs.writeFile('recEvent.csv', csv, 'utf8', function(err){
-				if(err) throw err
-				console.log('File Write.');
-			});	
-		});			
-			
-			
-			
+				fs.writeFile('recEvent.csv', csv, 'utf8', function(err){
+					if(err) throw err
+					console.log('File Write.');
+				});	
+			});			
 			
 			var pythonShell = require('python-shell');
 			
@@ -100,16 +106,12 @@ module.exports = function(router, passport, upload) {
 				scriptPath: ''
 			};
 			
-			
-			
 			pythonShell.run('recEvent.py', options, function(err, results){
 				if(err) throw err
 				
 				console.log('Python run');
 				console.log('%j', results)
-			});
-			
-			
+			});			
 			
 			setTimeout(function(){
 				var csvf = require('csvtojson');
@@ -593,7 +595,7 @@ module.exports = function(router, passport, upload) {
 
 		dbm.db.collection("users6").updateOne({email: user_context.email},  {$set: user_context}, function(err, res) {
     		if (err) throw err;
-    		console.log("1 document updated");
+    		console.log("=== Profile updated ===");
   		});
 		
 		res.redirect('/profileeditok');
@@ -948,7 +950,8 @@ module.exports = function(router, passport, upload) {
 						'created_day' : result[i]._doc.created_day,
 						'geoLng' : result[i]._doc.geoLng,
 						'geoLat' : result[i]._doc.geoLat,
-						'nofteam' : result[i]._doc.nofteam
+						'nofteam' : result[i]._doc.nofteam,
+						'application_number' : result[i]._doc.application_number
 					};
 					eventData[i] = data;
 				}			
@@ -1112,6 +1115,7 @@ module.exports = function(router, passport, upload) {
 	router.route('/matchapplication').post(function(req, res){
         console.log('/match_application 패스 post 요청됨.');
 
+
         var event = {
             'email': req.user.email,
             'teamname': req.user.teamname,
@@ -1127,7 +1131,8 @@ module.exports = function(router, passport, upload) {
             'mention': req.body.mention || req.query.mention,
             'geoLng': req.body.resultLng || req.query.resultLng,
             'geoLat': req.body.resultLat || req.query.resultLat,
-            'nofteam' : req.user.nofteam || req.user.nofteam
+            'nofteam' : req.user.nofteam || req.user.nofteam,
+			'application_number' : an
         };
 		
 		var addr = [];
@@ -1145,6 +1150,8 @@ module.exports = function(router, passport, upload) {
             }
             console.log('New application inserted');
         });
+		
+		an+=1;
 
         res.redirect('/');
 
@@ -1172,7 +1179,7 @@ module.exports = function(router, passport, upload) {
 
 			dbm.ApplicationModel.find({email : req.user.email} ,function (err, result) {				
 				for(var i = 0 ; i < result.length ; i++) {
-					if(result[i]._doc.email == req.user.email){
+		//			if(result[i]._doc.email == req.user.email){
 						var data = {
 							'email' : result[i]._doc.email, 
 							'teamname' : result[i]._doc.teamname,
@@ -1186,9 +1193,10 @@ module.exports = function(router, passport, upload) {
 							'created_month' : result[i]._doc.created_month,
 							'created_day' : result[i]._doc.created_day,
 							'geoLng' : result[i]._doc.geoLng,
-							'geoLat' : result[i]._doc.geoLat
+							'geoLat' : result[i]._doc.geoLat,
+							'application_number' : result[i]._doc.application_number
 						};
-					}					
+		//			}					
 					eventData[i] = data;
 				}
 										
@@ -1217,6 +1225,39 @@ module.exports = function(router, passport, upload) {
 	});
 	
 	
+	router.route('/mymatch').post(function(req, res){
+		console.log('/mymatch 패스 post 요청함.');
+		
+		selectone = {
+			user:req.body.user || req.query.user,
+			date:req.body.date || req.query.date,
+			time:req.body.time || req.query.time,
+			region:req.body.event_region || req.query.event_region,
+			application_number:req.body.event_application_number || req.query.event_application_number
+		};
+		
+		if(req.body.opt == 'del' || req.query.opt == 'del'){
+			dbm.ApplicationModel.remove(
+				{application_number:selectone.application_number}, 
+				{
+					justOne:true
+				}, function(err){
+					if(err) throw err
+					
+					console.log('=== Delete Application ===');			
+				}
+			);
+			res.redirect('/mymatch');
+		}
+		
+		else
+			res.redirect('/matchapplicationedit')
+
+		
+	});
+	
+	
+	
 	router.route('/matchapplicationedit').get(function(req, res){
 		console.log('/matchapplicationedit 패스 get 요청됨.');
         
@@ -1234,15 +1275,17 @@ module.exports = function(router, passport, upload) {
 		
 			
 			var eventData = new Array();			
+			
+			
+			console.dir(selectone);
 
-
-			dbm.ApplicationModel.find(function (err, result) {				
+			dbm.ApplicationModel.find({$and:[{email:selectone.user}, {event_date:selectone.date}, {event_time:selectone.time}, {region:selectone.region}]}, function (err, result) {				
 				for(var i = 0 ; i < result.length ; i++) {
 					if(result[i]._doc.email == req.user.email){
 						var data = {
 							'email' : result[i]._doc.email, 
 							'teamname' : result[i]._doc.teamname,
-							'add' : result[i]._doc.add,
+							'add' : [result[i]._doc.add[0], result[i]._doc.add[1]],
 							'region' : result[i]._doc.region,
 							'move' : result[i]._doc.move,
 							'age' : result[i]._doc.age,	
@@ -1250,7 +1293,8 @@ module.exports = function(router, passport, upload) {
 							'event_time' : result[i]._doc.event_time,
 							'mention' : result[i]._doc.mention,
 							'created_month' : result[i]._doc.created_month,
-							'created_day' : result[i]._doc.created_day
+							'created_day' : result[i]._doc.created_day,
+							'application_number' : result[i]._doc.application_number
 						};
 					}					
 					eventData[i] = data;
@@ -1286,63 +1330,62 @@ module.exports = function(router, passport, upload) {
         }
 	});
 	
-	
-	/*
-	* 화면 동기화 된 후에 할 수 있음
-	*
+
 	router.route('/matchapplicationedit').post(function(req, res){
 		console.log('/matchapplicationedit 패스 post 요청됨.');
-		
-		var dbm = require('../database/database');
-		console.log('database 모듈 가져옴');
-		
-		
-		
-		var event = {
-			'email': req.user.email,
-			'teamname': req.user.teamname,	
-			'city': req.body.city || req.query.city,
-			'district': req.body.district || req.query.district,
-			'place' : req.body.place || req.query.place,
+	
+		var update = {
+			'add': req.body.add || req.query.add,
+			'region' : req.body.region || req.query.region,
 			'move' : req.body.move || req.query.move,
-			'age': req.body.age || req.query.age,	
+			'age': req.body.age || req.query.age,
+			'gender': req.body.gender || req.query.gender,
 			'event_date': req.body.event_date || req.query.event_date,
 			'event_time': req.body.event_time || req.query.event_time,
-			'mention': req.body.mention || req.query.mention
+			'mention': req.body.mention || req.query.mention,
+			'geoLat': req.body.geoLat || req.query.geoLat,
+			'geoLng': req.body.geoLng || req.query.geoLng,
+			'nofteam': req.body.nofteam || req.query.nofteam,
+			'application_number': selectone.application_number
 		};
 		
+		var addr = [];
+		addr= update.add.split(' ');
+		update.add = [addr[0], addr[1]];
 		
+		if(update.add[0] == undefined)
+			delete update.add;
+		if(update.region == undefined)
+			delete update.region;
+		if(update.move == undefined)
+			delete update.move;
+		if(update.age == undefined)
+			delete update.age;
+		if(update.gender == undefined)
+			delete update.gender;
+		if(update.event_date == undefined)
+			delete update.event_date;
+		if(update.event_time == undefined)
+			delete update.event_time;
+		if(update.mention == undefined)
+			delete update.mention;
+		if(update.geoLat == undefined)
+			delete update.geoLat;
+		if(update.geoLng == undefined)
+			delete update.geoLng;
+		if(update.nofteam == undefined)
+			delete update.nofteam;
+			
+		console.dir(update);
 		
-		console.dir(event);
-		
-		
-		dbm.db.collection("application").updateOne({email:req.user.email},  {$set: {
-			event[i].city: event.city,
-			'district': event.district,
-			'place': event.place,
-			'move': event.move,
-			'age': event.age,
-			'event_date': event.event_date,
-			'event_time': event.event_time,
-			'mention': event.mention
-		 }}, function(err, res) {
+		dbm.ApplicationModel.updateOne({application_number:selectone.application_number},  {$set: update}, function(err, res) {
     		if (err) throw err;
-    		console.log("application updated");
+    		console.log("=== Application updated ===");
   		});
 		
-		
- 
-        event_application.save(function (err, data) {
-          if (err) {// TODO handle the error
-              console.log("application save error");
-          }
-          console.log('New application inserted');
-        });
-		
-		res.redirect('/');
+		res.redirect('/mymatch');
 	});
 	
-	*/
 	
 	
 	router.route('/contact').get(function(req, res){
@@ -1383,55 +1426,6 @@ module.exports = function(router, passport, upload) {
 	});
 	
 	
-	//map
-	/*
-	router.route('/map').get(function(req, res){
-		console.log('/map 패스 get 요청됨.');
-
-        res.render('map.ejs');
-	});
-	
-	router.route('/map').post(function(req, res){
-		console.log('/map 패스 post 요청됨.');
-		
-		var map_geolat = req.body.resultLat || req.query.resultLat;
-		var map_geolng = req.body.resultLng || req.query.resultLng;
-		var map_region = req.body.region || req.query.region;
-		
-		
-		
-		var user_context = {
-			'email':req.user.email, 
-			'teamname':req.user.teamname, 
-			'gender':req.user.gender, 
-			'age':req.user.age,
-			'region':map_region,
-			'geoLat':map_geolat,
-			'geoLng':map_geolng,
-			'move':req.user.move,
-			'nofteam':req.user.nofteam,
-			'career_year':req.user.career_year,
-			'career_count':req.user.career_count,
-			'introteam':req.user.introteam,
-			'profile_img':profile_img
-		};
-		
-		console.log(user_context.region);
-		
-		dbm.db.collection("users6").updateOne({email: req.user.email},  {$set: user_context}, function(err, res) {
-    		if (err) throw err;
-    		console.log("=== set region ===");
-			
-			console.log(map_geolat);
-			console.log(map_geolng);
-			console.log(map_region);
-  		});
-		
-		res.redirect('/uploadimg');
-	});
-    
-	*/
-    
     // 로그아웃
     router.route('/logout').get(function(req, res) {
         console.log('/logout 패스 get 요청됨.');
