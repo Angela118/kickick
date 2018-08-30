@@ -16,25 +16,26 @@ Schema.createSchema = function(mongoose) {
 	
 	// 스키마 정의
 	var MatchSchema = mongoose.Schema({
-		email: {type: String, 'default':''},
-	    teamname: {type: String, index: 'hashed', 'default':''},
-		region: [{type: "String", 'default':''}],
-		place : {type:String, 'default':''},
-		move : {type:String, 'default':''},
+        email: {type: String, 'default':''},
+        teamname: {type: String, index: 'hashed', 'default':''},
+        add: [{type: String, 'default':''}],
+        region : {type:String, 'default':''},
+        move : {type:String, 'default':''},
 		age: {type:Number, default:''},
 		gender:{type:String, default:2},
 		career_count: {type:Number, default:''},
 		career_year: {type:Number, default:''},
-		created_month: {type: String, 'default': monthString},
-		created_day: {type: String, 'default': dayString},
-        created_time: {type: String, 'default': secondString},
         nofteam : {type:String, 'default':''},
+        created_month: {type: String, 'default': monthString},
+        created_day: {type: String, 'default': dayString},
+        created_time: {type: String, 'default': secondString},
         others : {type:Object, 'default':''},
 		match_success: {type:Number, default:0},
 		score: {type:Number, default:0},
 		received_review: {type:Number, default:0},
         received_review_comment: {type:String, default:''},
 		review_date: {type:String, default:''}
+		// 신청한 사람의 경도 위도 안 넣음
 	});
 
 	MatchSchema.static('findByEmail', function(email, callback) {

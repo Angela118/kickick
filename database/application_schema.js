@@ -17,7 +17,7 @@ Schema.createSchema = function(mongoose) {
 	var ApplicationSchema = mongoose.Schema({		//16개
 		email: {type: String, 'default':''},
 		teamname: {type: String, index: 'hashed', 'default':''},
-		add: [{type: String, 'default':''}],
+        add: [{type: String, 'default':''}],
 		region : {type:String, 'default':''},
 		move : {type:String, 'default':''},
 		age: {type:Number, default:''},

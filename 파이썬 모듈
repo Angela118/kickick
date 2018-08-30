@@ -1,0 +1,10 @@
+pip install scipy
+pip install numpy
+pip install csv
+pip install sys
+pip install warnings
+pip install pymongo
+
+
+파이썬 설치하시고 
+cmd창에 입력하시면 돼용~
