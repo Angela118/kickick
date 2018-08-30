@@ -31,7 +31,7 @@
 <nav class="navbar blueB">
     <div style="display: flex; justify-content: space-between; align-items: center;  margin-left:1rem; margin-right:1rem;">
         <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem;" onclick="goBack();">
-		<a href="/"><p onclick="/" class="logo">축하싶</p></a>s
+		<a href="/"><p onclick="/" class="logo">축하싶</p></a>
         <p class="logo">우리 팀 정보</p>
     </div>
 </nav>
@@ -40,6 +40,23 @@
     <div class="reco">
         <h5 class="mb-3" style="font-weight: bold">기본 정보</h5>
 
+        
+        <%
+                    if(gender == 25) {
+                        var curGender = '무관';
+                    }else if(gender == 50) {
+                        var curGender = '남자';
+                    }else if(gender == 100){
+                        var curGender = '여자';
+                    }
+
+                    if(move == 100){
+                        var curMove = 'O';
+                    }else if(move == 50){
+                        var curMove = 'X';
+                    }
+            %>
+        
             <p class="mb-3">
             <p>프로필 사진</p> <!--프로필 사진-->
             <div class="profile_img_upload">
@@ -70,7 +87,7 @@
       
          <div class="mb-3">
                 <div id="user-gender">성별</div>
-            <div class="change"><%= gender %></div>
+            <div class="change"><%= curGender %></div>
                 <!--<select class="custom-select d-block w-100" id="user-gender" required>-->
                     <!--<option value="">Choose...</option>-->
                     <!--<option>여</option>-->
@@ -96,7 +113,7 @@
    
          <div class="mb-3">
                 <div>원정 가능 유무</div>
-            <div class="change"><%= move %></div>
+            <div class="change"><%= curMove %></div>
                 <!--<select class="custom-select d-block w-100" name="move" id="" required>
                     <option>O</option>
                     <option>X</option>

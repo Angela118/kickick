@@ -85,6 +85,17 @@
             <table class="table">
                 <tbody>
 					
+                    
+                    <%
+                    if(event_data[0].move == 100){
+                        var curMove = 'O';
+                    }else if(event_data[0].move == 50){
+                        var curMove = 'X';
+                    }
+                    
+                    %>
+                    
+                    
 	<!--
                 <tr>
                     <th>지역</th>
@@ -265,7 +276,7 @@
                     <th>원정가능 유무</th>
                     <td>
                         <select name="move" class="form-control">
-                            <option value="<%= event_data[0].move %>" selected disabled hidden><%= event_data[0].move %></option>
+                            <option value="<%= curMove %>" selected disabled hidden><%= curMove %></option>
                             <option value="100">O</option>
                             <option value="50">X</option>
                         </select>

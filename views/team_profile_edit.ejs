@@ -50,6 +50,22 @@
         <h5 class="mb-3" style="font-weight: bold;">기본 정보</h5>
         <form class="needs-validation" action="/teamprofileedit" method="post" novalidate>
 			
+            
+            <%
+                    if(gender == 25) {
+                        var curGender = '무관';
+                    }else if(gender == 50) {
+                        var curGender = '남자';
+                    }else if(gender == 100){
+                        var curGender = '여자';
+                    }
+
+                    if(move == 100){
+                        var curMove = 'O';
+                    }else if(move == 50){
+                        var curMove = 'X';
+                    }
+            %>
 
             <div class="mb-3"> <!--아이디-->
                 <label for="user-ID">아이디</label>
@@ -68,7 +84,7 @@
             <div class="mb-3">
                 <label for="user-gender">성별</label>
                 <select class="custom-select d-block w-100" name="gender" id="user-gender" required>
-                    <option value="" disabled selected hidden><%= gender %></option>
+                    <option value="" disabled selected hidden><%= curGender %></option>
                     <option value="25">혼성</option>
                     <option value="100">여자</option>
           			<option value="50">남자</option>
@@ -281,7 +297,7 @@
             <div class="mb-3">
                 <label for="">원정 가능 유무</label>
                 <select class="custom-select d-block w-100" name="move" id="move" required>
-                    <option value="" disabled selected hidden><%= move %></option>
+                    <option value="" disabled selected hidden><%= curMove %></option>
                     <option value="100">O</option>
                     <option value="50">X</option>
                 </select>
@@ -291,7 +307,7 @@
                 <label for="">팀원 수</label>
                 <div class="enter">
                     <input type="text" class="form-control one" name="nofteam" id="nofteam" placeholder="<%= nofteam %>"onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' required>
-                    <div class="two">명</two>
+                    <div class="two">명</div>
                 </div>
             </div>
 
@@ -307,7 +323,7 @@
                 <label for="">여태까지 경기 횟수</label>
                 <div class="enter">
                     <input type="text" class="form-control one" name="career_count" id="career_count" placeholder="<%= career_count %>" onkeydown='return onlyNumber(event)' onkeyup='removeChar(event)' style='ime-mode:disabled;' required>
-                <div class="two">번</two>
+                <div class="two">번</div>
                 </div>
             </div>
 

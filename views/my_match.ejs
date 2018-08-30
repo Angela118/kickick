@@ -54,7 +54,7 @@
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="main.html">홈 (매칭 팀 검색)</a>
+        <a class="nav-link" href="/">홈 (매칭 팀 검색)</a>
       </li>
       <li class="nav-item" style="display:flex; align-items:center">
         <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
@@ -99,6 +99,13 @@
       var curTime = event_data[i].event_time;
       var curMention = event_data[i].mention;
 	  var curApplicationNumber = event_data[i].application_number;
+    
+
+    if(curMove == 100){
+        curMove = 'O';
+    }else if(curMove == 50){
+        curMove = 'X';
+    }
     %>
     <div class="content mb-3"> <!--content-->
       <div class="date">
