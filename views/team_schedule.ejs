@@ -18,19 +18,7 @@
     <script src="../js/bootstrap.bundle.min.js"></script>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Insert title here</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-
-    <script>
-        $('.score_content').hide();
-        function doShow() {
-            if ($('.score_content').is(":visible")) {
-                $('.score_content').hide(); // 클래스값을 받아서 숨기기
-            } else {
-                $('.score_content').fadeIn("fast"); // 클래스값을 받아서 보이기
-            }
-        }
-    </script>
 
 </head>
 <body class="whiteB">
@@ -53,7 +41,7 @@
             <img src="../profile_img/<%= profile_img %>" id="profile_pic" style="margin-right: .2rem; width:3rem; height: 3rem">
             <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= teamname %> 팀</span>
             <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
-			<a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
+            <a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
             <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
         </div>
 
@@ -91,8 +79,6 @@
 <div class="container">
     <div class="reco">
 
-        <!--<h1 style="letter-spacing: .4rem; margin-top: 1rem; text-align: center; font-weight: 500">2018</h1>-->
-
         <!--달력-->
         <div class="calendar-wrapper">
             <button id="btnPrev" type="button">이전 달</button>
@@ -102,8 +88,10 @@
 
         <script>
             var Cal = function(divId) {
+
                 //Store div id
                 this.divId = divId;
+
                 // Days of week, starting on Sunday
                 this.DaysOfWeek = [
                     '일',
@@ -114,14 +102,18 @@
                     '금',
                     '토'
                 ];
+
                 // Months, stating on January
                 this.Months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월' ];
+
                 // Set the current month, year
                 var d = new Date();
+
                 this.currMonth = d.getMonth();
                 this.currYear = d.getFullYear();
                 this.currDay = d.getDate();
             };
+
             // Goes to next month
             Cal.prototype.nextMonth = function() {
                 if ( this.currMonth == 11 ) {
@@ -133,6 +125,7 @@
                 }
                 this.showcurr();
             };
+
             // Goes to previous month
             Cal.prototype.previousMonth = function() {
                 if ( this.currMonth == 0 ) {
@@ -144,12 +137,15 @@
                 }
                 this.showcurr();
             };
+
             // Show current month
             Cal.prototype.showcurr = function() {
                 this.showMonth(this.currYear, this.currMonth);
             };
+
             // Show month (year, month)
             Cal.prototype.showMonth = function(y, m) {
+
                 var d = new Date()
                     // First day of the week in the selected month
                     , firstDayOfMonth = new Date(y, m, 1).getDay()
@@ -157,21 +153,29 @@
                     , lastDateOfMonth =  new Date(y, m+1, 0).getDate()
                     // Last day of the previous month
                     , lastDayOfLastMonth = m == 0 ? new Date(y-1, 11, 0).getDate() : new Date(y, m, 0).getDate();
+
+
                 var html = '<table>';
+
                 // Write selected month and year
                 html += '<thead><tr>';
                 html += '<td colspan="7" style="font-weight: bold">' + this.Months[m] + ' ' + y + '</td>';
                 html += '</tr></thead>';
+
+
                 // Write the header of the days of the week
                 html += '<tr class="days">';
                 for(var i=0; i < this.DaysOfWeek.length;i++) {
                     html += '<td>' + this.DaysOfWeek[i] + '</td>';
                 }
                 html += '</tr>';
+
                 // Write the days
                 var i=1;
                 do {
+
                     var dow = new Date(y, m, i).getDay();
+
                     // If Sunday, start new row
                     if ( dow == 0 ) {
                         html += '<tr>';
@@ -186,6 +190,7 @@
                             k++;
                         }
                     }
+
                     // Write the current day in the loop
                     var chk = new Date();
                     var chkY = chk.getFullYear();
@@ -208,18 +213,24 @@
                             k++;
                         }
                     }
+
                     i++;
                 }while(i <= lastDateOfMonth);
+
                 // Closes table
                 html += '</table>';
+
                 // Write HTML to the div
                 document.getElementById(this.divId).innerHTML = html;
             };
+
             // On Load of the window
             window.onload = function() {
+
                 // Start calendar
                 var c = new Cal("divCal");
                 c.showcurr();
+
                 // Bind next and previous button clicks
                 getId('btnNext').onclick = function() {
                     c.nextMonth();
@@ -228,97 +239,219 @@
                     c.previousMonth();
                 };
             }
+
             // Get element by id
             function getId(id) {
                 return document.getElementById(id);
             }
+
             /*
+
                     // 해당 달 일정 띄우기 - 서버랑 연동해서 해보기
                     if(this.Months[m] == 일정 날짜) {
+
+
                     }
+
                     // 해당 달 일정 날짜에 색칠하기
+
             */
+
+
         </script>
         <!--달력 끝-->
 
         <div class="main">
+
+            <% if(event_data.length == 0) { %>
+            <p style="font-weight: bold">스케줄이 없습니다.</p>
+            <%}%>
+            <%
+            var count = 0; // script에서 쓸 화면에 뜨는 기준 index
+
+            for(var i = 0; i < event_data.length; i++) {
+                // 남이 매칭 신청한 경우 기준 변수
+                var curEmail = event_data[i].email; //상대팀 정보
+                var curDate = event_data[i].event_date;
+                var curTime = event_data[i].event_time;
+                var curAdd = event_data[i].event_add;
+                var curRegion = event_data[i].event_region;
+                var curTeamname = event_data[i].teamname; // 상대팀 정보
+                var curNofteam = event_data[i].event_nofteam; // 상대팀 정보
+                var curScore = event_data[i].score; // 상대팀의 이 경기 score
+                var curReview = event_data[i].review; // 상대팀이 이 경기에서 받은 리뷰
+                var score = event_data[i].sScore; // 내 이 경기 스코어
+                var review = event_data[i].sReceivedReview; // 내가 이 경기에서 받은 리뷰
+                var matchMonth = curDate.substring(5,7);
+                var matchDay = curDate.substring(8,10);
+                var noscheduleCount = 0;
+
+                if((event_data[i].match_success == 0) && (curEmail != email)) {
+                    noscheduleCount++;
+                }
+
+                // 남이 나한테 신청하고 내가 승인 안 한 경우만 있을 때
+                if(i == (event_data.length - 1)) {
+                    if (noscheduleCount == (i+1)){ %>
+                        <p style="font-weight: bold">스케줄이 없습니다.</p>
+                    <% }
+                }
+            %>
+
+            <%if(event_data[i].match_success == 1){
+
+                // 내가 매칭 신청한 경우 변수 반대로 넣음
+                if(curEmail == email) {
+                    curEmail = event_data[i].otherEmail; // 내가 신청한 상대팀
+                    curTeamname = event_data[i].otherTeam; // 내가 신청한 상대팀
+                    curNofteam = event_data[i].other_nofteam; // 상대팀 인원수
+                    curScore = event_data[i].sScore; // 상대팀 score
+                    curReview = event_data[i].sReceivedReview; // 상대팀 review
+                    score = event_data[i].score; // 내 score
+                    review = event_data[i].review; // 내 review
+                }
+            %>
             <div class="date">
-                <h3 style="font-weight: bold"><%= event_data[0].event_date %></h3>
-                <!--<p>Schedule of Events</p>-->
+                <h3 style="font-weight: bold"><%= matchMonth%>. <%= matchDay%></h3>
             </div>
 
             <div class= "events">
                 <div class="events-detail">
                     <div onclick="javascript:doShow()" class="event_content">
-                        <span class="event-time"><%= event_data[0].event_time %> - </span>
-                        <span class="event-name">Vs 상대팀</span>
-                        <br />
-                        <span class="event-location"><%= event_data[0].event_region %></span>
+                        <span class="event-time"><%= curTime %></span>
+                        <span class="event-name">Vs <%=curTeamname%>팀</span>
+                        <br>
+                        <span class="event-location"><%= curRegion %></span>
                     </div>
                 </div>
 
                 <div class="score_content">
                     <div class="match-teams mb-3">
                         <div class="match-team">
-                            <img src="../profile_img/<%= profile_img %>" width="70rem" class="team-img">
-                            <button class="btn btn-sm" style="color:black"><%= event_data[0].teamname %> 팀</button>
+                            <img src="../img/team_100.png" width="70rem" class="team-img">
+                            <button class="btn btn-sm" style="color:black"><%= teamname %>팀</button>
                         </div>
 
                         <div class="score">
-                            <h3 id="team-1-score" class="match-team" style="font-weight: bold">0</h3>
+                            <h3 id="team-1-score" class="match-team" style="font-weight: bold"><%=score%></h3>
                             <h5 style="margin-bottom: 0; font-weight: bold">Vs</h5>
-                            <h3 id="team-2-score" class="match-team" style="font-weight: bold">0</h3>
+                            <h3 id="team-2-score" class="match-team" style="font-weight: bold"><%=curScore%></h3>
                         </div>
 
                         <div class="match-team">
-                            <img src="../img/soccerball.png" width="70rem" class="team-img">
-                            <button class="btn btn-sm" style="color:black">상대팀</button>
+                            <img src="../img/soccer-ball.png" width="70rem" class="team-img">
+                            <button class="btn btn-sm" style="color:black"> <%=curTeamname%>팀</button>
                         </div>
                     </div>
 
                     <div class = "schedule-detail">
                         <p class="schedule-detail-content">
                             <span class="bold">인원수 | </span>
-                            <span><%= event_data[0].event_nofteam %></span>
+                            <span><%= teamname%>팀 : <%= nofteam %>명 / <span><%=curTeamname%>팀 : <%=curNofteam%>명</span>
+</span>
                         </p>
 
-                        <div class="schedule-detail-content">
-                            <div class="score_input_form">
-                                <span class="bold" style="margin-top: .3rem">스코어 입력 | &nbsp</span>
-                                <div class="score_input">
-                                    <div class="form-group"  style="display: flex; align-items: center">
-                                        <%= event_data[0].teamname %>팀 : &nbsp
-                                        <input type="text" class="form-control" style="height:1.8rem">&nbsp <button class="btn btn-sm" style="color:black">제출</button>
-                                    </div>
-                                    <div class="form-group"  style="display: flex; align-items: center">
-                                        상대(이름넣기) 팀 : &nbsp
-                                        <input type="text" class="form-control" style="height:1.8rem">&nbsp <button class="btn btn-sm" style="color:black">제출</button>
+                        <script>
+
+                            function clicked(callTeamEmail, receiveTeamEmail, event_date, event_time, count) {
+                                alert('callTeamEmail : ' + callTeamEmail + ', receiveTeamEmail : ' + receiveTeamEmail + ', event_date : ' + event_date + ', event_time : ' + event_time + ', count : ' + count);
+
+                                document.getElementsByName('callTeamEmail')[count].value = callTeamEmail;
+                                document.getElementsByName('receiveTeamEmail')[count].value = receiveTeamEmail;
+                                document.getElementsByName('event_date')[count].value = event_date;
+                                document.getElementsByName('event_time')[count].value = event_time;
+
+                                document.getElementsByName('formPost')[count].submit();
+                            }
+
+                            function reviewClicked(callTeamEmail, receiveTeamEmail, eventDate, eventTime, count) {
+                                alert('callTeamEmail : ' + callTeamEmail + ', receiveTeamEmail : ' + receiveTeamEmail + ', event_date : ' + eventDate + ', eventTime : ' + eventTime + ', count : ' + count);
+                                var reviewedTeamEmail;
+
+                                if(callTeamEmail === '<%=email%>') {
+                                    reviewedTeamEmail = receiveTeamEmail;
+                                }else {
+                                    reviewedTeamEmail = callTeamEmail;
+                                }
+
+                                alert('reviewedTeamEmail : ' + reviewedTeamEmail +  ', eventDate : ' + eventDate + ', eventTime : ' + eventTime + ', count : ' + count);
+
+                                document.getElementsByName('reviewedTeamEmail')[count].value = reviewedTeamEmail;
+                                document.getElementsByName('eventDate')[count].value = eventDate;
+                                document.getElementsByName('eventTime')[count].value = eventTime;
+
+                                document.getElementsByName('formPost2')[count].submit();
+                            }
+                        </script>
+
+                        <form action="/teamschedule" name="formPost" method="post">
+                            <input type="hidden" name="callTeamEmail" id="callTeamEmail" value=''>
+                            <input type="hidden" name="receiveTeamEmail" id="receiveTeamEmail" value=''>
+                            <input type="hidden" name="event_date" id="event_date" value=''>
+                            <input type="hidden" name="event_time" id="event_time" value=''>
+
+                            <div class="schedule-detail-content" >
+                                <div class="score_input_form">
+                                    <span class="bold" style="margin-top: .3rem">스코어 입력 | &nbsp</span>
+                                    <div class="score_input">
+                                        <div class="form-group"  style="display: flex; align-items: center">
+                                            <%= teamname %>팀 : &nbsp
+                                            <input type="text" class="form-control" style="height:1.8rem" placeholder=<%=score%> name="firstScore" value=''>
+                                        </div>
+                                        <div class="form-group"  style="display: flex; align-items: center">
+                                            <%= curTeamname %>팀 : &nbsp
+                                            <input type="text" class="form-control" style="height:1.8rem" placeholder=<%=curScore%> name="secondScore" value=''>&nbsp
+
+                                            <button class="btn btn-sm" style="color:black" onclick="clicked( `<%=event_data[i].email%>`, `<%=event_data[i].otherEmail%>`, `<%=event_data[i].event_date%>`,`<%=event_data[i].event_time%>`, `<%=count%>`)">제출</button>
+                                        </div>
                                     </div>
                                 </div>
-
-
                             </div>
-                        </div>
+                        </form>
+
+                        <form action="/teamreview" method="get" name="formPost2">
+                            <input type="hidden" name="reviewedTeamEmail" id="reviewedTeamEmail" value=''>
+                            <input type="hidden" name="eventDate" id="eventDate" value=''>
+                            <input type="hidden" name="eventTime" id="eventTime" value=''>
+
+                            <div>
+                                <button type="button" class="btn btn-block blueB" onclick="reviewClicked( `<%=event_data[i].email%>`, `<%=event_data[i].otherEmail%>`, `<%=event_data[i].event_date%>`,`<%=event_data[i].event_time%>`, `<%=count%>`)">상대팀 평가/채팅방 삭제하기</button>
+                            </div>
+                        </form>
+
                     </div>
                 </div>
-
             </div>
 
-            <div class="date">
-                <h3 style="font-weight: bold">08. 30</h3>
-                <!--<p>Schedule of Events</p>-->
-            </div>
-            <div class= "events">
-                <div class="events-detail">
-                    <div>
-                    <span class="event-name">우리가남이가 팀에게 매칭 신청 중...
+            <!--내가 신청한 상대팀 승인 대기-->
+            <%
+                count++;
+            } else if((event_data[i].match_success == 0) && (event_data[i].email == email)){%>
+            <div>
+                <div class="date">
+                    <h3 style="font-weight: bold"><%= matchMonth%>. <%= matchDay%></h3>
+                </div>
+                <div class= "events">
+                    <div class="events-detail">
+                        <div>
+                            <!-- 내가 신청한 팀으로 해야 함-->
+                            <span class="event-name"><%=event_data[i].otherTeam%> 팀에게 매칭 신청 중...
 <p style="font-size: smaller; margin-top: .4rem">승낙하면 현재 란이 매칭 스케줄란으로 바뀝니다.
 거절시, 또는 경기 전날까지 승인이 안될 시에 현재 란이 삭제됩니다.</p>
                         </span>
-                        <button class="btn btn-block" style="color:black">신청 취소<br><span style="font-size: smaller">상대팀이 수락하기 전까지 가능</span></button>
+                            <button class="btn btn-block" style="color:black">신청 취소<br><span style="font-size: smaller">상대팀이 수락하기 전까지 가능</span></button>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <%} else{
+
+            }
+
+            }
+            %>
+
         </div>
 
     </div>

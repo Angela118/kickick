@@ -1107,19 +1107,19 @@ module.exports = function(router, passport, upload) {
 
 
             var user_context = {
-                'email':req.user.email,
-                'password':req.user.password,
-                'teamname':req.user.teamname,
-                'gender':req.user.gender,
-                'age':req.user.age,
-                'region':req.user.region,
-                'add':req.user.add,
-                'move':req.user.move,
-                'nofteam':req.user.nofteam,
-                'career_year':req.user.career_year,
-                'career_count':req.user.career_count,
-                'introteam':req.user.introteam,
-                'profile_img':profile_photo
+                'email': req.user.email,
+                'password': req.user.password,
+                'teamname': req.user.teamname,
+                'add' : req.user.add,
+                'region': req.user.region,
+                'move': req.user.move,
+                'gender': req.user.gender,
+                'age': req.user.age,
+                'nofteam': req.user.nofteam,
+                'career_year': req.user.career_year,
+                'career_count': req.user.career_count,
+                'introteam': req.user.introteam,
+                'profile_img': profile_photo
             };
 
             console.log('/mainsearch 사용자 인증 된 상태임.');
@@ -1221,19 +1221,19 @@ module.exports = function(router, passport, upload) {
                 }
 
                 var user_context = {
-                    'email':req.user.email,
-                    'password':req.user.password,
-                    'teamname':req.user.teamname,
-                    'gender':req.user.gender,
-                    'age':req.user.age,
-                    'region':req.user.region,
-                    'add':req.user.add,
-                    'move':req.user.move,
-                    'nofteam':req.user.nofteam,
-                    'career_year':req.user.career_year,
-                    'career_count':req.user.career_count,
-                    'introteam':req.user.introteam,
-                    'profile_img':profile_photo,
+                    'email': req.user.email,
+                    'password': req.user.password,
+                    'teamname': req.user.teamname,
+                    'add' : req.user.add,
+                    'region': req.user.region,
+                    'move': req.user.move,
+                    'gender': req.user.gender,
+                    'age': req.user.age,
+                    'nofteam': req.user.nofteam,
+                    'career_year': req.user.career_year,
+                    'career_count': req.user.career_count,
+                    'introteam': req.user.introteam,
+                    'profile_img': profile_photo,
                     'event_data':eventData
                 };
                 console.dir(eventData);
@@ -1273,20 +1273,20 @@ module.exports = function(router, passport, upload) {
         }
 
         var event = {
-            'email':req.user.email,
-            'password':req.user.password,
-            'teamname':req.user.teamname,
-            'gender':req.user.gender,
-            'age':req.user.age,
-            'region':req.user.region,
-            'add':req.user.add,
-            'move':req.user.move,
-            'nofteam':req.user.nofteam,
-            'career_year':req.user.career_year,
-            'career_count':req.user.career_count,
-            'introteam':req.user.introteam,
-            'profile_img':profile_photo,
-            'others': others
+            'email': req.user.email,
+            'password': req.user.password,
+            'teamname': req.user.teamname,
+            'add' : req.user.add,
+            'region': req.user.region,
+            'move': req.user.move,
+            'gender': req.user.gender,
+            'age': req.user.age,
+            'nofteam': req.user.nofteam,
+            'career_year': req.user.career_year,
+            'career_count': req.user.career_count,
+            'introteam': req.user.introteam,
+            'profile_img': profile_photo,
+            'event_data':eventData
         };
         //console.dir(event);
 
@@ -1324,7 +1324,6 @@ module.exports = function(router, passport, upload) {
             console.log('database 모듈 가져옴');
 
             var eventData = new Array(); // 나한테 신청한
-            // var eventData2 = new Array(); // 내가 신청한
             var j = 0;
 
             // 나한테 매칭 신청한 팀 찾기
@@ -1337,11 +1336,12 @@ module.exports = function(router, passport, upload) {
                             // others내엔 경기정보
                             'event_date': result[i]._doc.others.sEvent_date,
                             'event_time': result[i]._doc.others.sEvent_time,
-                            'event_place': result[i]._doc.others.sPlace,
+                            'event_add' : result[i]._doc.others.sAdd,
+                            'event_region': result[i]._doc.others.sRegion,
                             'event_nofteam': result[i]._doc.nofteam, // 상대팀
                             'match_success': result[i]._doc.match_success,
                             'score': result[i]._doc.score, // 상대팀의 이 경기 score
-                            'review': result[i]._doc.review, // 상대팀이 이 경기에서 받은 review
+                            'review': result[i]._doc.received_review, // 상대팀이 이 경기에서 받은 review
                             'sScore' : result[i]._doc.others.sScore, // 내 이 경기 스코어
                             'sReceivedReview': result[i]._doc.others.sReceivedReview, // 내가 이 경기에서 받은 리뷰
                             'sReceivedReviewComment': result[i]._doc.others.sReceivedReviewComment,
@@ -1351,7 +1351,6 @@ module.exports = function(router, passport, upload) {
                     }
                 }
 
-                // j = 0;
                 // 내가 매칭 신청한 팀 찾기
                 dbm.MatchModel.find({email : req.user.email} ,function (err, result) {
                     for (var i = 0; i < result.length; i++) {
@@ -1364,17 +1363,17 @@ module.exports = function(router, passport, upload) {
                                 // others내엔 경기정보
                                 'event_date': result[i]._doc.others.sEvent_date,
                                 'event_time': result[i]._doc.others.sEvent_time,
-                                'event_place': result[i]._doc.others.sPlace,
+                                'event_add': result[i]._doc.others.sAdd,
+                                'event_region': result[i]._doc.others.sRegion,
                                 'other_nofteam': result[i]._doc.others.sNofteam, // 상대팀
                                 'match_success': result[i]._doc.match_success,
                                 'score': result[i]._doc.score, // 이 경기 내 score
-                                'review': result[i]._doc.review, // 내가 이 경기에서 받은 리뷰
+                                'review': result[i]._doc.received_review, // 내가 이 경기에서 받은 리뷰
                                 'sScore' : result[i]._doc.others.sScore, // 상대팀의 이 경기 score
                                 'sReceivedReview': result[i]._doc.others.sReceivedReview, // 상대팀의 이 경기에서 받은 리뷰
                                 'sReceivedReviewComment': result[i]._doc.others.sReceivedReviewComment, // 상대팀의 이 경기에서 받은 리뷰 코멘트
                                 'sReviewDate' : result[i]._doc.others.sReviewDate // 상대팀의 이 경기에서 받은 평점 기록된 날짜
                             };
-                            // eventData2[j++] = data;
                             eventData[j++] = data;
                         }
                     }
@@ -1383,17 +1382,17 @@ module.exports = function(router, passport, upload) {
                         'email': req.user.email,
                         'password': req.user.password,
                         'teamname': req.user.teamname,
-                        'gender': req.user.gender,
-                        'age': req.user.age,
+                        'add' : req.user.add,
                         'region': req.user.region,
                         'move': req.user.move,
+                        'gender': req.user.gender,
+                        'age': req.user.age,
                         'nofteam': req.user.nofteam,
                         'career_year': req.user.career_year,
                         'career_count': req.user.career_count,
                         'introteam': req.user.introteam,
                         'profile_img': profile_photo,
-                        'event_data':eventData,
-                        // 'event_data_toMe': eventData2
+                        'event_data':eventData
                     }; // user_context
                     console.dir(eventData);
                     res.render('team_schedule.ejs', user_context);

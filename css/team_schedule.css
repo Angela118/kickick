@@ -30,9 +30,9 @@
     margin-bottom:0.5rem;
 }
 
-.team-img {
+/*.team-img {
     margin-bottom: 0.5rem;
-}
+} 왜 안 먹지..*/
 
 .score_input_form{
     display:flex;
@@ -55,17 +55,17 @@
 
 /*team_schedule------------------------------------------------------------------------------------*/
 
-     /*
-         @font-face { font-family: 'yoonG'; src: url('../font/yoonG350.ttf') format('truetype'); }
-         body{
-             font-size: larger;
-             font-family: yoonG!important;
-             !*letter-spacing: -0.095rem;*!
-         }*/
+/*
+    @font-face { font-family: 'yoonG'; src: url('../font/yoonG350.ttf') format('truetype'); }
+    body{
+        font-size: larger;
+        font-family: yoonG!important;
+        !*letter-spacing: -0.095rem;*!
+    }*/
 
- .score_content{
-     display: none;
- }
+.score_content{
+    /*display: none;*/
+}
 
 *, *:before, *:after {
     -moz-box-sizing: border-box;
@@ -101,6 +101,7 @@ h3 {padding: 0; margin: 0;}
     border-left: 1px solid #ccc;
     margin-top: 10%;
     padding-top: 3%;
+    padding-bottom: 1rem;
 }
 
 .events-detail {
@@ -115,9 +116,9 @@ h3 {padding: 0; margin: 0;}
     transition: ease .4s all;
 }*/
 
-    .events-detail .event_content:hover {
-        background: #e9e9e9;
-    }
+/*.events-detail .event_content:hover {
+    background: #e9e9e9;
+}*/
 
 .event-time {
     font-weight: 900;
