@@ -1160,9 +1160,6 @@ module.exports = function(router, passport, upload) {
 
         console.log('/mainsearchresult 패스 get 요청됨.');
 
-        console.log('mainsearchresult1111111111111111111111111111111111111');
-
-
         if(!req.user){
             console.log('사용자 인증 안된 상태임.');
             res.redirect('/login');
@@ -1174,73 +1171,20 @@ module.exports = function(router, passport, upload) {
             if(profile_img != req.user.profile_img)
                 profile_photo = profile_img;
 
-            console.log('mainsearchresult222222222222222222222222222222222222222');
-
-            console.log('11event_search : ');
-            console.dir(event_search);
-            console.log('event_search.length : ' + event_search.length);
-
-            if(event_search.length < 6){
-                console.log('iffffffffffffffffffff')
-                if(event_search.teamname == null){
-                    event_search.push({teamname: 'none'});
-                }
-                console.log('pass');
-                if(event_search.add == null){
-                    event_search.push({add: [ 'none', '상세 검색' ]});
-                }
-                console.log('pass');
-                if(event_search.gender == null){
-                    event_search.push({gender: '50'});
-                }
-                console.log('pass');
-                if(event_search.age == null){
-                    event_search.push({age: '0'});
-                }
-                console.log('pass');
-                if(event_search.event_time == null){
-                    event_search.push({event_time: 'none'});
-                }
-                console.log('pass');
-                if(event_search.event_day == null){
-                    event_search.push({event_day: 'none'});
-                }
-                console.log('pass');
-            }
-
-            /*            { teamname: 'none',
-                            add: [ 'none', '상세 검색' ],
-                            gender: '50',
-                            age: '0',
-                            event_time: 'none',
-                            event_day: 'none' }*/
-
-
-            console.log('event_search.teamname : ' + event_search.teamname);
             if(event_search.teamname == 'none')
                 delete event_search.teamname;
-            console.log('event_search.add : ' + event_search.add);
             if(event_search.add){
                 if(event_search.add[0] == 'none')
                     delete event_search.add;
             }
-            console.log('event_search.gender : ' + event_search.gender);
             if(event_search.gender == 0)
                 delete event_search.gender;
-            console.log('event_search.age : ' + event_search.a);
             if(event_search.age == 0)
                 delete event_search.age;
-            console.log('event_search.event_time : ' + event_search.event_time);
             if(event_search.event_time == 'none')
                 delete event_search.event_time;
-            console.log('event_search.event_day : ' + event_search.event_dat);
             if(event_search.event_day == 'none')
                 delete event_search.event_day;
-
-            console.log('222event_search : ');
-            console.dir(event_search);
-
-            console.log('mainsearchresult33333333333333333333333333333333');
 
             var dbm = require('../database/database');
             console.log('database 모듈 가져옴');
@@ -1318,7 +1262,7 @@ module.exports = function(router, passport, upload) {
         var others = {
             'sEmail': req.body.sEmail,
             'sTeamname': req.body.sTeamname,
-            'sAdd': req.body.sRegion,
+            'sAdd': req.body.sAdd,
             'sRegion': req.body.sRegion,
             'sMove' : req.body.sMove,
             'sAge': req.body.sAge,
