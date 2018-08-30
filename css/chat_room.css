@@ -11,3 +11,15 @@
     white-space: nowrap;
     width: 17rem;
 }
+
+.chat_tab{
+    position: fixed;
+    padding-top: .4rem;
+    padding: 1rem;
+    width: 100%;
+    display:flex;
+    align-items: center;
+    justify-content: space-around;
+    font-weight: bold;
+}
+

@@ -57,7 +57,10 @@ module.exports = function(router, passport, upload) {
             var j=1;
             eventData[0] = userdata;
 
-            dbm.ApplicationModel.find(function (err, result) {
+            console.log('111111eventData : ');
+            console.dir(eventData);
+
+            dbm.ApplicationModel.find({email : {"$ne" : req.user.email}}, function (err, result) {
                 for(var i = 0 ; i < result.length ; i++) {
                     var data = {
                         'email' : result[i]._doc.email,
@@ -80,6 +83,10 @@ module.exports = function(router, passport, upload) {
                     eventData[j] = data;
                     j+=1;
                 }
+
+                console.log('22222222eventData : ');
+                console.dir(eventData);
+
                 const json2csvParser = new Json2csvParser({ fields });
                 const csv = json2csvParser.parse(eventData);
 
@@ -90,8 +97,6 @@ module.exports = function(router, passport, upload) {
             });
 
 
-
-
             var pythonShell = require('python-shell');
 
             var options = {
@@ -100,16 +105,12 @@ module.exports = function(router, passport, upload) {
                 scriptPath: ''
             };
 
-
-
             pythonShell.run('recEvent.py', options, function(err, results){
                 if(err) throw err
 
                 console.log('Python run');
                 console.log('%j', results)
             });
-
-
 
             setTimeout(function(){
                 var csvf = require('csvtojson');
@@ -663,7 +664,8 @@ module.exports = function(router, passport, upload) {
                 'profile_img':profile_photo
             };
 
-            res.render('chat_room.ejs', user_context);
+            // res.render('chat_room.ejs', user_context);
+            res.redirect('/chatroomchat');
         }
     });
 
@@ -785,7 +787,6 @@ module.exports = function(router, passport, upload) {
     router.route('/chatappointment').get(function(req, res){
         console.log('/chatappointment 패스 get으로 요청됨.');
 
-
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
             res.redirect('/login');
@@ -889,22 +890,11 @@ module.exports = function(router, passport, upload) {
                             'sameEmailIndex' : 0,
                             'email': result[i]._doc.email,
                             'teamname': result[i]._doc.teamname,
-                            'region': result[i]._doc.region,
-                            'place': result[i]._doc.place,
-                            'move': result[i]._doc.move,
-                            'age': result[i]._doc.age,
-                            'gender': result[i]._doc.gender,
-                            'event_date': result[i]._doc.event_date,
-                            'event_time': result[i]._doc.event_time,
-                            'event_day': result[i]._doc.event_day,
                             'mention': result[i]._doc.mention,
                             'created_month': result[i]._doc.created_month,
                             'created_day': result[i]._doc.created_day,
-                            'geoLng': result[i]._doc.geoLng,
-                            'geoLat': result[i]._doc.geoLat,
-                            'nofteam': result[i]._doc.nofteam,
-                            // others는 내가 올린 매칭 등록 정보
-                            'others': result[i]._doc.others
+                            // // others는 내가 올린 매칭 등록 정보
+                            // 'others': result[i]._doc.others
                         };
                         eventData[j++] = data;
                         console.log(data);
@@ -975,8 +965,8 @@ module.exports = function(router, passport, upload) {
                     var data = {
                         'email': result[i]._doc.email,
                         'teamname': result[i]._doc.teamname,
+                        'add': result[i]._doc.add,
                         'region': result[i]._doc.region,
-                        'place': result[i]._doc.place,
                         'move': result[i]._doc.move,
                         'age': result[i]._doc.age,
                         'gender': result[i]._doc.gender,
@@ -984,11 +974,11 @@ module.exports = function(router, passport, upload) {
                         'event_time': result[i]._doc.event_time,
                         'event_day': result[i]._doc.event_day,
                         'mention': result[i]._doc.mention,
-                        'created_month': result[i]._doc.created_month,
-                        'created_day': result[i]._doc.created_day,
                         'geoLng': result[i]._doc.geoLng,
                         'geoLat': result[i]._doc.geoLat,
                         'nofteam': result[i]._doc.nofteam,
+                        'created_month': result[i]._doc.created_month,
+                        'created_day': result[i]._doc.created_day,
                         'others': result[i]._doc.others //내가 등록한 매칭 정보
                     };
                     eventData[j++] = data;

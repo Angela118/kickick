@@ -30,7 +30,26 @@
     }
 </script>
 
-<% var index = sSameEmailIndex; %>
+<% var index = sSameEmailIndex;
+
+var curGender = event_data[index].gender;
+var curMove = event_data[index].move;
+
+if(curGender == 25) {
+    curGender = '무관';
+}else if(curGender == 50) {
+    curGender = '남자';
+}else if(curGender == 100){
+    curGender = '여자';
+}
+
+if(curMove == 100){
+    curMove = 'O';
+}else if(curMove == 50){
+    curMove = 'X';
+}
+
+%>
 
 <nav class="navbar blueB">
 
@@ -63,21 +82,20 @@
     <div class="reco" style="margin-top: 2.3rem">
         <div class="mb-3">
             <p style="line-height: 2rem">
-
-                <% var region = (event_data[index].others.sRegion).substring(0,3); %>
-
                 주장 이메일 : <%= event_data[index].email %><br>
                 팀명 : <%= event_data[index].teamname %> 팀<br>
-                팀 지역 : <%= event_data[index].region%><br>
-                내가 등록했던 지역 : <%= region %><br>
-                내가 등록했던 장소 : <%= event_data[index].others.sPlace %><br>
-                원정가능 여부 : <%= event_data[index].move %><br>
+                <!--팀 지역에서 add[1]값이 없는 건 회원가입할 때 add가 배열이 아니어서임-->
+                팀 지역 : <%= event_data[index].add%><br>
+                <!--팀 지역 : <%= event_data[index].add[0] %> <%event_data[index].add[1]%><br>-->
+                내가 등록했던 지역 : <%= event_data[index].others.sAdd[0]%> <%= event_data[index].others.sAdd[1] %><br>
+                내가 등록했던 장소 : <%= event_data[index].others.sRegion %><br>
+                원정가능 여부 : <%= curMove %><br>
                 연령대 : <%= event_data[index].age %>대<br>
-                성별 : <%= event_data[index].gender %><br>
+                성별 : <%= curGender %><br>
                 경기 날짜 : <%= event_data[index].others.sEvent_date %><br>
                 경기 시간 : <%= event_data[index].others.sEvent_time %><br>
                 경기 요일 : <%= event_data[index].others.sEvent_day %>요일<br>
-                한마디 : <%= event_data[index].mention %><br>
+                한마디 : <%= event_data[index].others.sMention %><br>
                 신청 날짜 : <%= event_data[index].others.sCreatedMonth %>월 <%= event_data[index].others.sCreatedDay %>일<br>
                 팀 인원수 : <%= event_data[index].nofteam %>명<br>
                 상대팀 별점 : ***넣어야 됨<br>
