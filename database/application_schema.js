@@ -1,6 +1,7 @@
 
 
 var Schema = {};
+var an=0;
 
 Schema.createSchema = function(mongoose) {
 	
@@ -14,7 +15,7 @@ Schema.createSchema = function(mongoose) {
 
 	
 	// 스키마 정의
-	var ApplicationSchema = mongoose.Schema({		//16개
+	var ApplicationSchema = mongoose.Schema({		//17개
 		email: {type: String, 'default':''},
 		teamname: {type: String, index: 'hashed', 'default':''},
 		add: [{type: String, 'default':''}],
@@ -31,6 +32,7 @@ Schema.createSchema = function(mongoose) {
 		nofteam : {type:String, 'default':''},
 		created_month: {type: String, 'default': monthString},
 		created_day: {type: String, 'default': dayString},
+		application_number: {type:Number, 'default':an+1}
    });
 
 
