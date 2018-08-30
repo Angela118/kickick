@@ -8,22 +8,26 @@
 }
 
 .average-score{
-    text-align: center;
+    /*text-align: center;*/
+    /*align-items: center;*/
 }
 
 .stars{
     display:flex;
-    width:100px;
+    /*width:100px;*/
     left:0;
     right:0;
     margin-left:auto;
     margin-right:auto;
+    align-items: center;
+    text-align: center;
 }
 
 .review-random-profile{
     display:flex;
     align-items: center;
     font-size:.8rem;
+    justify-content: space-between;
 }
 
 .review-content{
@@ -33,4 +37,9 @@
 .review-name{
     display: flex;
     align-items: center;
+}
+
+.review-date{
+    display: flex;
+    align-items: right;
 }

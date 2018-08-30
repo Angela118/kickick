@@ -1286,7 +1286,7 @@ module.exports = function(router, passport, upload) {
             'career_count': req.user.career_count,
             'introteam': req.user.introteam,
             'profile_img': profile_photo,
-            'event_data':eventData
+            'others':others
         };
         //console.dir(event);
 
@@ -1493,21 +1493,21 @@ module.exports = function(router, passport, upload) {
             }
 
             var user_context = {
-                'email':req.user.email,
-                'password':req.user.password,
-                'teamname':req.user.teamname,
-                'gender':req.user.gender,
-                'age':req.user.age,
-                'region':req.user.region,
-                'move':req.user.move,
-                'nofteam':req.user.nofteam,
-                'career_year':req.user.career_year,
-                'career_count':req.user.career_count,
-                'introteam':req.user.introteam,
-                'profile_img':profile_photo,
+                'email': req.user.email,
+                'password': req.user.password,
+                'teamname': req.user.teamname,
+                'add' : req.user.add,
+                'region': req.user.region,
+                'move': req.user.move,
+                'gender': req.user.gender,
+                'age': req.user.age,
+                'nofteam': req.user.nofteam,
+                'career_year': req.user.career_year,
+                'career_count': req.user.career_count,
+                'introteam': req.user.introteam,
+                'profile_img': profile_photo,
                 'event_data':eventData
             };
-
             res.render('team_review.ejs', user_context);
         }
     });
