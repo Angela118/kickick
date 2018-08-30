@@ -97,6 +97,12 @@
       var curDate = event_data[i].event_date;
       var curTime = event_data[i].event_time;
       var curMention = event_data[i].mention;
+
+      if(curMove == 100){
+        curMove = 'O';
+      }else if(curMove == 50){
+        curMove = 'X';
+      }
     %>
     <div class="content mb-3"> <!--content-->
       <div class="date">
