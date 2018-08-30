@@ -1262,7 +1262,7 @@ module.exports = function(router, passport, upload) {
         var others = {
             'sEmail': req.body.sEmail,
             'sTeamname': req.body.sTeamname,
-            'sAdd': req.body.sAdd,
+            'sAdd': [req.body.sAdd0, req.body.sAdd1],
             'sRegion': req.body.sRegion,
             'sMove' : req.body.sMove,
             'sAge': req.body.sAge,

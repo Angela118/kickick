@@ -183,7 +183,8 @@
                         function clicked(email, teamname, add, region, move, age, gender, date, time, day, mention, createdMonth, createdDay, geoLng, geoLat, nofteam, index) {
                             document.getElementsByName('sEmail')[index].value = email;
                             document.getElementsByName('sTeamname')[index].value = teamname;
-                            document.getElementsByName('sAdd')[index].value = add;
+                            document.getElementsByName('sAdd0')[index].value = add.split(',')[0];
+                            document.getElementsByName('sAdd1')[index].value = add.split(',')[1];
                             document.getElementsByName('sRegion')[index].value = region;
                             document.getElementsByName('sMove')[index].value = move;
                             document.getElementsByName('sAge')[index].value = age;
@@ -231,7 +232,8 @@
                 <form action="/mainsearchresult" method="post">
                     <input type="hidden" name="sEmail" id="sEmail" value=''>
                     <input type="hidden" name="sTeamname" id="sTeamname" value=''>
-                    <input type="hidden" name="sAdd" id="sAdd" value=''>
+                    <input type="hidden" name="sAdd0" id="sAdd0" value=''>
+                    <input type="hidden" name="sAdd1" id="sAdd1" value=''>
                     <input type="hidden" name="sRegion" id="sRegion" value=''>
                     <input type="hidden" name="sMove" id="sMove" value=''>
                     <input type="hidden" name="sAge" id="sAge" value=''>
