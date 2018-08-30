@@ -8,7 +8,7 @@ body{
   position: static;
 }
 
-.menu_img { 
+.menu_img {
   display: block;
   float: left;
 }
@@ -79,7 +79,7 @@ a{color:white;text-decoration:none;background-color:transparent;-webkit-text-dec
 }
 
 .nav-item{margin-bottom:-1px;
-font-color:white}
+  font-color:white}
 /*
 .nav-link{border:1px solid transparent;border-top-left-radius:.25rem;border-top-right-radius:.25rem}
 .nav-tabs .nav-link:focus,.nav-link:hover{border-color:#e9ecef #e9ecef #dee2e6}

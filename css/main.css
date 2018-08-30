@@ -12,39 +12,39 @@
 }
 
 select.custom-select option{
-    font-size:1rem
+  font-size:1rem
 }
 
 .list_item{
-    display: flex;
-    justify-content: space-between;
-    padding:.5rem;
-    background-color: rgb(190, 190, 190);
+  display: flex;
+  justify-content: space-between;
+  padding:.5rem;
+  background-color: rgb(190, 190, 190);
 }
 
 .list_item_date>h3{
-    color:white;
-    letter-spacing:.2rem;
-    line-height: 1.6rem;
-    margin-left: 1rem;
-    font-weight: bold;
+  color:white;
+  letter-spacing:.2rem;
+  line-height: 1.6rem;
+  margin-left: 1rem;
+  font-weight: bold;
 }
 
 .list_item_team{
-    color: white;
+  color: white;
 }
 
 .list_item_team_detail{
-    font-size: .6rem;
-    text-align: right;
+  font-size: .6rem;
+  text-align: right;
 
-    margin-bottom: .3rem;
-    margin-right: 1rem;
+  margin-bottom: .3rem;
+  margin-right: 1rem;
 }
 
 .list_item_team_name{
-    margin-right: 1rem;
-    font-weight: bold;
+  margin-right: 1rem;
+  font-weight: bold;
 }
 
 /*페이징*/
@@ -96,11 +96,11 @@ select.custom-select option{
   align-items: center;
   padding-top: 1em;
   padding-bottom: 1em;
-  
+
   border-bottom: 1px solid white;
 }
 
-.menu_img { 
+.menu_img {
   display: block;
   float: left;
 }
@@ -137,4 +137,10 @@ select {
   padding:.50rem;
   vertical-align:top;
   border-top:1px solid #dee2e6
+}
+
+
+/*main_search_result------------------------------------------------*/
+.modal_content{
+  margin-bottom: 0.2rem;
 }

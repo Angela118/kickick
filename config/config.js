@@ -6,11 +6,10 @@ module.exports = {
 	    {file:'./user_schema', collection:'users6', schemaName:'UserSchema', modelName:'UserModel'},
 		{file:'./chat_schema', collection:'chatting', schemaName:'ChatSchema',
 		modelName:'ChatModel'},
-		{file:'./appointment_schema', collection:'appointment', schemaName:'AppointmentSchema', modelName:'AppointmentModel'},
 		{file:'./application_schema', collection:'application', schemaName:'ApplicationSchema', modelName:'ApplicationModel'},
-        {file:'./review_schema', collection:'review', schemaName:'ReviewSchema', modelName:'ReviewModel'},
         {file:'./match_schema', collection:'match', schemaName:'MatchSchema', modelName:'MatchModel'}
 	],
 	route_info: [
+		
 	]
 }

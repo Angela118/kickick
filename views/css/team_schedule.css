@@ -55,17 +55,17 @@
 
 /*team_schedule------------------------------------------------------------------------------------*/
 
-     /*
-         @font-face { font-family: 'yoonG'; src: url('../font/yoonG350.ttf') format('truetype'); }
-         body{
-             font-size: larger;
-             font-family: yoonG!important;
-             !*letter-spacing: -0.095rem;*!
-         }*/
+/*
+    @font-face { font-family: 'yoonG'; src: url('../font/yoonG350.ttf') format('truetype'); }
+    body{
+        font-size: larger;
+        font-family: yoonG!important;
+        !*letter-spacing: -0.095rem;*!
+    }*/
 
- .score_content{
-     display: none;
- }
+.score_content{
+    display: none;
+}
 
 *, *:before, *:after {
     -moz-box-sizing: border-box;
@@ -115,9 +115,9 @@ h3 {padding: 0; margin: 0;}
     transition: ease .4s all;
 }*/
 
-    .events-detail .event_content:hover {
-        background: #e9e9e9;
-    }
+.events-detail .event_content:hover {
+    background: #e9e9e9;
+}
 
 .event-time {
     font-weight: 900;

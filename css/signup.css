@@ -10,7 +10,7 @@
 /*body css 일단 지우지 말고 두기*/
 
 .navbar{
-    /*justify-content:space-around;*/
+    justify-content:space-around;
     padding:1rem 0rem;
 }
 .profile_img_upload{
@@ -55,3 +55,13 @@
 }
 
 #profile_color{ background-color: #007bff; }
+
+.enter{
+    display: flex;
+}
+.one two {
+    display: block;
+}
+.two {
+    padding-left: 0.5em;
+}

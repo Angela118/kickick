@@ -12,22 +12,26 @@ var Schema = {};
 Schema.createSchema = function(mongoose) {
 	
 	// 스키마 정의
-	var UserSchema = mongoose.Schema({
-		email: {type: String, 'default':''}
-	    , hashed_password: {type: String, required: true, 'default':''}
-	    , teamname: {type: String, index: 'hashed', 'default':''}
-	    , salt: {type:String, required:true}
- //       , nickname: {type:String, index:'hashed', 'default':''}
-        , gender: {type:String, 'default':''} 
-        , age: {type:Number, 'default':''}
-		, region: {type:String, 'default':''}
-		, move: {type:String, 'default':''}
-		, nofteam: {type:Number, 'default':''}
-		, career_year: {type:Number, 'default':''}
-		, career_count: {type:Number, 'default':''}
-		, introteam: {type:String, default:''}
-		, created_at: {type: Date, index: {unique: false}, 'default': Date.now}
-	    , updated_at: {type: Date, index: {unique: false}, 'default': Date.now}
+	var UserSchema = mongoose.Schema({		//18개
+		email: {type: String, 'default':''},
+	    hashed_password: {type: String, required: true, 'default':''},
+	    teamname: {type: String, index: 'hashed', 'default':''},
+	    salt: {type:String, required:true},
+ //     nickname: {type:String, index:'hashed', 'default':''},
+        gender: {type:String, 'default':''},
+        age: {type:Number, 'default':''},
+		region: {type:String, 'default':''},
+		add: {type:String, 'default':''},
+		move: {type:String, 'default':''},
+		nofteam: {type:Number, 'default':''},
+		career_year: {type:Number, 'default':''},
+		career_count: {type:Number, 'default':''},
+		introteam: {type:String, default:''},
+		profile_img: {type:String, 'default':'profile_basic.png'},
+		geoLng:{type:Number, 'default':''},
+		geoLat:{type:Number, 'default':''},
+		created_at: {type: Date, index: {unique: false}, 'default': Date.now},
+	    updated_at: {type: Date, index: {unique: false}, 'default': Date.now},
 	});
 	
 	// password를 virtual 메소드로 정의 : MongoDB에 저장되지 않는 편리한 속성임. 특정 속성을 지정하고 set, get 메소드를 정의함

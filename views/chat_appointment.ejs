@@ -68,72 +68,187 @@
     
     <div class="fit">
         <div>장소</div>
-        <input type="text" name="event_place" id="sample5_address"  placeholder="주소" class="form-control mt-2 marginbottom" readonly/ >
-        <input type="button" class="marginbottom" onclick="sample5_execDaumPostcode()" value="주소 검색">
-        
-        <div id="map" style="height:300px;"></div>
-        <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-        <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df8f5565b51994aa9c71d2128dcdfec5&libraries=services"></script>
-        <script>
-            var mapContainer = document.getElementById("map"); // 지도를 표시할 div
-            //mapContainer.width = document.getElementById("mySize").offsetWidth;
-            mapOption = {
-                center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-                level: 5 // 지도의 확대 레벨
-            };
-               //지도를 미리 생성
-            var map = new daum.maps.Map(mapContainer, mapOption);
-               //주소-좌표 변환 객체를 생성
-            var geocoder = new daum.maps.services.Geocoder();
-                //마커를 미리 생성
-            var marker = new daum.maps.Marker({
-                position: new daum.maps.LatLng(37.537187, 127.005476),
-                map: map
-            });
-            
-            function sample5_execDaumPostcode() {
-                new daum.Postcode({
-                    oncomplete: function(data) {
-                        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                        var fullAddr = data.address; // 최종 주소 변수
-                        var extraAddr = ''; // 조합형 주소 변수
-                        // 기본 주소가 도로명 타입일때 조합한다.
-                        if(data.addressType === 'R'){
-                           //법정동명이 있을 경우 추가한다.
-                            if(data.bname !== ''){
-                                extraAddr += data.bname;
-                            }
-                           // 건물명이 있을 경우 추가한다.
-                            if(data.buildingName !== ''){
-                                extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                            }
-                           // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
-                            fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
-                        }
-                        // 주소 정보를 해당 필드에 넣는다.
-                        document.getElementById("sample5_address").value = fullAddr;
-                        // 주소로 상세 정보를 검색
-                        geocoder.addressSearch(data.address, function(results, status) {
-                           // 정상적으로 검색이 완료됐으면
-                            if (status === daum.maps.services.Status.OK) {
-                                var result = results[0]; //첫번째 결과의 값을 활용
-                           
-                              // 해당 주소에 대한 좌표를 받아서
-                                var coords = new daum.maps.LatLng(result.y, result.x);
-                              // 지도를 보여준다.
-                                mapContainer.style.display = "block";
-                                map.relayout();
-                              // 지도 중심을 변경한다.
-                                map.setCenter(coords);
-                              // 마커를 결과값으로 받은 위치로 옮긴다.
-                                marker.setPosition(coords)
-                            }
-                        });
-                    }
-                }).open();
-            }
-        </script>
+        <input placeholder="숙명여자대학교" id="keyword" size="15"> 
+			 <input type="button" onclick="searchPlaces()" value="검색하기">				
+
+			<input type="hidden" name="resultLat" id="resultLat" placeholder="위도" class="form-control" readonly/ > 
+			<input type="hidden" name="resultLng" id="resultLng" placeholder="경도" class="form-control" readonly/ >
+			<input name="region" id="region" class="form-control" size="15" readonly/>
+			<input name="add" id="add" class="form-control" readonly/>
+
+			<div id="map" style="width:100%;height:350px;"></div>
+
+			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=df8f5565b51994aa9c71d2128dcdfec5&libraries=services"></script>
+			<script>
+			// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+			var infowindow = new daum.maps.InfoWindow({zIndex:1});
+
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+				mapOption = {
+					center: new daum.maps.LatLng(37.54528542434111, 126.96541439095647), // 지도의 중심좌표
+					level: 7 // 지도의 확대 레벨
+				};  
+
+			// 지도를 생성합니다    
+			var map = new daum.maps.Map(mapContainer, mapOption); 
+
+			// 장소 검색 객체를 생성합니다
+			var ps = new daum.maps.services.Places(); 
+
+
+			ps.keywordSearch('숙명여자대학교', placesSearchCB); 
+
+			// 키워드로 장소를 검색합니다
+			//searchPlaces();
+
+			// 키워드 검색을 요청하는 함수입니다
+			function searchPlaces() {
+
+				var keyword = document.getElementById('keyword').value;
+
+				if (!keyword.replace(/^\s+|\s+$/g, '')) {
+					alert('키워드를 입력해주세요!');
+					return false;
+				}
+
+				// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+				ps.keywordSearch( keyword, placesSearchCB); 
+			}
+
+
+
+			// 키워드 검색 완료 시 호출되는 콜백함수 입니다
+			function placesSearchCB (data, status, pagination) {
+				if (status === daum.maps.services.Status.OK) {
+
+					// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+					// LatLngBounds 객체에 좌표를 추가합니다
+					var bounds = new daum.maps.LatLngBounds();
+
+					for (var i=0; i<data.length; i++) {
+						displayMarker(data[i]);    
+						bounds.extend(new daum.maps.LatLng(data[i].y, data[i].x));
+					}       
+
+					// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+					map.setBounds(bounds);
+				} 
+			}
+
+
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new daum.maps.services.Geocoder();
+
+			function searchDetailAddrFromCoords(coords, callback) {
+				// 좌표로 법정동 상세 주소 정보를 요청합니다
+				geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+			}	
+
+
+			// 지도에 마커를 표시하는 함수입니다
+			function displayMarker(place) {
+
+				// 마커를 생성하고 지도에 표시합니다
+				var marker = new daum.maps.Marker({
+					map: map,
+					position: new daum.maps.LatLng(place.y, place.x) 
+				});
+
+				var geoLat = place.y;
+				var geoLng = place.x;
+
+
+
+
+				// 마커에 클릭이벤트를 등록합니다
+				daum.maps.event.addListener(marker, 'click', function() {
+
+					displayPlaceInfo(place);
+
+
+					var region = document.getElementById('region');
+					region.value = place.place_name;
+
+					var resultLat = document.getElementById('resultLat');
+					resultLat.value = geoLat;
+
+					var resultLng = document.getElementById('resultLng');
+					resultLng.value = geoLng;
+
+					var add = document.getElementById('add');
+					add.value = place.road_address_name;
+
+				});
+
+
+				// 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
+				function displayPlaceInfo (place) {
+					var content = '<div class="placeinfo">' +
+									'   <a class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' + place.place_name + '</a>';   
+
+					if (place.road_address_name) {
+						content += '    <span title="' + place.road_address_name + '">' + place.road_address_name + '</span>' +
+									'  <span class="jibun" title="' + place.address_name + '">(지번 : ' + place.address_name + ')</span>';
+					}  else {
+						content += '    <span title="' + place.address_name + '">' + place.address_name + '</span>';
+					}                
+
+					content += '    <span class="tel">' + place.phone + '</span>' + 
+								'</div>' + 
+								'<div class="after"></div>';
+
+					// 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
+					infowindow.setContent(content);
+					infowindow.open(map, marker); 
+				}
+
+
+				/*
+
+				// 지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록합니다
+				daum.maps.event.addListener(marker, 'click', function() {
+					searchDetailAddrFromCoords((geoLng, geoLat), function(result, status) {
+						if (status === daum.maps.services.Status.OK) {
+							var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+								detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+
+							var content = '<div class="bAddr">' +
+											'<span class="title">'+ place.place_name+''</span>' + 
+											detailAddr + 
+										'</div>';
+
+
+
+							// 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
+							infowindow.setContent(content);
+							infowindow.open(map, marker);
+						}   
+					});
+				});	
+
+
+
+				// 마커에 클릭이벤트를 등록합니다
+				daum.maps.event.addListener(marker, 'click', function() {
+					// 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+					infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+					infowindow.open(map, marker);
+
+					var region = document.getElementById('region');
+					region.value = place.place_name;
+					var resultLat = document.getElementById('resultLat');
+					resultLat.value = geoLat;
+					var resultLng = document.getElementById('resultLng');
+					resultLng.value = geoLng;
+
+				});
+
+
+				*/
+
+
+			}
+			</script>
         </div>
     
     <div class="fit">
