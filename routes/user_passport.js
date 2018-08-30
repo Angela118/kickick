@@ -937,7 +937,6 @@ module.exports = function(router, passport, upload) {
             var j = 0;
 
             // 내가 올린 매칭을 상대방이 신청할 경우 찾기
-
             // 내가 아닌 사람이 올린 매칭 찾기
             dbm.MatchModel.find({email : {"$ne" : req.user.email}} ,function (err, result) {
                 for (var i = 0; i < result.length; i++) {
@@ -953,8 +952,7 @@ module.exports = function(router, passport, upload) {
                             'mention': result[i]._doc.mention,
                             'created_month': result[i]._doc.created_month,
                             'created_day': result[i]._doc.created_day,
-                            // // others는 내가 올린 매칭 등록 정보
-                            // 'others': result[i]._doc.others
+                            'match_success' : result[i]._doc.match_success
                         };
                         eventData[j++] = data;
                         console.log(data);
