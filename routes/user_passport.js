@@ -1419,6 +1419,7 @@ module.exports = function(router, passport, upload) {
                                 console.log('i : ' + i);
                                 otherProfileImg = result[i]._doc.profile_img;
                                 console.log('otherProfile : ' + otherProfileImg);
+                                data['otherProfile'] = otherProfileImg;
                             }
                         });
                         eventData[j++] = data;
@@ -1464,10 +1465,34 @@ module.exports = function(router, passport, upload) {
                                     console.log('i : ' + i);
                                     otherProfileImg = result[i]._doc.profile_img;
                                     console.log('otherProfile : ' + otherProfileImg);
+                                    data['otherProfile'] = otherProfileImg;
                                 }
-                            });
 
+                                var user_context = {
+                                    'email': req.user.email,
+                                    'password': req.user.password,
+                                    'teamname': req.user.teamname,
+                                    'add' : req.user.add,
+                                    'region': req.user.region,
+                                    'move': req.user.move,
+                                    'gender': req.user.gender,
+                                    'age': req.user.age,
+                                    'nofteam': req.user.nofteam,
+                                    'career_year': req.user.career_year,
+                                    'career_count': req.user.career_count,
+                                    'introteam': req.user.introteam,
+                                    'profile_img': profile_photo,
+                                    'event_data':eventData
+                                }; // user_context
+
+                                console.log('88888888888888888888888888');
+
+                                console.dir(eventData);
+                                res.render('team_schedule.ejs', user_context);
+                            });
+                            console.log('565656565656565');
                             eventData[j++] = data;
+                            console.log('22565656565656565');
 
                         }
                         console.log('666666666666666666666666666');
@@ -1475,7 +1500,7 @@ module.exports = function(router, passport, upload) {
                     console.log('777777777777777777777777777777777');
 
 
-                    var user_context = {
+/*                    var user_context = {
                         'email': req.user.email,
                         'password': req.user.password,
                         'teamname': req.user.teamname,
@@ -1495,7 +1520,7 @@ module.exports = function(router, passport, upload) {
                     console.log('88888888888888888888888888');
 
                     console.dir(eventData);
-                    res.render('team_schedule.ejs', user_context);
+                    res.render('team_schedule.ejs', user_context);*/
                 }); // dbm event_data2 end
             }); // dbm event_data end
         } // 인증 else문 end
