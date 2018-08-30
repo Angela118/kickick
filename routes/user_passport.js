@@ -84,9 +84,6 @@ module.exports = function(router, passport, upload) {
                     j+=1;
                 }
 
-                console.log('22222222eventData : ');
-                console.dir(eventData);
-
                 const json2csvParser = new Json2csvParser({ fields });
                 const csv = json2csvParser.parse(eventData);
 
@@ -149,6 +146,69 @@ module.exports = function(router, passport, upload) {
 
             }, 1500);
         }
+    });
+
+    router.route('/').post(function(req, res) {
+        console.log('/main 패스 post 요청됨.');
+
+        var dbm = require('../database/database');
+        console.log('database 모듈 가져옴');
+
+        var others = {
+            'sEmail': req.body.sEmail,
+            'sTeamname': req.body.sTeamname,
+            'sAdd': [req.body.sAdd0, req.body.sAdd1],
+            'sRegion': req.body.sRegion,
+            'sMove' : req.body.sMove,
+            'sAge': req.body.sAge,
+            'sGender': req.body.sGender,
+            'sEvent_date': req.body.sDate,
+            'sEvent_time': req.body.sTime,
+            'sEvent_day' : req.body.sDay,
+            'sMention': req.body.sMention,
+            'sCreatedMonth' : req.body.sCreatedMonth,
+            'sCreatedDay' : req.body.sCreatedDay,
+            'sGeoLng': req.body.sGeoLng,
+            'sGeoLat': req.body.sGeoLat,
+            'sNofteam': req.body.sNofteam,
+            'sScore': 0,
+            'sReceivedReview' : 0,
+            'sReceivedReviewComment' : '',
+            'sReviewDate' : ''
+        }
+
+        var event = {
+            'email': req.user.email,
+            'password': req.user.password,
+            'teamname': req.user.teamname,
+            'add' : req.user.add,
+            'region': req.user.region,
+            'move': req.user.move,
+            'gender': req.user.gender,
+            'age': req.user.age,
+            'nofteam': req.user.nofteam,
+            'career_year': req.user.career_year,
+            'career_count': req.user.career_count,
+            'introteam': req.user.introteam,
+            'profile_img': profile_photo,
+            'others':others
+        };
+        //console.dir(event);
+
+        var event_match = new dbm.MatchModel(event);
+
+        event_match.save(function (err, data) {
+            if (err) {// TODO handle the error
+                console.log("match save error");
+                console.log('err : ' + err);
+                console.log('data : ' + data);
+            }
+            console.log('New match inserted');
+            console.log('data : ' + data);
+        });
+
+        res.redirect('/');
+
     });
 
 
