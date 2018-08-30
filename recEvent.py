@@ -17,7 +17,7 @@ def swap(x, i, j):
 
 
 #파일 불러오기 
-file = open('D:/coding test/javascriptTest/kickick-inju/recEvent.csv', 'r', encoding='UTF8')
+file = open('D:/coding test/javascriptTest/kickick-merge/recEvent.csv', 'r', encoding='UTF8')
 reader = csv.reader(file)
 
 data=[]
@@ -111,7 +111,7 @@ print()
 
 
 #recOutput.csv에 저장 
-with open('D:/coding test/javascriptTest/kickick-inju/recOutput.csv','w', encoding='UTF8', newline='') as output:
+with open('D:/coding test/javascriptTest/kickick-merge/recOutput.csv','w', encoding='UTF8', newline='') as output:
     writer = csv.writer(output)
     for val in result_data:
         writer.writerow(val)

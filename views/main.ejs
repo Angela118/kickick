@@ -131,12 +131,6 @@
             }else if(curGender == 100){
                 curGender = '여자';
             }
-
-            if(curMove == 100){
-                curMove = 'O';
-            }else if(curMove == 50){
-                curMove = 'X';
-            }
         %>
 
 
@@ -189,10 +183,17 @@
                 }else{
                     gender = '여'
                 }
+
+                if(move == 100){
+                    move = 'O';
+                }else if(move == 50){
+                    move = 'X';
+                }
+
                 // alert(region + email + city);
 
                 $("div[name=email]").eq(index).text('주장 이메일 : ' + email);
-                $("div[name=teamname]").eq(index).text('팀명: ' + teamname);
+                $("div[name=teamname]").eq(index).text('팀명: ' + teamname + '팀');
                 $("div[name=add]").eq(index).text('지역 : ' + add);
                 $("div[name=region]").eq(index).text('장소 : ' + region);
                 $("div[name=move]").eq(index).text('원정가능여부 : ' + move);
@@ -200,11 +201,11 @@
                 $("div[name=gender]").eq(index).text('성별 : ' + gender);
                 $("div[name=date]").eq(index).text('날짜 : ' + date);
                 $("div[name=time]").eq(index).text('시간 : ' + time);
-                $("div[name=day]").eq(index).text('요일 : ' + day);
+                $("div[name=day]").eq(index).text('요일 : ' + day + '요일');
                 $("div[name=mention]").eq(index).text('한마디 : ' + mention);
                 $("span[name=createdMonth]").eq(index).text('등록한 날짜 : ' + createdMonth + '월 ');
                 $("span[name=createdDay]").eq(index).text(createdDay + '일');
-                $("div[name=nofteam]").eq(index).text('인원수 : ' + nofteam);
+                $("div[name=nofteam]").eq(index).text('인원수 : ' + nofteam + '명');
                 $("div[name=myModal]").eq(index).modal();
             }
         </script>
