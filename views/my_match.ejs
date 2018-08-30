@@ -31,7 +31,8 @@
   <div class="top">
     <div>
       <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack();">
-
+		
+		<a href="/"><p onclick="/" class="logo">축하싶</p></a>
       <p class="logo ml-sm-3 whiteW">내가 등록한 매칭</p>
     </div>
 
@@ -97,6 +98,7 @@
       var curDate = event_data[i].event_date;
       var curTime = event_data[i].event_time;
       var curMention = event_data[i].mention;
+	  var curApplicationNumber = event_data[i].application_number;
     %>
     <div class="content mb-3"> <!--content-->
       <div class="date">
@@ -134,8 +136,30 @@
               <span><%= curMention %></span>
             </p>
             <div>
-              <a href="/matchapplicationedit"><button class="btn btn-block blueB mt-3">수정하기</button></a>
+				<form action="/mymatch" method="post">
+					<input type="hidden" name="user" id="user" class="form-control" value="<%= curEmail %>" readonly/>
+					<input type="hidden" name="date" id="date" class="form-control" value="<%= curDate %>" readonly/>
+					<input type="hidden" name="time" id="time" class="form-control" value="<%= curTime %>" readonly/>
+					<input type="hidden" name="event_region" id="event_region" class="form-control" value="<%= curRegion %>" readonly/>
+					<input type="hidden" name="event_application_number" id="event_application_number" class="form-control" value="<%= curApplicationNumber %>" readonly/>
+					
+					<a href="/matchapplicationedit"><button class="btn btn-block blueB mt-3">수정하기</button></a>
+					<a href="/mymatch"><button class="btn btn-block blueB mt-3" onclick="alert('삭제되었습니다.')" value="del" name="opt">삭제하기</button></a>
+				</form>
             </div>
+	<!--		  
+			  <script>
+				function btn_js_confirm_click(){
+					/* confirm(문자열, 초기값) */
+					var check = confirm("정말로 삭제하시겠습니까?");
+					/* if(check == true) else false */
+					if(check){					
+						alert("삭제되었습니다.");
+					}
+				};
+			  </script>
+
+-->
           </div>
         </div>
       </div>
