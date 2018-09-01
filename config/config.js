@@ -7,7 +7,8 @@ module.exports = {
 		{file:'./chat_schema', collection:'chatting', schemaName:'ChatSchema',
 		modelName:'ChatModel'},
 		{file:'./appointment_schema', collection:'appointment', schemaName:'AppointmentSchema', modelName:'AppointmentModel'},
-		{file:'./application_schema', collection:'application', schemaName:'ApplicationSchema', modelName:'ApplicationModel'}
+		{file:'./application_schema', collection:'application', schemaName:'ApplicationSchema', modelName:'ApplicationModel'},
+		{file:'./match_schema', collection:'match', schemaName:'MatchSchema', modelName:'MatchModel'}
 	],
 	route_info: [
 		
