@@ -158,26 +158,14 @@
 				var geoLng = place.x;
 
 
-
-
 				// 마커에 클릭이벤트를 등록합니다
 				daum.maps.event.addListener(marker, 'click', function() {
-
 					displayPlaceInfo(place);
 
-
-					var region = document.getElementById('region');
-					region.value = place.place_name;
-
-					var resultLat = document.getElementById('resultLat');
-					resultLat.value = geoLat;
-
-					var resultLng = document.getElementById('resultLng');
-					resultLng.value = geoLng;
-
-					var add = document.getElementById('add');
-					add.value = place.road_address_name;
-
+					document.getElementById('region').value = place.place_name;
+					document.getElementById('resultLat').value = geoLat;
+					document.getElementById('resultLng').value = geoLng;
+					document.getElementById('add').value = place.road_address_name;
 				});
 
 

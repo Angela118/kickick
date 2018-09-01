@@ -100,11 +100,14 @@
       var curMention = event_data[i].mention;
 	  var curApplicationNumber = event_data[i].application_number;
     
-
     if(curMove == 100){
         curMove = 'O';
     }else if(curMove == 50){
         curMove = 'X';
+    }
+		  
+	if(curTime == 'none'){
+        curTime = '시간 무관';
     }
     %>
     <div class="content mb-3"> <!--content-->
@@ -150,23 +153,25 @@
 					<input type="hidden" name="event_region" id="event_region" class="form-control" value="<%= curRegion %>" readonly/>
 					<input type="hidden" name="event_application_number" id="event_application_number" class="form-control" value="<%= curApplicationNumber %>" readonly/>
 					
-					<a href="/matchapplicationedit"><button class="btn btn-block blueB mt-3">수정하기</button></a>
-					<a href="/mymatch"><button class="btn btn-block blueB mt-3" onclick="alert('삭제되었습니다.')" value="del" name="opt">삭제하기</button></a>
+					<a href="/matchapplicationedit"><button value="mod" class="btn btn-block blueB mt-3">수정하기</button></a>
+					<a href="/mymatch"><button class="btn btn-block blueB mt-3" onclick="del_clicked()" id="opt" name="opt">삭제하기</button></a>
 				</form>
             </div>
-	<!--		  
+			  
 			  <script>
-				function btn_js_confirm_click(){
+				function del_clicked(){
+					
 					/* confirm(문자열, 초기값) */
 					var check = confirm("정말로 삭제하시겠습니까?");
 					/* if(check == true) else false */
-					if(check){					
+					if(check){
 						alert("삭제되었습니다.");
+						document.getElementById('opt').value = 'del';
+					}else{						
 					}
 				};
 			  </script>
 
--->
           </div>
         </div>
       </div>

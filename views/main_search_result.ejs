@@ -37,37 +37,37 @@
 
     <div class="collapse navbar-collapse" id="navbarsExample01">
         <div class="mypage">
-            <div class="img_div" style="margin-left: 0rem; margin-right: 0"><img class="profile_img" src="../profile_img/<%= profile_img %>" id="profile_pic"/></div>
+            <img src="../profile_img/<%= profile_img %>" id="profile_pic" style="margin-right: .2rem; width:3rem; height: 3rem">
             <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= teamname %> 팀</span>
             <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
-            <a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
+			<a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
             <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
         </div>
 
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/">홈 (매칭 팀 검색)</a>
-            </li>
-            <li class="nav-item" style="display:flex; align-items:center">
-                <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
-            </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/">홈 (매칭 팀 검색)</a>
+      </li>
+      <li class="nav-item" style="display:flex; align-items:center">
+        <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
+      </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="/teamreceivedreview" style="margin-left:2rem">우리 팀 평가 점수</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/teamschedule" style="margin-left:2rem">경기 스케줄</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="matchapplication">매칭 등록</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/mymatch">내가 등록한 매칭</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/contact">개발자에게 연락</a>
-            </li>
-        </ul>
+      <li class="nav-item">
+        <a class="nav-link" href="/teamreceivedreview" style="margin-left:2rem">우리 팀 평가 점수</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/teamschedule" style="margin-left:2rem">경기 스케줄</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="matchapplication">매칭 등록</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/mymatch">내가 등록한 매칭</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/contact">개발자에게 연락</a>
+      </li>
+    </ul>
 
     </div>
 </nav>
@@ -310,7 +310,7 @@
                                 <!--&lt;!&ndash; Modal footer &ndash;&gt;-->
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-dismiss="modal" >닫기</button>
-                                    <button type="submit" class="btn btn-primary" onclick='clicked(
+                                    <a href="/mainsearchresult"><button type="submit" class="btn btn-primary" onclick='clicked(
                                             `<%= event_data[i].email %>`,
                                             `<%= event_data[i].teamname %>`,
                                             `<%= event_data[i].add %>`,
@@ -328,6 +328,7 @@
                                             `<%= event_data[i].geoLat %>`,
                                             `<%= event_data[i].nofteam %>`,
                                             `<%= i%>`)' >매칭 신청</button>
+										</a>
                                 </div>
                             </div>
                         </div>
