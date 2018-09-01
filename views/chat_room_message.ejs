@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/chat_room.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/FRAME.css" rel="stylesheet">
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+        function goBack(){
+            window.history.back();
+        }
+    </script>
+
+    <title>채팅방 목록 - 메시지</title>
+</head>
+<body class="whiteB">
+
+<!--메뉴 영역 시작-->
+<!--여기선 메뉴명 채팅방 목록으로 되어 있음-->
+
+<nav class="navbar blueB">
+    <div class="top">
+        <div>
+            <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack();">
+
+            <p class="logo ml-sm-3">채팅방 목록</p>
+        </div>
+
+        <div>
+            <a href="/chatroom"><img src="../img/envelope.png" class="menu_img" width="20rem" height="20rem" style="margin-right:1rem"></a>
+
+            <img src="../img/menu.png" width="20rem" height="20rem" class="navbar-toggler" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
+        </div>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarsExample01">
+        <div class="mypage">
+            <img src="../profile_img/<%= profile_img %>" id="profile_pic" style="margin-right: .2rem; width:3rem; height: 3rem">
+            <span id="name" style="font-weight: bold; font-size: 1.2rem; margin-left: .5rem"><%= teamname %> 팀</span>
+            <a href="/teamprofile"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">내 정보</button></a>
+            <a href="/uploadimg"><button class="btn btn-sm btn-warning" type="submit" style="margin-right: .5rem">프로필 사진 변경</button></a>
+            <a href="/logout"><button class="btn btn-sm btn-warning" type="submit">로그아웃</button></a>
+        </div>
+
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">홈 (매칭 팀 검색)</a>
+            </li>
+            <li class="nav-item" style="display:flex; align-items:center">
+                <span style="margin-bottom: 0; padding: .5rem 0rem; color:white">우리 팀</span>
+                <!--<hr align="right" style="border: solid 0.1rem white; width: 70%;">-->
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/teamreceivedreview" style="margin-left:2rem">우리 팀 평가 점수</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/teamschedule" style="margin-left:2rem">경기 스케줄</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/matchapplication">매칭 등록</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/contact">개발자에게 연락</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="py-4 text-center"></div>
+
+<!--메뉴 영역 끝-->
+
+<div class = "blueB chat_tab">
+    <div onclick="location='./chatroomchat'">채팅</div>
+    <div onclick="location='./chatroommessage'">메시지</div>
+</div>
+
+<div class="container" style="padding-top:6rem">
+    <div class="reco" style="margin-top: -1rem">
+
+        <% if(event_data.length == 0) { %>
+        <p style="font-weight: bold">우리 팀에게 온 메시지가 없습니다.</p>
+        <%}else{
+            var notZeroCount = 0; // 나한테 신청왔는데 매칭 수락이나 거절한거
+            var count = 0; // 띄워지는 값 count
+
+        <!--event_data는 내게 신청한 상대팀 정보-->
+        <!--event_data.others는 선택된 (내가 올렸던) 경기 날짜 & 시간 등 들어있음 -->
+        for(var i = 0; i < event_data.length; i++) {
+            var curEmail = event_data[i].email;
+            var curTeamname = event_data[i].teamname;
+            var curMention = event_data[i].mention;
+            var curCreatedMonth = event_data[i].created_month;
+            var curCreatedDay = event_data[i].created_day;
+            var match_succcess = event_data[i].match_success;
+
+            // matchsuccess=0인것만 메시지함에서 띄우기
+            if(event_data[i].match_success != 0) {
+
+                // event_data 다 돌았는데 다 매칭 수락이나 거절했으면
+                if((i == (event_data.length - 1)) && ((notZeroCount) == i)) {%>
+                    <p style="font-weight: bold">우리 팀에게 온 메시지가 없습니다.</p>
+                <%}
+                notZeroCount++;
+            }else{
+        %>
+
+        <script>
+            function clicked(email, sameEmailIndex, index) {
+                document.getElementsByName('sEmail')[index].value = email;
+                document.getElementsByName('sSameEmailIndex')[index].value = sameEmailIndex;
+
+                // alert(email + '주장팀 클릭클릭 sameEmailIndex : ' + sameEmailIndex + '/ index : ' + index);
+
+                document.getElementsByName('formPost')[index].submit();
+            }
+        </script>
+
+        <form action="/chatroommessage" name="formPost" method="post">
+            <input type="hidden" name="sEmail" id="sEmail" value=''>
+            <input type="hidden" name="sSameEmailIndex" id="sSameEmailIndex" value=''>
+
+            <div class="message" onclick="clicked( `<%= curEmail %>`,`<%=event_data[i].sameEmailIndex%>`, `<%= count%>`)">
+                <div class="chat_room_name mb-2">
+                    <span style="font-weight:bold"> <%=curTeamname%> 팀</span>
+                    <span class="chat_room_date"> </span>
+                </div>
+                <div class="chat_room_content">매칭 신청합니다. <%=curMention%></div>
+            </div>
+        </form>
+
+        <hr class="mb-4">
+        <%
+                count++;
+                }
+            }
+        }%>
+    </div>
+    <!--</div>-->
+</div>
+
+</body>
+</html>

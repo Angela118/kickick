@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/FRAME.css" rel="stylesheet">
+    <link href="../css/chat.css" rel="stylesheet">
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="jquery-3.1.1.min.js"></script>
+    <title>채팅방</title>
+</head>
+<!--메뉴 영역 시작 -->
+<!--여기선 메뉴명 채팅방으로 되어 있음-->
+
+
+
+<body class="whiteB">
+
+<script type="text/javascript">
+    function goBack(){
+        window.history.back();
+    }
+</script>
+
+<% var index = sSameEmailIndex;
+
+var curGender = event_data[index].gender;
+var curMove = event_data[index].move;
+
+if(curGender == 25) {
+    curGender = '무관';
+}else if(curGender == 50) {
+    curGender = '남자';
+}else if(curGender == 100){
+    curGender = '여자';
+}
+
+if(curMove == 100){
+    curMove = 'O';
+}else if(curMove == 50){
+    curMove = 'X';
+}
+
+%>
+
+<nav class="navbar blueB">
+
+    <div class="top">
+        <div>
+            <img src="../img/left-arrow.png" alt="" width="20rem" height="20rem" style="margin-right:3rem" onclick="goBack()">
+
+            <p class="logo ml-sm-3"> <%= event_data[index].teamname %>팀으로부터 받은 메시지</p>
+        </div>
+    </div>
+</nav>
+
+<div class="py-4 text-center"></div>
+
+<!--메뉴 영역 끝  -->
+
+<script>
+    function clicked(email, sameEmailIndex, match) {
+        document.getElementById('sEmail').value = email;
+        document.getElementById('sSameEmailIndex').value = sameEmailIndex;
+        document.getElementById('match').value = match;
+
+        alert('email : ' + email + '/ sameEmailIndex : ' + sameEmailIndex + '/ match : ' + match);
+
+        document.getElementById('formPost').submit();
+    }
+</script>
+
+<div class="container">
+    <div class="reco" style="margin-top: 2.3rem">
+        <div class="mb-3">
+            <p style="line-height: 2rem">
+                주장 이메일 : <%= event_data[index].email %><br>
+                팀명 : <%= event_data[index].teamname %> 팀<br>
+                <!--팀 지역에서 add[1]값이 없는 건 회원가입할 때 add가 배열이 아니어서임-->
+                팀 지역 : <%= event_data[index].add%><br>
+                <!--팀 지역 : <%= event_data[index].add[0] %> <%event_data[index].add[1]%><br>-->
+                내가 등록했던 지역 : <%= event_data[index].others.sAdd[0]%> <%= event_data[index].others.sAdd[1] %><br>
+                내가 등록했던 장소 : <%= event_data[index].others.sRegion %><br>
+                원정가능 여부 : <%= curMove %><br>
+                연령대 : <%= event_data[index].age %>대<br>
+                성별 : <%= curGender %><br>
+                경기 날짜 : <%= event_data[index].others.sEvent_date %><br>
+                경기 시간 : <%= event_data[index].others.sEvent_time %><br>
+                경기 요일 : <%= event_data[index].others.sEvent_day %>요일<br>
+                한마디 : <%= event_data[index].others.sMention %><br>
+                신청 날짜 : <%= event_data[index].others.sCreatedMonth %>월 <%= event_data[index].others.sCreatedDay %>일<br>
+                팀 인원수 : <%= event_data[index].nofteam %>명<br>
+                상대팀 별점 : ***넣어야 됨<br>
+            </p>
+            <p><b>해당 경기 날짜에 매칭 신청합니다. 수락하시겠습니까?</b><br><br></p>
+
+            <form action="/message" method="post" id="formPost">
+                <input type="hidden" name="sEmail" id="sEmail" value=''>
+                <input type="hidden" name="sSameEmailIndex" id="sSameEmailIndex" value=''>
+                <input type="hidden" name="match" id="match" value=''>
+
+                <div style="text-align: center">
+                    <button type="button" class="btn" onclick="clicked( `<%= event_data[index].email %>`,`<%=index%>`, 2)">매칭 거절</button>
+                    <button type="button" class="btn" onclick="clicked( `<%= event_data[index].email %>`,`<%=index%>`, 1)">매칭 수락</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
