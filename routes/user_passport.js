@@ -1,9 +1,6 @@
-/**
- * 패스포트 라우팅 함수 정의
- *
+/*
+ * 라우팅 함수 정의
  */
-  
-
 
 module.exports = function(router, passport, upload) {
     console.log('user_passport 호출됨.');
@@ -46,7 +43,7 @@ module.exports = function(router, passport, upload) {
 			var fs = require('fs');
 			
 			const Json2csvParser = require('json2csv').Parser;
-			const fields = ['email', 'age', 'gender', 'nofteam', 'geoLng', 'geoLat',/**/ 'teamname', 'region', 'add', 'move', 'event_date', 'event_time', 'event_day', 'event_day', 'mention', 'created_month', 'creted_day', 'application_number'];
+			const fields = ['email', 'age', 'gender', 'nofteam', 'geoLng', 'geoLat',/*여기까지*/ 'teamname', 'region', 'add', 'move', 'event_date', 'event_time', 'event_day', 'event_day', 'mention', 'created_month', 'creted_day', 'application_number'];
 			const eventData = [];	
 			
 			var userdata = {
@@ -55,12 +52,7 @@ module.exports = function(router, passport, upload) {
 				'gender':req.user.gender,
 				'nofteam':req.user.nofteam,
 				'geoLng':req.user.geoLng,
-				'geoLat':req.user.geoLat,
-	//			'teamname':req.user.teamname, 
-	//			'region':req.user.region, 
-	//			'add':req.user.add,
-	//			'place':req.user.place, 
-	//			'move':req.user.move, 
+				'geoLat':req.user.geoLat
 			};
 			var j=1;
 			eventData[0] = userdata;
@@ -84,7 +76,7 @@ module.exports = function(router, passport, upload) {
 						'geoLat' : result[i]._doc.geoLat,
 						'created_month' : result[i]._doc.created_month,
 						'created_day' : result[i]._doc.created_day,
-						application_number : result[i]._doc.application_number
+						'application_number' : result[i]._doc.application_number
 					};										
 					eventData[j] = data;
 					j+=1;
@@ -152,6 +144,67 @@ module.exports = function(router, passport, upload) {
 		}        
     });
 
+	router.route('/').post(function(req, res) {
+        console.log('/main 패스 post 요청됨.');
+
+        var others = {
+            'sEmail': req.body.sEmail,
+            'sTeamname': req.body.sTeamname,
+            'sAdd': [req.body.sAdd0, req.body.sAdd1],
+            'sRegion': req.body.sRegion,
+            'sMove' : req.body.sMove,
+            'sAge': req.body.sAge,
+            'sGender': req.body.sGender,
+            'sEvent_date': req.body.sDate,
+            'sEvent_time': req.body.sTime,
+            'sEvent_day' : req.body.sDay,
+            'sMention': req.body.sMention,
+            'sCreatedMonth' : req.body.sCreatedMonth,
+            'sCreatedDay' : req.body.sCreatedDay,
+            'sGeoLng': req.body.sGeoLng,
+            'sGeoLat': req.body.sGeoLat,
+            'sNofteam': req.body.sNofteam,
+			'sApplicationNumber':req.body.sApplicationNumber,
+            'sScore': 0,
+            'sReceivedReview' : 0,
+            'sReceivedReviewComment' : '',
+            'sReviewDate' : ''
+        };
+        
+
+        var event = {
+            'email': req.user.email,
+            'password': req.user.password,
+            'teamname': req.user.teamname,
+            'add' : req.user.add,
+            'region': req.user.region,
+            'move': req.user.move,
+            'gender': req.user.gender,
+            'age': req.user.age,
+            'nofteam': req.user.nofteam,
+            'career_year': req.user.career_year,
+            'career_count': req.user.career_count,
+            'introteam': req.user.introteam,
+            'profile_img': profile_photo,
+            'others':others
+        };
+        //console.dir(event);
+
+        var event_match = new dbm.MatchModel(event);
+
+        event_match.save(function (err, data) {
+            if (err) {// TODO handle the error
+                console.log("match save error");
+                console.log('err : ' + err);
+                console.log('data : ' + data);
+            }
+            console.log('New match inserted');
+            console.log('data : ' + data);
+        });
+
+        res.redirect('/');
+
+    });
 	
 	
 	/*
@@ -667,6 +720,268 @@ module.exports = function(router, passport, upload) {
             res.render('chat_room.ejs', user_context);
         }
     });
+	
+	router.route('/chatroomchat').get(function(req, res){
+        console.log('/chatrooomchat 패스 get으로 요청됨.');
+
+        if (!req.user) {
+            console.log('사용자 인증 안된 상태임.');
+            res.redirect('/');
+        }else{
+
+
+            profile_photo = req.user.profile_img;
+            if(profile_img == null)
+                profile_img = req.user.profile_img;
+            if(profile_img != req.user.profile_img)
+                profile_photo = profile_img;
+
+
+            var user_context = {
+                'email':req.user.email,
+                'password':req.user.password,
+                'teamname':req.user.teamname,
+                'gender':req.user.gender,
+                'age':req.user.age,
+                'region':req.user.region,
+                'move':req.user.move,
+                'nofteam':req.user.nofteam,
+                'career_year':req.user.career_year,
+                'career_count':req.user.career_count,
+                'introteam':req.user.introteam,
+                'profile_img':profile_photo
+            };
+
+            res.render('chat_room_chat.ejs', user_context);
+        }
+    });
+	
+	 router.route('/chatroommessage').get(function(req, res){
+        console.log('/chatroommessage 패스 get으로 요청됨.');
+
+        if (!req.user) {
+            console.log('사용자 인증 안된 상태임.');
+            res.redirect('/');
+        }else {
+            profile_photo = req.user.profile_img;
+            if (profile_img == null)
+                profile_img = req.user.profile_img;
+            if (profile_img != req.user.profile_img)
+                profile_photo = profile_img;
+
+            var dbm = require('../database/database');
+            console.log('database 모듈 가져옴');
+
+            var eventData = new Array();
+            var j = 0;
+
+            // 내가 올린 매칭을 상대방이 신청할 경우 찾기
+            // 내가 아닌 사람이 올린 매칭 찾기
+            dbm.MatchModel.find({email : {"$ne" : req.user.email}} ,function (err, result) {
+                for (var i = 0; i < result.length; i++) {
+
+                    // 그 중 내가 올렸던 매칭(others의 sEmail이 나인 것) 찾기
+                    if (result[i]._doc.others.sEmail === req.user.email) {
+
+                        // data는 내가 올린 글에 매칭 신청한 상대방 정보
+                        var data = {
+                            'sameEmailIndex' : 0,
+                            'email': result[i]._doc.email,
+                            'teamname': result[i]._doc.teamname,
+                            'mention': result[i]._doc.mention,
+                            'created_month': result[i]._doc.created_month,
+                            'created_day': result[i]._doc.created_day,
+                            'match_success' : result[i]._doc.match_success
+                        };
+                        eventData[j++] = data;
+                        console.log(data);
+                    }
+                }
+
+                // 같은 매칭 신청자 & 매칭 등록자 조합이 또 존재하는 경우 index++
+                for (var a = 0; a < eventData.length; a++) {
+                    for (var b = a + 1; b <eventData.length; b++ ){
+                        if(eventData[a].email == eventData[b].email) {
+                            eventData[b].sameEmailIndex++;
+                        }
+                    }
+                }
+
+                var user_context = {
+                    'email': req.user.email,
+                    'password': req.user.password,
+                    'teamname': req.user.teamname,
+                    'gender': req.user.gender,
+                    'age': req.user.age,
+                    'region': req.user.region,
+                    'move': req.user.move,
+                    'nofteam': req.user.nofteam,
+                    'career_year': req.user.career_year,
+                    'career_count': req.user.career_count,
+                    'introteam': req.user.introteam,
+                    'profile_img': profile_photo,
+                    'event_data':eventData // 메시지 보낸 상대팀 정보
+                };
+                console.dir(eventData);
+                res.render('chat_room_message.ejs', user_context);
+            });
+        }
+    });
+
+    // message get 역할 함
+    router.route('/chatroommessage').post(function(req, res) {
+        // ------------------------------- data 삽입위치 수정
+        console.log('/chatroommessage 패스 post 요청됨.');
+
+        var dbm = require('../database/database');
+        console.log('database 모듈 가져옴');
+
+        //나한테 신청한 사람 이메일
+        var otherEmail = req.body.sEmail;
+        console.log('otherEmail : ' + req.body.sEmail);
+
+        // 등록한 사람 나 : & 신청한 사람 : 그사람 중복되는 경우 index
+        var sSameEmailIndex = req.body.sSameEmailIndex;
+        console.log('sSameEmailIndex : ' + req.body.sSameEmailIndex);
+
+        var j = 0;
+        var eventData = new Array();
+
+        // 나한테 신청한 사람 이메일 받아온거로 matches에서 email 찾아서
+        dbm.MatchModel.find({email: otherEmail}, function (err, result) {
+            console.log('result.length : ' + result.length);
+
+            for (var i = 0; i < result.length; i++) {
+                console.log('result[' + i + '].doc_others.email : ' + result[i]._doc.others.sEmail);
+                console.log('req.user.email : ' + req.user.email);
+
+                // 그 사람이 올린 것 중 신청자가 나일 경우
+                if (result[i]._doc.others.sEmail === req.user.email) {
+
+                    // 나한테 신청한 사람 정보
+                    var data = {
+                        'email': result[i]._doc.email,
+                        'teamname': result[i]._doc.teamname,
+                        'add': result[i]._doc.add,
+                        'region': result[i]._doc.region,
+                        'move': result[i]._doc.move,
+                        'age': result[i]._doc.age,
+                        'gender': result[i]._doc.gender,
+                        'event_date': result[i]._doc.event_date,
+                        'event_time': result[i]._doc.event_time,
+                        'event_day': result[i]._doc.event_day,
+                        'mention': result[i]._doc.mention,
+                        'geoLng': result[i]._doc.geoLng,
+                        'geoLat': result[i]._doc.geoLat,
+                        'nofteam': result[i]._doc.nofteam,
+                        'created_month': result[i]._doc.created_month,
+                        'created_day': result[i]._doc.created_day,
+                        'others': result[i]._doc.others //내가 등록한 매칭 정보
+                    };
+                    eventData[j++] = data;
+                }
+            }
+
+            var user_context = {
+                'email': req.user.email,
+                'password': req.user.password,
+                'teamname': req.user.teamname,
+                'gender': req.user.gender,
+                'age': req.user.age,
+                'region': req.user.region,
+                'move': req.user.move,
+                'nofteam': req.user.nofteam,
+                'career_year': req.user.career_year,
+                'career_count': req.user.career_count,
+                'introteam': req.user.introteam,
+                'profile_img': profile_photo,
+                'event_data': eventData,
+                'sSameEmailIndex' : sSameEmailIndex // email 중복시 index
+            };
+            console.log(eventData);
+
+            console.log('chatmessagepostend----------------------');
+            res.render('message.ejs', user_context);
+            console.log('render 함');
+        });
+    });
+
+    router.route('/message').post(function(req, res) {
+        console.log('/message 패스 post 요청됨');
+
+        // 매칭 여부 (1: 승인 / 2: 거절 / 0: 대기);
+        var match = req.body.match;
+        console.log('match : ' + match);
+
+        // 매칭 신청한 애
+        var otherEmail = req.body.sEmail;
+        console.log('otherEmail : ' + otherEmail);
+
+        // 걔 동일 이메일 인덱스 있는지 확인
+        var sSameEmailIndex = req.body.sSameEmailIndex;
+        console.log('sSameEmailIndex : ' + sSameEmailIndex);
+
+        var dbm = require('../database/database');
+        console.log('database 모듈 가져옴');
+
+        var eventData = new Array();
+        var j = 0;
+
+        // 나한테 신청한 사람 이메일 받아온거로 matches에서 email 찾아서
+        dbm.MatchModel.find({email: otherEmail}, function (err, result) {
+            console.log('result.length : ' + result.length);
+
+            for (var i = 0; i < result.length; i++) {
+                console.log('result[' + i + '].doc_others.email : ' + result[i]._doc.others.sEmail);
+                console.log('req.user.email : ' + req.user.email);
+
+                // 그 사람이 올린 것 중 신청자가 나일 경우
+                if (result[i]._doc.others.sEmail === req.user.email) {
+
+                    // 나한테 신청한 사람 정보
+                    var data = {
+                        'email': result[i]._doc.email,
+                        'teamname': result[i]._doc.teamname,
+                        'others': result[i]._doc.others //내가 등록한 매칭 정보
+                    };
+                    console.log(i + '번째 data.others : ');
+                    console.dir(data.others);
+                    console.log('j : ' + j);
+                    eventData[j++] = data;
+                    console.log('eventData: ');
+                    console.log(eventData);
+                }
+            }
+
+            console.log('00000000000000000000000000000000000000000000');
+            console.log('eventData : ');
+            console.log(eventData);
+
+            var teamname = eventData[sSameEmailIndex].teamname;
+            console.log('teamname : ' + teamname);
+
+            var findEventDate = eventData[sSameEmailIndex].others.sEvent_date;
+            console.log('findEventDate : ' + findEventDate);
+
+            var findEventTime = eventData[sSameEmailIndex].others.sEvent_time;
+
+            console.log('findEventTime ; ' + findEventTime);
+
+            dbm.MatchModel.update(
+                {email: otherEmail, "others.sEvent_date": findEventDate, "others.sEvent_time": findEventTime},
+                {$set: {match_success: match}}, function (err, result) {
+                    if (err) {
+                        console.log(err.message);
+                    } else {
+                        console.dir(result);
+                    }
+                });
+
+        });
+        res.redirect('/chatroommessage');
+    });
+	
+	
     
     
     router.route('/chat').get(function(req, res){
@@ -859,7 +1174,6 @@ module.exports = function(router, passport, upload) {
 				'profile_img':profile_photo
 			};
 			
-			console.log('/mainsearch 사용자 인증 된 상태임.');
         	res.render('main_search.ejs', user_context);
 		}
     });
@@ -884,7 +1198,7 @@ module.exports = function(router, passport, upload) {
    
       
       
-   router.route('/mainsearchresult').get(function(req, res){
+	router.route('/mainsearchresult').get(function(req, res){
 	   
 		console.log('/mainsearchresult 패스 get 요청됨.');
 
@@ -906,8 +1220,10 @@ module.exports = function(router, passport, upload) {
 			
 			if(event_search.teamname == 'none')
 				delete event_search.teamname;
-			if(event_search.add[0] == 'none')
-				delete event_search.add;
+			if(event_search.add){
+                if(event_search.add[0] == 'none')
+                    delete event_search.add;
+            }
 			if(event_search.gender == 0)
 				delete event_search.gender;
 			if(event_search.age == 0)
@@ -929,6 +1245,8 @@ module.exports = function(router, passport, upload) {
 				testobj[key] = event_search[key];
 				search.push(testobj);
 			}
+			
+			search.push({email : {"$ne" : req.user.email}});
 			
 			console.dir(search);
 
@@ -979,16 +1297,323 @@ module.exports = function(router, passport, upload) {
 			});
         }
     });
+	
+	
+	router.route('/mainsearchresult').post(function(req, res){
+        console.log('/mainsearchresult 패스 post 요청됨.');
+
+        var dbm = require('../database/database');
+        console.log('database 모듈 가져옴');
+
+        var others = {
+            'sEmail': req.body.sEmail,
+            'sTeamname': req.body.sTeamname,
+            'sAdd': [req.body.sAdd0, req.body.sAdd1],
+            'sRegion': req.body.sRegion,
+            'sMove' : req.body.sMove,
+            'sAge': req.body.sAge,
+            'sGender': req.body.sGender,
+            'sEvent_date': req.body.sDate,
+            'sEvent_time': req.body.sTime,
+            'sEvent_day' : req.body.sDay,
+            'sMention': req.body.sMention,
+            'sCreatedMonth' : req.body.sCreatedMonth,
+            'sCreatedDay' : req.body.sCreatedDay,
+            'sGeoLng': req.body.sGeoLng,
+            'sGeoLat': req.body.sGeoLat,
+            'sNofteam': req.body.sNofteam,
+            'sScore': 0,
+            'sReceivedReview' : 0,
+            'sReceivedReviewComment' : '',
+            'sReviewDate' : ''
+        }
+
+        var event = {
+            'email': req.user.email,
+            'password': req.user.password,
+            'teamname': req.user.teamname,
+            'add' : req.user.add,
+            'region': req.user.region,
+            'move': req.user.move,
+            'gender': req.user.gender,
+            'age': req.user.age,
+            'nofteam': req.user.nofteam,
+            'career_year': req.user.career_year,
+            'career_count': req.user.career_count,
+            'introteam': req.user.introteam,
+            'profile_img': profile_photo,
+            'others':others
+        };
+        //console.dir(event);
+
+        var event_match = new dbm.MatchModel(event);
+
+        event_match.save(function (err, data) {
+            if (err) {// TODO handle the error
+                console.log("match save error");
+                console.log('err : ' + err);
+                console.log('data : ' + data);
+            }
+            console.log('New match inserted');
+            console.log('data : ' + data);
+        });
+
+        res.redirect('/mainsearchresult');
+    });
 
     //경기 스케쥴
-    router.route('/teamschedule').get(function(req, res) {
+	router.route('/teamschedule').get(function(req, res) {
         console.log('/teamschedule 패스 get 요청됨.');
 
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
-            res.redirect('/login');
+            res.redirect('/');
         } else {
+            profile_photo = req.user.profile_img;
+            if (profile_img == null)
+                profile_img = req.user.profile_img;
+            if (profile_img != req.user.profile_img)
+                profile_photo = profile_img;
 
+            var eventData = new Array(); // 나한테 신청한
+            var j = 0;
+
+            // 나한테 매칭 신청한 팀 찾기
+            dbm.MatchModel.find({email : {"$ne" : req.user.email}} ,function (err, result) {
+                for (var i = 0; i < result.length; i++) {
+                    if (result[i]._doc.others.sEmail === req.user.email) {
+                        var data = {
+                            'email': result[i]._doc.email, //상대팀
+                            'teamname': result[i]._doc.teamname, //상대팀
+                            // others내엔 경기정보
+                            'event_date': result[i]._doc.others.sEvent_date,
+                            'event_time': result[i]._doc.others.sEvent_time,
+                            'event_add' : result[i]._doc.others.sAdd,
+                            'event_region': result[i]._doc.others.sRegion,
+                            'event_nofteam': result[i]._doc.nofteam, // 상대팀
+                            'match_success': result[i]._doc.match_success,
+                            'score': result[i]._doc.score, // 상대팀의 이 경기 score
+                            'review': result[i]._doc.received_review, // 상대팀이 이 경기에서 받은 review
+                            'sScore' : result[i]._doc.others.sScore, // 내 이 경기 스코어
+                            'sReceivedReview': result[i]._doc.others.sReceivedReview, // 내가 이 경기에서 받은 리뷰
+                            'sReceivedReviewComment': result[i]._doc.others.sReceivedReviewComment,
+                            'sReviewDate' : result[i]._doc.others.sReviewDate
+                        };
+                        eventData[j++] = data;
+                    }
+                }
+
+                // 내가 매칭 신청한 팀 찾기
+                dbm.MatchModel.find({email : req.user.email} ,function (err, result) {
+                    for (var i = 0; i < result.length; i++) {
+                        if (result[i]._doc.email === req.user.email) {
+                            var data = {
+                                'email': result[i]._doc.email,//나
+                                'teamname': result[i]._doc.teamname, //나
+                                'otherEmail': result[i]._doc.others.sEmail, // 상대팀
+                                'otherTeam' : result[i]._doc.others.sTeamname, // 상대팀
+                                // others내엔 경기정보
+                                'event_date': result[i]._doc.others.sEvent_date,
+                                'event_time': result[i]._doc.others.sEvent_time,
+                                'event_add': result[i]._doc.others.sAdd,
+                                'event_region': result[i]._doc.others.sRegion,
+                                'other_nofteam': result[i]._doc.others.sNofteam, // 상대팀
+                                'match_success': result[i]._doc.match_success,
+                                'score': result[i]._doc.score, // 이 경기 내 score
+                                'review': result[i]._doc.received_review, // 내가 이 경기에서 받은 리뷰
+                                'sScore' : result[i]._doc.others.sScore, // 상대팀의 이 경기 score
+                                'sReceivedReview': result[i]._doc.others.sReceivedReview, // 상대팀의 이 경기에서 받은 리뷰
+                                'sReceivedReviewComment': result[i]._doc.others.sReceivedReviewComment, // 상대팀의 이 경기에서 받은 리뷰 코멘트
+                                'sReviewDate' : result[i]._doc.others.sReviewDate // 상대팀의 이 경기에서 받은 평점 기록된 날짜
+                            };
+                            eventData[j++] = data;
+                        }
+                    }
+
+                    var user_context = {
+                        'email': req.user.email,
+                        'password': req.user.password,
+                        'teamname': req.user.teamname,
+                        'add' : req.user.add,
+                        'region': req.user.region,
+                        'move': req.user.move,
+                        'gender': req.user.gender,
+                        'age': req.user.age,
+                        'nofteam': req.user.nofteam,
+                        'career_year': req.user.career_year,
+                        'career_count': req.user.career_count,
+                        'introteam': req.user.introteam,
+                        'profile_img': profile_photo,
+                        'event_data':eventData
+                    }; // user_context
+                    console.dir(eventData);
+                    res.render('team_schedule.ejs', user_context);
+
+                }); // dbm event_data2 end
+            }); // dbm event_data end
+        } // 인증 else문 end
+    });
+    
+	router.route('/teamschedule').post(function(req, res) {
+        console.log('/teamschedule 패스 post 요청됨.');
+
+        // score 입력
+        var scoreCallTeamEmail = req.body.callTeamEmail;
+        var scoreReceiveTeamEmail = req.body.receiveTeamEmail;
+        var scoreEventDate = req.body.event_date;
+        var scoreEventTime = req.body.event_time;
+        // 신청이 온 경우 firstScore : 내 점수 / 내가 신청한 경우 firstScore : 남 점수
+        var firstScore = req.body.firstScore;
+        var secondScore = req.body.secondScore;
+
+        // 대기 상태에서 취소
+        var cCallTeamEmail = req.body.cCallTeamEmail;
+        var cReceiveTeamEmail = req.body.cReceiveTeamEmail;
+        var cEvent_date = req.body.cEvent_date;
+        var cEvent_time = req.body.cEvent_time;
+
+        // 내게 신청한 매칭일 경우 scoreReceiveTeamEmail 비어있음
+        // 나로 변경
+        if(!scoreReceiveTeamEmail){
+            scoreReceiveTeamEmail = req.user.email;
+
+            var k;
+            k = firstScore;
+            firstScore = secondScore;
+            secondScore = k;
+        }
+
+        console.log('scoreCallTeamEmail : ' + scoreCallTeamEmail);
+
+        if(scoreCallTeamEmail) {
+
+            // score update
+            dbm.MatchModel.update(
+                {email: scoreCallTeamEmail, "others.sEvent_date": scoreEventDate, "others.sEvent_time": scoreEventTime},
+                {$set: {score: firstScore, "others.sScore": secondScore}}, function (err, result) {
+                    if (err) {
+                        console.log(err.message);
+                    } else {
+                        console.dir(result);
+                    }
+                });
+
+        } // match 신청 cancel
+        else {
+
+
+
+        }
+
+        res.redirect('/teamschedule');
+    });
+
+	// 상대팀 리뷰하기
+    router.route('/teamreview').get(function(req, res){
+        console.log('/teamreview 패스 get 요청됨.');
+
+        if(!req.user){
+            console.log('사용자 인증 안된 상태임.');
+            res.redirect('/');
+        }
+        else{
+            profile_photo = req.user.profile_img;
+            if(profile_img == null)
+                profile_img = req.user.profile_img;
+            if(profile_img != req.user.profile_img)
+                profile_photo = profile_img;
+
+            var reviewerTeamEmail = req.user.email;
+            var reviewedTeamEmail = req.query.reviewedTeamEmail;
+            var eventDate = req.query.eventDate;
+            var eventTime = req.query.eventTime;
+
+            console.log('reviewerTeamEmail : ' + reviewerTeamEmail);
+            console.log('reviewedTeamEmail : ' + reviewedTeamEmail);
+            console.log('eventDate : ' + eventDate);
+            console.log('eventTime : ' + eventTime);
+
+            var eventData = {
+                'reviewerTeamEmail' : reviewerTeamEmail,
+                'reviewedTeamEmail' : reviewedTeamEmail,
+                'eventDate' : eventDate,
+                'eventTime' : eventTime
+            }
+
+            var user_context = {
+                'email': req.user.email,
+                'password': req.user.password,
+                'teamname': req.user.teamname,
+                'add' : req.user.add,
+                'region': req.user.region,
+                'move': req.user.move,
+                'gender': req.user.gender,
+                'age': req.user.age,
+                'nofteam': req.user.nofteam,
+                'career_year': req.user.career_year,
+                'career_count': req.user.career_count,
+                'introteam': req.user.introteam,
+                'profile_img': profile_photo,
+                'event_data':eventData
+            };
+            res.render('team_review.ejs', user_context);
+        }
+    });
+
+    router.route('/teamreview').post(function(req, res){
+        console.log('/teamreview 패스 post 요청됨');
+
+        var email = req.user.email;
+        var reviewDate = req.body.reviewDate; // 리뷰 등록 날짜
+        var reviewedTeamEmail= req.body.reviewedTeamEmail;
+        var rating = req.body.rating;
+        var review_comment = req.body.review_comment;
+        var eventDate = req.body.eventDate; // 경기 날짜
+        var eventTime = req.body.eventTime; // 경기 시간
+
+        console.log('email : ' + email);
+        console.log('reviewDate : ' + reviewDate);
+        console.log('reviewedTeamEmail : ' + reviewedTeamEmail);
+        console.log('rating : ' + rating);
+        console.log('review_comment : ' + review_comment);
+        console.log('eventDate : ' + eventDate);
+        console.log('eventTime : ' + eventTime);
+		
+        // 내가 신청했을 때
+        dbm.MatchModel.update(
+            {email: email, "others.sEmail":reviewedTeamEmail, "others.sEvent_date": eventDate, "others.sEvent_time": eventTime},
+            {$set: {"others.sReceivedReview": rating, "others.sReceivedReviewComment": review_comment, "others.sReviewDate": reviewDate}}, function (err, result) {
+                if (err) {
+                    console.log(err.message);
+                } else {
+                    console.log('내가 신청했을 때 updated');
+                    console.dir(result);
+                }
+            });
+
+        // 내가 신청받았을 때
+        dbm.MatchModel.update(
+            {email: reviewedTeamEmail, "others.sEmail": email, "others.sEvent_date": eventDate, "others.sEvent_time": eventTime},
+            {$set: {received_review: rating, received_review_comment: review_comment, review_date: reviewDate}}, function (err, result) {
+                if (err) {
+                    console.log(err.message);
+                } else {
+                    console.log('내가 신청받았을 때 updated');
+                    console.dir(result);
+                }
+            });
+
+        res.redirect('/teamschedule');
+    });
+    
+    // 우리팀이 받은 리뷰
+    router.route('/teamreceivedreview').get(function(req, res) {
+        console.log('/teamreceivedreview 패스 get 요청됨');
+
+        if (!req.user) {
+            console.log('사용자 인증 안된 상태임.');
+            res.redirect('/');
+        } else {
             profile_photo = req.user.profile_img;
             if (profile_img == null)
                 profile_img = req.user.profile_img;
@@ -997,82 +1622,59 @@ module.exports = function(router, passport, upload) {
 
 
             var eventData = new Array();
+            var j = 0;
 
-            dbm.AppointmentModel.find(function (err, result) {
+            // 나한테 매칭 신청한 팀에서 내가 받은 리뷰 찾기
+            dbm.MatchModel.find({email : {"$ne" : req.user.email}} ,function (err, result) {
                 for (var i = 0; i < result.length; i++) {
-                    if (result[i]._doc.email == req.user.email) {
-
+                    if ((result[i]._doc.others.sEmail === req.user.email) &&
+                        (result[i]._doc.others.sReviewDate)) {
                         var data = {
-                            'teamname': result[i]._doc.teamname,
-                            'event_date': result[i]._doc.event_date,
-                            'event_time': result[i]._doc.event_time,
-                            'event_region': result[i]._doc.event_region,
-                            'event_nofteam': result[i]._doc.event_nofteam
+                            'otherEmail': result[i]._doc.email, // 상대팀 정보
+                            'otherTeam' : result[i]._doc.teamname, // 상대팀 정보
+                            'review_date': result[i]._doc.others.sReviewDate, // 내가 리뷰 받은 날짜
+                            'rating': result[i]._doc.others.sReceivedReview, // 내가 받은 리뷰
+                            'review_comment': result[i]._doc.others.sReceivedReviewComment // 내가 받은 리뷰 코멘트
                         };
-
+                        eventData[j++] = data;
                     }
-                    eventData[i] = data;
                 }
 
+                // 내가 매칭 신청한 팀에서 내가 받은 리뷰 찾기
+                dbm.MatchModel.find({email : req.user.email} ,function (err, result) {
+                    for (var i = 0; i < result.length; i++) {
+                        if ((result[i]._doc.email === req.user.email) &&
+                            (result[i]._doc.review_date)) {
+                            var data = {
+                                'otherEmail': result[i]._doc.others.sEmail, // 상대팀 정보
+                                'otherTeam' : result[i]._doc.others.sTeamname, // 상대팀 정보
+                                'review_date': result[i]._doc.review_date,
+                                'rating': result[i]._doc.received_review,
+                                'review_comment': result[i]._doc.received_review_comment
+                            };
+                            eventData[j++] = data;
+                        }
+                    }
 
-                var user_context = {
-					'email':req.user.email, 
-					'password':req.user.password, 
-					'teamname':req.user.teamname, 
-					'gender':req.user.gender, 
-					'age':req.user.age,
-					'region':req.user.region,
-					'add':req.user.add,
-					'move':req.user.move,
-					'nofteam':req.user.nofteam,
-					'career_year':req.user.career_year,
-					'career_count':req.user.career_count,
-					'introteam':req.user.introteam,
-					'profile_img':profile_photo,
-					'event_data':eventData
-				};
-
-                res.render('team_schedule.ejs', user_context);
-
+                    var user_context = {
+                        'email': req.user.email,
+                        'password': req.user.password,
+                        'teamname': req.user.teamname,
+                        'gender': req.user.gender,
+                        'age': req.user.age,
+                        'region': req.user.region,
+                        'move': req.user.move,
+                        'nofteam': req.user.nofteam,
+                        'career_year': req.user.career_year,
+                        'career_count': req.user.career_count,
+                        'introteam': req.user.introteam,
+                        'profile_img': profile_photo,
+                        'event_data': eventData
+                    };
+                    console.dir(eventData);
+                    res.render('team_received_review.ejs', user_context);
+                });
             });
-        }
-    });
-    
-    
-    //팀 리뷰
-    router.route('/teamreceivedreview').get(function(req, res){
-        console.log('/teamreceivedreview 패스 get 요청됨');
-        
-        if (!req.user) {
-            console.log('사용자 인증 안된 상태임.');
-            res.redirect('/login');
-        }else{
-			
-			profile_photo = req.user.profile_img;			
-			if(profile_img == null)
-				profile_img = req.user.profile_img;
-			if(profile_img != req.user.profile_img)
-				profile_photo = profile_img;
-
-			
-			var user_context = {
-				'email':req.user.email, 
-				'password':req.user.password, 
-				'teamname':req.user.teamname, 
-				'gender':req.user.gender, 
-				'age':req.user.age,
-				'region':req.user.region,
-				'add':req.user.add,
-				'move':req.user.move,
-				'nofteam':req.user.nofteam,
-				'career_year':req.user.career_year,
-				'career_count':req.user.career_count,
-				'introteam':req.user.introteam,
-				'profile_img':profile_photo
-			};
-			
-			
-            res.render('team_received_review.ejs', user_context);
         }
     });
     
@@ -1135,6 +1737,10 @@ module.exports = function(router, passport, upload) {
 			'application_number' : an
         };
 		
+		var week = new Array('일', '월', '화', '수', '목', '금', '토');
+        var whatDay = new Date(event.event_date);
+        event.event_day = week[whatDay.getDay()];
+		
 		var addr = [];
 		addr= event.add.split(' ');
 		event.add = [addr[0], addr[1]];
@@ -1164,9 +1770,7 @@ module.exports = function(router, passport, upload) {
         if (!req.user) {
             console.log('사용자 인증 안된 상태임.');
             res.redirect('/login');
-        }else{
-			
-			
+        }else{			
 			profile_photo = req.user.profile_img;			
 			if(profile_img == null)
 				profile_img = req.user.profile_img;
@@ -1222,8 +1826,7 @@ module.exports = function(router, passport, upload) {
 			
 			});
         }
-	});
-	
+	});	
 	
 	router.route('/mymatch').post(function(req, res){
 		console.log('/mymatch 패스 post 요청함.');
@@ -1237,20 +1840,11 @@ module.exports = function(router, passport, upload) {
 		};
 		
 		if(req.body.opt == 'del' || req.query.opt == 'del'){
-			dbm.ApplicationModel.remove(
-				{application_number:selectone.application_number}, 
-				{
-					justOne:true
-				}, function(err){
-					if(err) throw err
-					
-					console.log('=== Delete Application ===');			
-				}
-			);
+			console.log(selectone.application_number);
+			dbm.ApplicationModel.remove({'application_number':selectone.application_number}, true);			
+			dbm.MatchModel.remove({'others.sApplicationNumber':selectone.application_number}, true);
 			res.redirect('/mymatch');
-		}
-		
-		else
+		}else
 			res.redirect('/matchapplicationedit')
 
 		
