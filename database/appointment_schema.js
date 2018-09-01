@@ -11,7 +11,7 @@ Schema.createSchema = function(mongoose) {
 		event_region: {type: String, 'default':''},
 		event_add:{type:String, 'default':''},
 		event_nofteam: {type:Number, 'default':''},
-		geoLng:{type:Number, 'default':''},											
+		geoLng:{type:Number, 'default':''},							
 		geoLat:{type:Number, 'default':''}
    });
    

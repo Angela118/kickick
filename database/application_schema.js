@@ -1,7 +1,7 @@
 
 
 var Schema = {};
-var an=0;
+//var an=0;
 
 Schema.createSchema = function(mongoose) {
 	
@@ -32,7 +32,7 @@ Schema.createSchema = function(mongoose) {
 		nofteam : {type:String, 'default':''},
 		created_month: {type: String, 'default': monthString},
 		created_day: {type: String, 'default': dayString},
-		application_number: {type:Number, 'default':an+1}
+		application_number: {type:Number, /*'default':an+1*/}
    });
 
 
