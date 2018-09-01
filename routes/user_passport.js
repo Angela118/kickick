@@ -188,7 +188,6 @@ module.exports = function(router, passport, upload) {
             'profile_img': profile_photo,
             'others':others
         };
-        //console.dir(event);
 
         var event_match = new dbm.MatchModel(event);
 
@@ -430,7 +429,7 @@ module.exports = function(router, passport, upload) {
 			var files = req.files;
 			console.log(req.files);
 
-			console.log('===== 업로드 된 첫 번째 파일 정보 =====');
+			console.log('===== 업로드 된 사진 =====');
 			console.dir(files[0]);
 			console.log('===================================');
 
@@ -458,23 +457,6 @@ module.exports = function(router, passport, upload) {
 			else
 				profile_img = req.user.profile_img;
 
-			/*
-			var user_context = {
-				'email':req.user.email, 
-				'password':req.user.password, 
-				'teamname':req.user.teamname, 
-				'gender':req.user.gender, 
-				'age':req.user.age,
-				'region':req.user.region,
-				'add':req.user.add,
-				'move':req.user.move,
-				'nofteam':req.user.nofteam,
-				'career_year':req.user.career_year,
-				'career_count':req.user.career_count,
-				'introteam':req.user.introteam,
-				'profile_img':profile_photo
-			};			
-			*/
 
 			dbm.db.collection("users6").updateOne({email: req.user.email},  {$set: {'profile_img':profile_img}}, function(err, res) {
 				if (err) throw err;
@@ -667,9 +649,7 @@ module.exports = function(router, passport, upload) {
 		}
 	});
 	
-    
-	
-    
+        
     //아이디, 비밀번호 찾기
     router.route('/findid').get(function(req, res){
         console.log('/findid 패스 get 요청됨.');
@@ -728,8 +708,6 @@ module.exports = function(router, passport, upload) {
             console.log('사용자 인증 안된 상태임.');
             res.redirect('/');
         }else{
-
-
             profile_photo = req.user.profile_img;
             if(profile_img == null)
                 profile_img = req.user.profile_img;
@@ -768,9 +746,6 @@ module.exports = function(router, passport, upload) {
                 profile_img = req.user.profile_img;
             if (profile_img != req.user.profile_img)
                 profile_photo = profile_img;
-
-            var dbm = require('../database/database');
-            console.log('database 모듈 가져옴');
 
             var eventData = new Array();
             var j = 0;
@@ -832,10 +807,7 @@ module.exports = function(router, passport, upload) {
     router.route('/chatroommessage').post(function(req, res) {
         // ------------------------------- data 삽입위치 수정
         console.log('/chatroommessage 패스 post 요청됨.');
-
-        var dbm = require('../database/database');
-        console.log('database 모듈 가져옴');
-
+		
         //나한테 신청한 사람 이메일
         var otherEmail = req.body.sEmail;
         console.log('otherEmail : ' + req.body.sEmail);
@@ -920,9 +892,6 @@ module.exports = function(router, passport, upload) {
         // 걔 동일 이메일 인덱스 있는지 확인
         var sSameEmailIndex = req.body.sSameEmailIndex;
         console.log('sSameEmailIndex : ' + sSameEmailIndex);
-
-        var dbm = require('../database/database');
-        console.log('database 모듈 가져옴');
 
         var eventData = new Array();
         var j = 0;
@@ -1217,13 +1186,14 @@ module.exports = function(router, passport, upload) {
 
 			var eventData = new Array();			
 				
+			console.dir(event_search);
 			
 			if(event_search.teamname == 'none')
 				delete event_search.teamname;
-			if(event_search.add){
-                if(event_search.add[0] == 'none')
-                    delete event_search.add;
-            }
+			if(event_search.add[0] && event_search.add[1]){
+				if(event_search.add[0] == 'none')
+                	delete event_search.add;	
+			}
 			if(event_search.gender == 0)
 				delete event_search.gender;
 			if(event_search.age == 0)
@@ -1233,17 +1203,16 @@ module.exports = function(router, passport, upload) {
 			if(event_search.event_day == 'none')
 				delete event_search.event_day;
 			
-			
-
 			var search = [];
-			search.push()
 			
-			for(var key in event_search) {
-				var testobj = new Object();
-				var testkey = event_search;
-				console.log(key)
-				testobj[key] = event_search[key];
-				search.push(testobj);
+			if(event_search){
+				for(var key in event_search) {
+					var testobj = new Object();
+					var testkey = event_search;
+					console.log(key)
+					testobj[key] = event_search[key];
+					search.push(testobj);
+				}
 			}
 			
 			search.push({email : {"$ne" : req.user.email}});
@@ -1301,10 +1270,7 @@ module.exports = function(router, passport, upload) {
 	
 	router.route('/mainsearchresult').post(function(req, res){
         console.log('/mainsearchresult 패스 post 요청됨.');
-
-        var dbm = require('../database/database');
-        console.log('database 모듈 가져옴');
-
+		
         var others = {
             'sEmail': req.body.sEmail,
             'sTeamname': req.body.sTeamname,
@@ -1344,7 +1310,6 @@ module.exports = function(router, passport, upload) {
             'profile_img': profile_photo,
             'others':others
         };
-        //console.dir(event);
 
         var event_match = new dbm.MatchModel(event);
 
@@ -1358,7 +1323,7 @@ module.exports = function(router, passport, upload) {
             console.log('data : ' + data);
         });
 
-        res.redirect('/mainsearchresult');
+        res.redirect('/');
     });
 
     //경기 스케쥴
@@ -1778,29 +1743,26 @@ module.exports = function(router, passport, upload) {
 				profile_photo = profile_img;
 			
 			
-			var eventData = new Array();			
-
+			var eventData = new Array();	
 
 			dbm.ApplicationModel.find({email : req.user.email} ,function (err, result) {				
 				for(var i = 0 ; i < result.length ; i++) {
-		//			if(result[i]._doc.email == req.user.email){
-						var data = {
-							'email' : result[i]._doc.email, 
-							'teamname' : result[i]._doc.teamname,
-							'region' : result[i]._doc.region,
-							'add' : result[i]._doc.add,
-							'move' : result[i]._doc.move,
-							'age' : result[i]._doc.age,	
-							'event_date' : result[i]._doc.event_date,
-							'event_time' : result[i]._doc.event_time,
-							'mention' : result[i]._doc.mention,
-							'created_month' : result[i]._doc.created_month,
-							'created_day' : result[i]._doc.created_day,
-							'geoLng' : result[i]._doc.geoLng,
-							'geoLat' : result[i]._doc.geoLat,
-							'application_number' : result[i]._doc.application_number
-						};
-		//			}					
+					var data = {
+						'email' : result[i]._doc.email, 
+						'teamname' : result[i]._doc.teamname,
+						'region' : result[i]._doc.region,
+						'add' : result[i]._doc.add,
+						'move' : result[i]._doc.move,
+						'age' : result[i]._doc.age,	
+						'event_date' : result[i]._doc.event_date,
+						'event_time' : result[i]._doc.event_time,
+						'mention' : result[i]._doc.mention,
+						'created_month' : result[i]._doc.created_month,
+						'created_day' : result[i]._doc.created_day,
+						'geoLng' : result[i]._doc.geoLng,
+						'geoLat' : result[i]._doc.geoLat,
+						'application_number' : result[i]._doc.application_number
+					};				
 					eventData[i] = data;
 				}
 										
@@ -1839,15 +1801,23 @@ module.exports = function(router, passport, upload) {
 			application_number:req.body.event_application_number || req.query.event_application_number
 		};
 		
-		if(req.body.opt == 'del' || req.query.opt == 'del'){
-			console.log(selectone.application_number);
-			dbm.ApplicationModel.remove({'application_number':selectone.application_number}, true);			
-			dbm.MatchModel.remove({'others.sApplicationNumber':selectone.application_number}, true);
-			res.redirect('/mymatch');
-		}else
-			res.redirect('/matchapplicationedit')
-
 		
+		if(req.body.opt == 'del'){
+			if(dbm.MatchModel.find({'others.sApplicationNumber':selectone.application_number})){
+				console.log('=== Match deleted ===');
+				dbm.MatchModel.remove({'others.sApplicationNumber':selectone.application_number}, 1);
+			}
+			
+			setTimeout(function(){
+				dbm.ApplicationModel.remove({'application_number':selectone.application_number}, true);
+				console.log('=== Application deleted ===');
+				res.redirect('/mymatch');		
+			},500);
+			
+		}else if(req.body.opt == 'mod')
+			res.redirect('/matchapplicationedit');
+		else
+			res.redirect('/mymatch');		
 	});
 	
 	
